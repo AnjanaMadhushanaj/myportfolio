@@ -1,10 +1,5 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -12,15 +7,101 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+:root {
+  --background: #0a0514;
+  /* Deep dark purple/black from screenshot */
+  --foreground: #f8fafc;
+  /* slate-50 */
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans), sans-serif;
+  overflow-x: hidden;
+}
+
+/* Glassmorphism utilities */
+.glass {
+  @apply bg-white/5 backdrop-blur-md border border-white/10;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+}
+
+.glass-panel {
+  @apply bg-slate-900/60 backdrop-blur-xl border border-white/10 shadow-2xl;
+}
+
+.glow-magenta {
+  background: radial-gradient(circle, rgba(217, 70, 239, 0.15) 0%, rgba(0, 0, 0, 0) 70%);
+}
+
+.glow-cyan {
+  background: radial-gradient(circle, rgba(34, 211, 238, 0.15) 0%, rgba(0, 0, 0, 0) 70%);
+}
+
+/* Animations */
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+/* Typing name animation from original */
+.typing-name {
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+  border-right: 3px solid #d946ef;
+  /* magenta accent */
+  width: 0;
+  animation: typing 1.5s steps(14, end) forwards, blink-caret 0.7s step-end infinite;
+}
+
+@keyframes typing {
+  from {
+    width: 0;
+  }
+
+  to {
+    width: 13.5ch;
+  }
+}
+
+@keyframes blink-caret {
+
+  from,
+  to {
+    border-color: transparent;
+  }
+
+  50% {
+    border-color: #d946ef;
+  }
+}
+
+.dev-fade {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: nameFadeIn 1s ease forwards;
+  animation-delay: 1.5s;
+  /* Wait for typing to finish */
+}
+
+@keyframes nameFadeIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
