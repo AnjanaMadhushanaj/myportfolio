@@ -5,12 +5,26 @@ import About from '@/components/ui/About';
 import Services from '@/components/ui/Services';
 import Skills from '@/components/ui/Skills';
 import Projects from '@/components/ui/Projects';
+import Image from 'next/image';
 
 export default function Home() {
   return (
-    <main className="min-h-screen relative selection:bg-cyan-500/30 selection:text-cyan-200 bg-[url('/herobg.png')] bg-cover bg-center bg-fixed">
+    <main className="min-h-screen relative selection:bg-cyan-500/30 selection:text-cyan-200">
+      
+      {/* Optimized Fixed Background Image */}
+      <div className="fixed inset-0 z-[-2]">
+        <Image
+          src="/herobg.png"
+          alt="Background"
+          fill
+          priority
+          quality={60}
+          className="object-cover"
+        />
+      </div>
+
       {/* Dark overlay for readability */}
-      <div className="absolute inset-0 bg-[#0f0a1a]/80 pointer-events-none z-0" />
+      <div className="absolute inset-0 bg-[#0f0a1a]/85 pointer-events-none z-[-1]" />
 
       {/* Global Background Noise overlay */}
       <div 
