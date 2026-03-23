@@ -1,11 +1,13 @@
 import Navbar from '@/components/ui/Navbar';
 import Hero from '@/components/ui/Hero';
-import TechStack from '@/components/ui/TechStack';
-import About from '@/components/ui/About';
-import Services from '@/components/ui/Services';
-import Skills from '@/components/ui/Skills';
-import Projects from '@/components/ui/Projects';
 import Image from 'next/image';
+import dynamic from 'next/dynamic';
+
+const TechStack = dynamic(() => import('@/components/ui/TechStack'));
+const About = dynamic(() => import('@/components/ui/About'));
+const Services = dynamic(() => import('@/components/ui/Services'));
+const Skills = dynamic(() => import('@/components/ui/Skills'));
+const Projects = dynamic(() => import('@/components/ui/Projects'));
 
 export default function Home() {
   return (
