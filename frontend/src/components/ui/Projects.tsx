@@ -67,10 +67,10 @@ export default function Projects() {
                   ))}
                 </div>
                 <div className="flex items-center gap-5 mt-auto">
-                  <a href="#" className="text-slate-400 hover:text-white hover:scale-110 transition-all duration-300 cursor-pointer">
+                  <a href="#" target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-white hover:scale-110 transition-all duration-300 cursor-pointer">
                     <Github className="w-6 h-6" />
                   </a>
-                  <a href="#" className="text-slate-400 hover:text-cyan-400 hover:scale-110 transition-all duration-300 cursor-pointer">
+                  <a href="#" target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-cyan-400 hover:scale-110 transition-all duration-300 cursor-pointer">
                     <ExternalLink className="w-6 h-6" />
                   </a>
                 </div>
@@ -101,8 +101,8 @@ export default function Projects() {
                   ))}
                 </div>
                 <div className="flex items-center gap-4">
-                  <a href="#" className="text-slate-400 hover:text-white transition-colors cursor-pointer"><Github className="w-5 h-5" /></a>
-                  <a href="#" className="text-slate-400 hover:text-fuchsia-400 transition-colors cursor-pointer"><ExternalLink className="w-5 h-5" /></a>
+                  <a href="#" target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-white transition-colors cursor-pointer"><Github className="w-5 h-5" /></a>
+                  <a href="#" target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-fuchsia-400 transition-colors cursor-pointer"><ExternalLink className="w-5 h-5" /></a>
                 </div>
               </div>
             </motion.div>
@@ -127,8 +127,8 @@ export default function Projects() {
                   ))}
                 </div>
                 <div className="flex items-center gap-4">
-                  <a href="#" className="text-slate-400 hover:text-white transition-colors cursor-pointer"><Github className="w-5 h-5" /></a>
-                  <a href="#" className="text-slate-400 hover:text-cyan-400 transition-colors cursor-pointer"><ExternalLink className="w-5 h-5" /></a>
+                  <a href="#" target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-white transition-colors cursor-pointer"><Github className="w-5 h-5" /></a>
+                  <a href="#" target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-cyan-400 transition-colors cursor-pointer"><ExternalLink className="w-5 h-5" /></a>
                 </div>
               </div>
             </motion.div>
