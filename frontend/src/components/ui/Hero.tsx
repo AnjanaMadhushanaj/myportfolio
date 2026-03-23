@@ -1,7 +1,13 @@
 "use client";
 
-import { Github, Linkedin, Facebook, MessageCircle, Mail } from 'lucide-react';
+import { Github, Linkedin, Facebook, Mail } from 'lucide-react';
 import Image from 'next/image';
+
+const WhatsappIcon = (props: React.SVGProps<SVGSVGElement>) => (
+  <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
+    <path d="M20.52 3.44A12 12 0 0 0 12 0C5.38 0 0 5.38 0 12a11.96 11.96 0 0 0 1.6 6L0 24l6.15-1.61A11.96 11.96 0 0 0 12 24c6.62 0 12-5.38 12-12a12 12 0 0 0-3.48-8.56zm-8.52 18.57c-1.88 0-3.72-.51-5.34-1.47l-.38-.23-3.97 1.04 1.06-3.87-.25-.4A9.97 9.97 0 0 1 2.01 12C2.01 6.49 6.49 2 12 2s9.99 4.49 9.99 10-4.48 10-9.99 10zm5.48-7.5c-.3-.15-1.78-.88-2.06-.98-.28-.1-.48-.15-.68.15-.2.3-.78.98-.95 1.18-.18.2-.35.23-.65.08-.3-.15-1.27-.47-2.42-1.5-.89-.8-1.49-1.79-1.67-2.09-.18-.3-.02-.46.13-.61.14-.14.3-.35.45-.53.15-.18.2-.3.3-.5.1-.2.05-.38-.03-.53-.08-.15-.68-1.64-.93-2.24-.24-.59-.48-.5-.67-.51h-.58c-.2 0-.53.08-.8.38-.28.3-1.05 1.03-1.05 2.5 0 1.48 1.08 2.9 1.23 3.1.15.2 2.1 3.21 5.08 4.5.7.3 1.25.48 1.68.61.7.22 1.34.19 1.84.11.56-.08 1.78-.73 2.03-1.43.25-.7.25-1.3.18-1.43-.08-.13-.28-.2-.58-.35z"/>
+  </svg>
+);
 
 export default function Hero() {
   return (
@@ -52,16 +58,24 @@ export default function Hero() {
                 }}
               />
             </div>
+
+            {/* Floating Experience Badge */}
+            <div className="absolute bottom-6 right-2 md:bottom-10 md:-right-4 bg-slate-900/80 backdrop-blur-xl pl-2 pr-5 py-2 rounded-full border border-white/10 flex items-center gap-3 shadow-2xl transition-all duration-300 hover:scale-105 hover:border-white/30 z-30 cursor-default">
+              <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-[#c026d3] to-[#d946ef] flex items-center justify-center shadow-[0_0_10px_rgba(217,70,239,0.5)]">
+                <span className="text-white text-xs font-bold">1+</span>
+              </div>
+              <span className="text-slate-200 text-sm font-medium tracking-wide">Years Experience</span>
+            </div>
           </div>
         </div>
 
         {/* Vertical Social Icons on the Far Right Edge aligned from top to bottom */}
-        <div className="fixed top-1/2 right-4 md:right-8 flex flex-col gap-8 z-40 transform -translate-y-1/2">
+        <div className="fixed top-1/2 right-4 md:right-6 flex flex-col gap-6 md:gap-7 z-40 transform -translate-y-1/2">
           {[
             { icon: Github, href: 'https://github.com/' },
             { icon: Linkedin, href: '#' },
             { icon: Facebook, href: '#' },
-            { icon: MessageCircle, href: '#' }, // representing whatsapp
+            { icon: WhatsappIcon, href: '#' }, // representing whatsapp
             { icon: Mail, href: 'mailto:example@gmail.com' }, // newly added Email icon
           ].map((social, i) => (
             <a 
@@ -69,9 +83,14 @@ export default function Hero() {
               href={social.href} 
               target="_blank" 
               rel="noopener noreferrer" 
-              className="w-10 h-10 rounded-full bg-slate-900/80 backdrop-blur-xl border border-white/10 flex items-center justify-center text-slate-300 transition-all duration-300 hover:scale-110 hover:bg-[#d946ef]/20 hover:text-white hover:border-[#d946ef]/50 hover:shadow-[0_0_15px_rgba(217,70,239,0.4)] group"
+              className="relative w-10 h-10 md:w-12 md:h-12 rounded-full bg-slate-900/80 backdrop-blur-xl border border-[#d946ef]/20 flex items-center justify-center text-[#d946ef] transition-all duration-300 hover:scale-110 hover:bg-[#d946ef]/20 hover:text-white hover:border-[#d946ef]/60 hover:shadow-[0_0_25px_rgba(217,70,239,0.6)] group"
             >
-              <social.icon className="w-4 h-4 group-hover:-translate-y-0.5 transition-transform" />
+              {/* Blinking/Pulsing Glow Effect */}
+              <div 
+                className="absolute inset-0 rounded-full bg-[#d946ef] animate-ping opacity-20 group-hover:hidden" 
+                style={{ animationDuration: '3s', animationDelay: `${i * 0.3}s` }} 
+              />
+              <social.icon className="w-4 h-4 md:w-5 md:h-5 relative z-10 group-hover:-translate-y-0.5 transition-transform drop-shadow-[0_0_5px_rgba(217,70,239,0.5)] group-hover:drop-shadow-[0_0_10px_rgba(255,255,255,0.8)]" />
             </a>
           ))}
         </div>

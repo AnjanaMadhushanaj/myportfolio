@@ -31,11 +31,9 @@ export default function Services() {
   return (
     <section id="services" className="py-24 relative z-10 w-full">
       <div className="max-w-7xl mx-auto px-6">
-        <div className="mb-16 md:text-center">
-          <h2 className="text-3xl md:text-5xl font-bold text-white mb-6">What I <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-500">Do</span></h2>
-          <p className="text-slate-400 max-w-2xl mx-auto text-lg hover:text-slate-300 transition-colors">
-            Transitioning from full-stack development to DevOps & MLOps, I bring a holistic understanding of the software lifecycle.
-          </p>
+        {/* Section Header */}
+        <div className="mb-12">
+          <h3 className="text-white text-xl md:text-2xl font-bold border-l-4 border-[#d946ef] pl-4">Services</h3>
         </div>
 
         <div className="grid md:grid-cols-2 gap-8">
