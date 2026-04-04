@@ -9,93 +9,128 @@ const WhatsappIcon = (props: React.SVGProps<SVGSVGElement>) => (
   </svg>
 );
 
+const socialLinks = [
+  { icon: Github, href: 'https://github.com/' },
+  { icon: Linkedin, href: '#' },
+  { icon: Facebook, href: '#' },
+  { icon: WhatsappIcon, href: '#' },
+  { icon: Mail, href: 'mailto:example@gmail.com' },
+];
+
 export default function Hero() {
   return (
-    <section id="home" className="relative w-full flex items-center pt-40 pb-20 overflow-hidden">
-      <div className="max-w-7xl mx-auto px-6 relative z-10 w-full grid md:grid-cols-2 gap-12 items-center">
-        
-        {/* Left Side: Text and Actions */}
-        <div className="flex flex-col space-y-6">
-          <div className="space-y-4">
-            <h3 className="text-xl font-medium text-slate-100 mb-2">Hello I'm</h3>
-            
-            <h1 className="text-5xl lg:text-7xl font-bold tracking-tight text-white m-0 p-0 leading-none inline-flex">
-              <span className="typing-name inline-block">Anjana Madhushan</span>
-            </h1>
-            
-            <h2 className="text-4xl lg:text-5xl font-bold text-[#d946ef] m-0 p-0 leading-tight dev-fade whitespace-nowrap">
-              Fullstack Developer
-            </h2>
-            
-            <p className="text-md text-slate-300 max-w-lg leading-relaxed pt-4 relative z-20 mix-blend-lighten">
-              I'm a Developer, Designer, Content Creator, and Entrepreneur, passionate about technology, creativity, and digital innovation building impactful digital experiences.
-            </p>
+    <>
+      <section id="home" className="relative w-full min-h-screen flex items-center pt-4 md:pt-32 pb-24 md:pb-20 overflow-hidden">
+        <div className="max-w-7xl mx-auto px-6 relative z-10 w-full grid md:grid-cols-2 gap-10 md:gap-12 items-center">
+          
+          {/* Left Side: Text and Actions */}
+          <div className="flex flex-col space-y-6 text-center md:text-left">
+            <div className="space-y-4">
+              <h3 className="text-lg md:text-xl font-medium text-slate-100 mb-2">Hello I'm</h3>
+              
+              {/* Desktop Original H1 */}
+              <h1 className="hidden md:inline-flex text-5xl lg:text-7xl font-bold tracking-tight text-white m-0 p-0 leading-none">
+                <span className="typing-name inline-block">Anjana Madhushan</span>
+              </h1>
+              {/* Mobile Fluid H1 */}
+              <h1 className="flex md:hidden justify-center items-center w-full max-w-[100vw] overflow-hidden text-[7.5vw] sm:text-5xl font-bold tracking-tight text-white m-0 p-0 leading-none">
+                <span className="typing-name inline-block max-w-[90vw] overflow-hidden">Anjana Madhushan</span>
+              </h1>
+              
+              <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-[#d946ef] m-0 p-0 leading-tight dev-fade whitespace-normal md:whitespace-nowrap">
+                Fullstack Developer
+              </h2>
+              
+              <p className="text-sm md:text-md text-slate-300 max-w-lg mx-auto md:mx-0 leading-relaxed pt-2 md:pt-4 relative z-20 mix-blend-lighten px-2 md:px-0">
+                I'm a Developer, Designer, Content Creator, and Entrepreneur, passionate about technology, creativity, and digital innovation building impactful digital experiences.
+              </p>
+            </div>
+
+            {/* Desktop Original Actions */}
+            <div className="hidden md:flex flex-wrap items-center gap-6 pt-6 relative z-20">
+              <a href="#contact" className="px-8 py-3.5 rounded-xl bg-[#c026d3] text-white font-bold transition-all duration-300 hover:scale-105 hover:bg-[#d946ef] shadow-[0_0_20px_rgba(217,70,239,0.3)] hover:shadow-[0_0_30px_rgba(217,70,239,0.6)] active:scale-95">
+                Hire Me
+              </a>
+              
+              <a href="#projects" className="px-8 py-3.5 rounded-xl glass border-2 border-white/20 text-white font-bold transition-all duration-300 hover:scale-105 hover:bg-white/10 hover:border-white/50 active:scale-95 shadow-[inset_0_0_20px_rgba(255,255,255,0.05)] hover:shadow-[0_0_20px_rgba(255,255,255,0.2)]">
+                Works
+              </a>
+            </div>
           </div>
 
-          <div className="flex flex-wrap items-center gap-6 pt-6 relative z-20">
-            <a href="#contact" className="px-8 py-3.5 rounded-xl bg-[#c026d3] text-white font-bold transition-all duration-300 hover:scale-105 hover:bg-[#d946ef] shadow-[0_0_20px_rgba(217,70,239,0.3)] hover:shadow-[0_0_30px_rgba(217,70,239,0.6)] active:scale-95">
+          {/* Right Side: Circular Glassmorphism Profile Image */}
+          <div className="relative w-full max-w-md mx-auto md:ml-auto flex justify-center md:justify-end -mt-6 md:mt-0">
+            {/* Glass Outer Ring */}
+            <div className="relative w-[280px] h-[280px] sm:w-[320px] sm:h-[320px] md:w-[420px] md:h-[420px] rounded-full p-3 md:p-4 glass backdrop-blur-2xl border border-white/20 shadow-[0_0_40px_rgba(217,70,239,0.2)] md:shadow-[0_0_60px_rgba(217,70,239,0.25)] flex items-center justify-center transition-all duration-500 hover:shadow-[0_0_60px_rgba(217,70,239,0.4)] md:hover:shadow-[0_0_80px_rgba(217,70,239,0.4)] hover:border-white/40">
+              {/* Inner Profile Image Wrapper */}
+              <div className="w-full h-full rounded-full overflow-hidden relative shadow-[inset_0_0_30px_rgba(0,0,0,0.8)] border-4 border-white/5 inner-glass">
+                <img 
+                  src="/pro1.png" 
+                  alt="Anjana Madhushan" 
+                  className="w-full h-full object-cover relative z-10 transition-transform duration-700 hover:scale-110" 
+                  onError={(e) => {
+                    e.currentTarget.src = 'https://images.unsplash.com/photo-1549692520-acc6669e2f0c?q=80&w=800&auto=format&fit=crop';
+                  }}
+                />
+              </div>
+
+              {/* Floating Experience Badge */}
+              <div className="absolute bottom-2 right-2 sm:bottom-4 sm:right-0 md:bottom-10 md:-right-4 bg-slate-900/80 backdrop-blur-xl pl-2 pr-4 md:pr-5 py-1.5 md:py-2 rounded-full border border-white/10 flex items-center gap-2 md:gap-3 shadow-2xl transition-all duration-300 hover:scale-105 hover:border-white/30 z-30 cursor-default">
+                <div className="w-6 h-6 md:w-8 md:h-8 rounded-full bg-gradient-to-tr from-[#c026d3] to-[#d946ef] flex items-center justify-center shadow-[0_0_10px_rgba(217,70,239,0.5)]">
+                  <span className="text-white text-[10px] md:text-xs font-bold">1+</span>
+                </div>
+                <span className="text-slate-200 text-xs md:text-sm font-medium tracking-wide">Years Experience</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Mobile Actions (Visible only on mobile) */}
+          <div className="flex md:hidden flex-wrap items-center justify-center gap-4 mt-2 mb-4 w-full relative z-20">
+            <a href="#contact" className="px-6 py-3 rounded-xl bg-[#c026d3] text-white font-bold transition-all duration-300 hover:scale-105 hover:bg-[#d946ef] active:scale-95 text-sm sm:text-base">
               Hire Me
             </a>
-            
-            <a href="#projects" className="px-8 py-3.5 rounded-xl glass border-2 border-white/20 text-white font-bold transition-all duration-300 hover:scale-105 hover:bg-white/10 hover:border-white/50 active:scale-95 shadow-[inset_0_0_20px_rgba(255,255,255,0.05)] hover:shadow-[0_0_20px_rgba(255,255,255,0.2)]">
+            <a href="#projects" className="px-6 py-3 rounded-xl glass border-2 border-white/20 text-white font-bold transition-all duration-300 hover:scale-105 hover:bg-white/10 active:scale-95 text-sm sm:text-base shadow-[inset_0_0_20px_rgba(255,255,255,0.05)]">
               Works
             </a>
           </div>
+
         </div>
+      </section>
 
-        {/* Right Side: Circular Glassmorphism Profile Image */}
-        <div className="relative w-full max-w-md mx-auto md:ml-auto flex justify-center md:justify-end">
-          {/* Glass Outer Ring */}
-          <div className="relative w-[380px] h-[380px] md:w-[420px] md:h-[420px] rounded-full p-4 glass backdrop-blur-2xl border border-white/20 shadow-[0_0_60px_rgba(217,70,239,0.25)] flex items-center justify-center transition-all duration-500 hover:shadow-[0_0_80px_rgba(217,70,239,0.4)] hover:border-white/40">
-            {/* Inner Profile Image Wrapper */}
-            <div className="w-full h-full rounded-full overflow-hidden relative shadow-[inset_0_0_40px_rgba(0,0,0,0.8)] border-4 border-white/5 inner-glass">
-              <img 
-                src="/pro1.png" 
-                alt="Anjana Madhushan" 
-                className="w-full h-full object-cover relative z-10 transition-transform duration-700 hover:scale-110" 
-                onError={(e) => {
-                  e.currentTarget.src = 'https://images.unsplash.com/photo-1549692520-acc6669e2f0c?q=80&w=800&auto=format&fit=crop';
-                }}
-              />
-            </div>
-
-            {/* Floating Experience Badge */}
-            <div className="absolute bottom-6 right-2 md:bottom-10 md:-right-4 bg-slate-900/80 backdrop-blur-xl pl-2 pr-5 py-2 rounded-full border border-white/10 flex items-center gap-3 shadow-2xl transition-all duration-300 hover:scale-105 hover:border-white/30 z-30 cursor-default">
-              <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-[#c026d3] to-[#d946ef] flex items-center justify-center shadow-[0_0_10px_rgba(217,70,239,0.5)]">
-                <span className="text-white text-xs font-bold">1+</span>
-              </div>
-              <span className="text-slate-200 text-sm font-medium tracking-wide">Years Experience</span>
-            </div>
-          </div>
-        </div>
-
-        {/* Vertical Social Icons on the Far Right Edge aligned from top to bottom */}
-        <div className="fixed top-1/2 right-4 md:right-6 flex flex-col gap-6 md:gap-7 z-40 transform -translate-y-1/2">
-          {[
-            { icon: Github, href: 'https://github.com/' },
-            { icon: Linkedin, href: '#' },
-            { icon: Facebook, href: '#' },
-            { icon: WhatsappIcon, href: '#' }, // representing whatsapp
-            { icon: Mail, href: 'mailto:example@gmail.com' }, // newly added Email icon
-          ].map((social, i) => (
-            <a 
-              key={i} 
-              href={social.href} 
-              target="_blank" 
-              rel="noopener noreferrer" 
-              className="relative w-10 h-10 md:w-12 md:h-12 rounded-full bg-slate-900/80 backdrop-blur-xl border border-[#d946ef]/20 flex items-center justify-center text-[#d946ef] transition-all duration-300 hover:scale-110 hover:bg-[#d946ef]/20 hover:text-white hover:border-[#d946ef]/60 hover:shadow-[0_0_25px_rgba(217,70,239,0.6)] group"
-            >
-              {/* Blinking/Pulsing Glow Effect */}
-              <div 
-                className="absolute inset-0 rounded-full bg-[#d946ef] animate-ping opacity-20 group-hover:hidden" 
-                style={{ animationDuration: '3s', animationDelay: `${i * 0.3}s` }} 
-              />
-              <social.icon className="w-4 h-4 md:w-5 md:h-5 relative z-10 group-hover:-translate-y-0.5 transition-transform drop-shadow-[0_0_5px_rgba(217,70,239,0.5)] group-hover:drop-shadow-[0_0_10px_rgba(255,255,255,0.8)]" />
-            </a>
-          ))}
-        </div>
-
+      {/* FIXED GLOBAL UI ELEMENTS */}
+      {/* Desktop Vertical Social Icons */}
+      <div className="hidden md:flex fixed top-1/2 right-4 md:right-6 flex-col gap-6 md:gap-7 z-[100] transform -translate-y-1/2">
+        {socialLinks.map((social, i) => (
+          <a 
+            key={i} 
+            href={social.href} 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            className="relative w-10 h-10 md:w-12 md:h-12 rounded-full bg-slate-900/80 backdrop-blur-xl border border-[#d946ef]/20 flex items-center justify-center text-[#d946ef] transition-all duration-300 hover:scale-110 hover:bg-[#d946ef]/20 hover:text-white hover:border-[#d946ef]/60 hover:shadow-[0_0_25px_rgba(217,70,239,0.6)] group"
+          >
+            <div 
+              className="absolute inset-0 rounded-full bg-[#d946ef] animate-ping opacity-20 group-hover:hidden" 
+              style={{ animationDuration: '3s', animationDelay: `${i * 0.3}s` }} 
+            />
+            <social.icon className="w-5 h-5 relative z-10 group-hover:-translate-y-0.5 transition-transform drop-shadow-[0_0_5px_rgba(217,70,239,0.5)] group-hover:drop-shadow-[0_0_10px_rgba(255,255,255,0.8)]" />
+          </a>
+        ))}
       </div>
-    </section>
+
+      {/* Mobile Vertical Social Icons */}
+      <div className="flex md:hidden fixed top-1/2 right-2 sm:right-4 flex-col gap-6 sm:gap-7 z-[100] transform -translate-y-1/2">
+        {socialLinks.map((social, i) => (
+          <a 
+            key={i} 
+            href={social.href} 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            className="relative w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-slate-900/80 backdrop-blur-xl border border-[#d946ef]/20 flex items-center justify-center text-[#d946ef] transition-all duration-300 hover:scale-110 hover:bg-[#d946ef]/20 hover:text-white hover:border-[#d946ef]/60 hover:shadow-[0_0_25px_rgba(217,70,239,0.6)] group"
+          >
+            <social.icon className="w-5 h-5 relative z-10 transition-transform drop-shadow-[0_0_5px_rgba(217,70,239,0.5)]" />
+          </a>
+        ))}
+      </div>
+    </>
   );
 }

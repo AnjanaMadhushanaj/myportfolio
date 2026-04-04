@@ -11,7 +11,7 @@ const Projects = dynamic(() => import('@/components/ui/Projects'));
 
 export default function Home() {
   return (
-    <main className="min-h-screen relative selection:bg-cyan-500/30 selection:text-cyan-200">
+    <main className="min-h-screen relative overflow-x-hidden w-full selection:bg-cyan-500/30 selection:text-cyan-200">
       
       {/* Optimized Fixed Background Image */}
       <div className="fixed inset-0 z-[-2]">
