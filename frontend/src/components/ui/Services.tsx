@@ -1,6 +1,22 @@
+"use client";
+
+import { useRef, useState } from 'react';
 import { Globe, Palette, Terminal, Database } from 'lucide-react';
 
 export default function Services() {
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const [scrollProgress, setScrollProgress] = useState(0);
+
+  const handleScroll = () => {
+    if (!scrollContainerRef.current) return;
+    const { scrollLeft, scrollWidth, clientWidth } = scrollContainerRef.current;
+    
+    if (scrollWidth > clientWidth) {
+      const progress = (scrollLeft / (scrollWidth - clientWidth)) * 100;
+      setScrollProgress(progress);
+    }
+  };
+
   const services = [
     {
       title: 'Web Development',
@@ -36,9 +52,13 @@ export default function Services() {
           <h3 className="text-white text-xl md:text-2xl font-bold border-l-4 border-[#d946ef] pl-4">Services</h3>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-8">
+        <div 
+          ref={scrollContainerRef}
+          onScroll={handleScroll}
+          className="flex overflow-x-auto md:grid md:grid-cols-2 gap-5 md:gap-8 pb-4 -mx-6 px-6 md:mx-0 md:px-0 snap-x snap-mandatory [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+        >
           {services.map((service, i) => (
-            <div key={i} className="glass-panel p-8 rounded-3xl group hover:-translate-y-2 transition-all duration-300 relative overflow-hidden">
+            <div key={i} className="w-[80vw] max-w-[300px] md:w-full md:max-w-none shrink-0 md:shrink snap-center snap-always glass-panel p-6 md:p-8 rounded-3xl group hover:-translate-y-2 transition-all duration-300 relative overflow-hidden flex flex-col justify-between">
               <div className={`absolute top-0 right-0 w-32 h-32 bg-gradient-to-br ${service.color} opacity-20 blur-3xl rounded-full group-hover:opacity-40 transition-opacity`} />
               
               <div className="relative z-10">
@@ -56,6 +76,17 @@ export default function Services() {
             </div>
           ))}
         </div>
+
+        {/* Mobile Scroll Indicator */}
+        <div className="md:hidden mt-6 flex justify-center w-full">
+          <div className="w-16 h-1.5 bg-white/10 rounded-full relative overflow-hidden backdrop-blur-sm">
+            <div 
+              className="absolute top-0 bottom-0 w-1/2 bg-gradient-to-r from-fuchsia-500 to-cyan-400 rounded-full transition-all duration-150 ease-out"
+              style={{ left: `${scrollProgress * 0.5}%` }}
+            />
+          </div>
+        </div>
+
       </div>
     </section>
   );
