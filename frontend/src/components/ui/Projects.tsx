@@ -33,8 +33,7 @@ export default function Projects() {
         <motion.div 
           variants={containerVariants}
           initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, margin: "-100px" }}
+          animate="show"
           className="flex flex-col gap-10"
         >
           {/* Project 1: The Crown Jewel */}
