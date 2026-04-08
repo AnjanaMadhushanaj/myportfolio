@@ -19,7 +19,7 @@ export default function Projects() {
   };
 
   return (
-    <section id="projects" className="relative w-full py-24 overflow-hidden z-10 border-t border-white/5 bg-[#0f0a1a]/40">
+    <section id="projects" className="relative w-full py-24 z-10 border-t border-white/5 bg-[#0f0a1a]/40">
       {/* Background blend */}
       <div className="absolute top-0 left-0 w-full h-full bg-transparent pointer-events-none" />
 
@@ -33,7 +33,8 @@ export default function Projects() {
         <motion.div 
           variants={containerVariants}
           initial="hidden"
-          animate="show"
+          whileInView="show"
+          viewport={{ once: true, margin: "100px" }}
           className="flex flex-col gap-10"
         >
           {/* Project 1: The Crown Jewel */}

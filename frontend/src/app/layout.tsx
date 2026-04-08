@@ -32,10 +32,10 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased overflow-x-hidden`}
+      className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       suppressHydrationWarning
     >
-      <body className="min-h-full flex flex-col overflow-x-hidden relative max-w-[100vw]" suppressHydrationWarning>{children}</body>
+      <body className="flex flex-col relative overflow-x-hidden" suppressHydrationWarning>{children}</body>
     </html>
   );
 }
