@@ -67,7 +67,7 @@ export default function Skills() {
   };
 
   return (
-    <section id="skills" className="relative w-full py-16 overflow-hidden z-10">
+    <section id="skills" className="relative w-full py-16 z-10">
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         
         {/* Section Header (Matched to other sections) */}
@@ -79,7 +79,8 @@ export default function Skills() {
         <motion.div 
           variants={containerVariants}
           initial="hidden"
-          animate="show"
+          whileInView="show"
+          viewport={{ once: true, margin: "100px" }}
           className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12"
         >
           
