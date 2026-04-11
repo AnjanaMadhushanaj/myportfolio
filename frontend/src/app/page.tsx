@@ -6,6 +6,7 @@ import About from '@/components/ui/About';
 import Services from '@/components/ui/Services';
 import Skills from '@/components/ui/Skills';
 import Projects from '@/components/ui/Projects';
+import Footer from '@/components/ui/Footer';
 
 export default function Home() {
   return (
@@ -44,10 +45,8 @@ export default function Home() {
           <Projects />
         </div>
 
-        {/* Simple Footer */}
-        <footer className="py-8 text-center text-slate-400 border-t border-white/10 mt-12 bg-black/20 backdrop-blur-md">
-          <p>© {new Date().getFullYear()} Anjana Madhushan. All rights reserved.</p>
-        </footer>
+        {/* Premium Footer */}
+        <Footer />
       </div>
     </main>
   );
