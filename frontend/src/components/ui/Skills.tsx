@@ -1,6 +1,6 @@
 "use client";
 
-import React from 'react';
+import React, { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
 
 const languages = [
@@ -53,6 +53,21 @@ const SkillBadge = ({ name, proficiency, icon }: { name: string, proficiency: nu
 };
 
 export default function Skills() {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  const handleScroll = () => {
+    if (!scrollRef.current) return;
+    const container = scrollRef.current;
+    const scrollLeft = container.scrollLeft;
+    const maxScroll = container.scrollWidth - container.clientWidth;
+    if (maxScroll <= 0) return;
+    
+    // There are 4 items, so index is from 0 to 3.
+    const newIndex = Math.round((scrollLeft / maxScroll) * 3);
+    setActiveIndex(newIndex);
+  };
+
   const containerVariants = {
     hidden: { opacity: 0 },
     show: {
@@ -75,17 +90,19 @@ export default function Skills() {
           <h3 className="text-white text-xl md:text-2xl font-bold border-l-4 border-[#d946ef] pl-4">Skills</h3>
         </div>
 
-        {/* 2x2 Grid for Categorized Skill Bars */}
+        {/* 2x2 Grid for Categorized Skill Bars / Horizontal Scroll on Mobile */}
         <motion.div 
+          ref={scrollRef as any}
+          onScroll={handleScroll}
           variants={containerVariants}
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, margin: "100px" }}
-          className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12"
+          className="flex overflow-x-auto snap-x snap-mandatory gap-5 pb-8 pt-4 -mx-6 px-6 md:grid md:grid-cols-2 md:gap-8 lg:gap-12 md:overflow-visible md:snap-none md:pb-0 md:pt-0 md:mx-0 md:px-0 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
         >
           
            {/* Languages */}
-           <motion.div variants={itemVariants} className="bg-[#141021]/60 backdrop-blur-xl border border-white/5 rounded-3xl p-6 md:p-8 shadow-xl">
+           <motion.div variants={itemVariants} className="w-[85vw] sm:w-[350px] md:w-auto flex-shrink-0 snap-center bg-[#141021]/60 backdrop-blur-xl border border-white/5 rounded-3xl p-6 md:p-8 shadow-xl">
              <h3 className="text-xl font-bold text-white mb-6 border-b border-white/10 pb-4 flex items-center gap-3">
                 <span className="w-2 h-2 rounded-full bg-cyan-400 drop-shadow-[0_0_5px_rgba(34,211,238,0.8)]" />
                 Languages
@@ -98,7 +115,7 @@ export default function Skills() {
            </motion.div>
 
            {/* Frontend */}
-           <motion.div variants={itemVariants} className="bg-[#141021]/60 backdrop-blur-xl border border-white/5 rounded-3xl p-6 md:p-8 shadow-xl">
+           <motion.div variants={itemVariants} className="w-[85vw] sm:w-[350px] md:w-auto flex-shrink-0 snap-center bg-[#141021]/60 backdrop-blur-xl border border-white/5 rounded-3xl p-6 md:p-8 shadow-xl">
              <h3 className="text-xl font-bold text-white mb-6 border-b border-white/10 pb-4 flex items-center gap-3">
                 <span className="w-2 h-2 rounded-full bg-fuchsia-400 drop-shadow-[0_0_5px_rgba(217,70,239,0.8)]" />
                 Frontend Development
@@ -111,7 +128,7 @@ export default function Skills() {
            </motion.div>
 
            {/* Backend & DB */}
-           <motion.div variants={itemVariants} className="bg-[#141021]/60 backdrop-blur-xl border border-white/5 rounded-3xl p-6 md:p-8 shadow-xl">
+           <motion.div variants={itemVariants} className="w-[85vw] sm:w-[350px] md:w-auto flex-shrink-0 snap-center bg-[#141021]/60 backdrop-blur-xl border border-white/5 rounded-3xl p-6 md:p-8 shadow-xl">
              <h3 className="text-xl font-bold text-white mb-6 border-b border-white/10 pb-4 flex items-center gap-3">
                 <span className="w-2 h-2 rounded-full bg-green-400 drop-shadow-[0_0_5px_rgba(74,222,128,0.8)]" />
                 Backend & Databases
@@ -124,7 +141,7 @@ export default function Skills() {
            </motion.div>
 
            {/* Tools & DevOps */}
-           <motion.div variants={itemVariants} className="bg-[#141021]/60 backdrop-blur-xl border border-white/5 rounded-3xl p-6 md:p-8 shadow-xl">
+           <motion.div variants={itemVariants} className="w-[85vw] sm:w-[350px] md:w-auto flex-shrink-0 snap-center bg-[#141021]/60 backdrop-blur-xl border border-white/5 rounded-3xl p-6 md:p-8 shadow-xl">
              <h3 className="text-xl font-bold text-white mb-6 border-b border-white/10 pb-4 flex items-center gap-3">
                 <span className="w-2 h-2 rounded-full bg-yellow-400 drop-shadow-[0_0_5px_rgba(250,204,21,0.8)]" />
                 Tools & DevOps
@@ -137,6 +154,20 @@ export default function Skills() {
            </motion.div>
 
         </motion.div>
+
+        {/* Dotted Indicators for Mobile */}
+        <div className="flex justify-center gap-2 mt-6 md:hidden">
+          {[0, 1, 2, 3].map((index) => (
+            <div
+              key={index}
+              className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                activeIndex === index
+                  ? "bg-cyan-400 w-4 shadow-[0_0_8px_rgba(34,211,238,0.8)]"
+                  : "bg-white/20"
+              }`}
+            />
+          ))}
+        </div>
 
       </div>
     </section>

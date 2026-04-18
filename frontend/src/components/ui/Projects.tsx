@@ -1,10 +1,25 @@
 "use client";
 
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Github, ExternalLink } from 'lucide-react';
 
 export default function Projects() {
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  const handleScroll = () => {
+    if (!scrollRef.current) return;
+    const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
+    
+    const maxScroll = scrollWidth - clientWidth;
+    if (maxScroll > 0) {
+      // 3 items in total, so index 0 to 2
+      const newIndex = Math.round((scrollLeft / maxScroll) * 2);
+      setActiveIndex(newIndex);
+    }
+  };
+
   const containerVariants = {
     hidden: { opacity: 0 },
     show: {
@@ -31,14 +46,16 @@ export default function Projects() {
         </div>
 
         <motion.div 
+          ref={scrollRef as any}
+          onScroll={handleScroll}
           variants={containerVariants}
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, margin: "100px" }}
-          className="flex flex-col gap-10"
+          className="flex overflow-x-auto md:grid md:grid-cols-2 gap-5 md:gap-10 pb-8 pt-4 -mx-6 px-6 md:mx-0 md:px-0 md:pb-0 md:pt-0 snap-x snap-mandatory [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
         >
           {/* Project 1: The Crown Jewel */}
-          <motion.div variants={itemVariants} className="w-full relative group">
+          <motion.div variants={itemVariants} className="w-[85vw] sm:w-[400px] md:max-w-none md:w-full md:col-span-2 shrink-0 snap-center relative group">
             <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/10 to-fuchsia-500/10 rounded-3xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
             <div className="relative flex flex-col lg:flex-row bg-[#141021]/60 backdrop-blur-md border border-white/10 group-hover:border-white/20 rounded-3xl overflow-hidden shadow-2xl transition-all duration-300">
               
@@ -80,9 +97,9 @@ export default function Projects() {
           </motion.div>
 
           {/* Projects 2 & 3: Full-Stack Roots */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+          
             {/* Project 2 */}
-            <motion.div variants={itemVariants} className="relative bg-[#141021]/60 backdrop-blur-md border border-white/10 hover:border-fuchsia-500/50 rounded-3xl overflow-hidden shadow-[0_10px_30px_rgba(0,0,0,0.5)] transition-all duration-300 group hover:-translate-y-2">
+            <motion.div variants={itemVariants} className="w-[85vw] sm:w-[400px] md:max-w-none md:w-auto shrink-0 snap-center relative bg-[#141021]/60 backdrop-blur-md border border-white/10 hover:border-fuchsia-500/50 rounded-3xl overflow-hidden shadow-[0_10px_30px_rgba(0,0,0,0.5)] transition-all duration-300 group hover:-translate-y-2 md:h-auto flex flex-col">
               <div className="w-full h-56 relative overflow-hidden bg-[#0A0710]">
                 <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80')] bg-cover bg-center opacity-40 group-hover:scale-105 transition-transform duration-700" />
                 <div className="absolute inset-0 bg-fuchsia-900/20 mix-blend-overlay" />
@@ -108,7 +125,7 @@ export default function Projects() {
             </motion.div>
 
             {/* Project 3 */}
-            <motion.div variants={itemVariants} className="relative bg-[#141021]/60 backdrop-blur-md border border-white/10 hover:border-cyan-500/50 rounded-3xl overflow-hidden shadow-[0_10px_30px_rgba(0,0,0,0.5)] transition-all duration-300 group hover:-translate-y-2">
+            <motion.div variants={itemVariants} className="w-[85vw] sm:w-[400px] md:max-w-none md:w-auto shrink-0 snap-center relative bg-[#141021]/60 backdrop-blur-md border border-white/10 hover:border-cyan-500/50 rounded-3xl overflow-hidden shadow-[0_10px_30px_rgba(0,0,0,0.5)] transition-all duration-300 group hover:-translate-y-2 md:h-auto flex flex-col">
               <div className="w-full h-56 relative overflow-hidden bg-[#0A0710]">
                 <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1605810230434-7631ac76ec81?auto=format&fit=crop&w=800&q=80')] bg-cover bg-center opacity-40 group-hover:scale-105 transition-transform duration-700" />
                 <div className="absolute inset-0 bg-cyan-900/20 mix-blend-overlay" />
@@ -132,9 +149,22 @@ export default function Projects() {
                 </div>
               </div>
             </motion.div>
-          </div>
 
         </motion.div>
+        
+        {/* Dotted Indicators for Mobile */}
+        <div className="flex justify-center gap-2 mt-8 md:hidden">
+          {[0, 1, 2].map((index) => (
+            <div
+              key={index}
+              className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                activeIndex === index
+                  ? "bg-cyan-400 w-4 shadow-[0_0_8px_rgba(34,211,238,0.8)]"
+                  : "bg-white/20"
+              }`}
+            />
+          ))}
+        </div>
         
       </div>
     </section>
