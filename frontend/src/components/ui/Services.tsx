@@ -56,7 +56,7 @@ export default function Services() {
         <div 
           ref={scrollContainerRef}
           onScroll={handleScroll}
-          className="flex overflow-x-auto md:grid md:grid-cols-2 gap-5 md:gap-8 pb-4 -mx-6 px-6 md:mx-0 md:px-0 snap-x snap-mandatory [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+          className="flex touch-pan-x md:touch-auto overflow-x-auto md:grid md:grid-cols-2 gap-5 md:gap-8 pb-4 -mx-6 px-6 md:mx-0 md:px-0 snap-x snap-mandatory [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
         >
           {services.map((service, i) => (
             <div key={i} className="w-[80vw] max-w-[300px] md:w-full md:max-w-none shrink-0 md:shrink snap-center snap-always glass-panel p-6 md:p-8 rounded-3xl group hover:-translate-y-2 transition-all duration-300 relative overflow-hidden flex flex-col justify-between">

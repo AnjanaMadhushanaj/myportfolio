@@ -98,7 +98,7 @@ export default function Skills() {
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, margin: "100px" }}
-          className="flex overflow-x-auto snap-x snap-mandatory gap-5 pb-8 pt-4 -mx-6 px-6 md:grid md:grid-cols-2 md:gap-8 lg:gap-12 md:overflow-visible md:snap-none md:pb-0 md:pt-0 md:mx-0 md:px-0 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
+          className="flex touch-pan-x md:touch-auto overflow-x-auto snap-x snap-mandatory gap-5 pb-8 pt-4 -mx-6 px-6 md:grid md:grid-cols-2 md:gap-8 lg:gap-12 md:overflow-visible md:snap-none md:pb-0 md:pt-0 md:mx-0 md:px-0 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
         >
           
            {/* Languages */}
