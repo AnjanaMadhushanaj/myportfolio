@@ -38,7 +38,7 @@ const toolsAndDevops = [
 
 const SkillBadge = ({ name, proficiency, icon }: { name: string, proficiency: number, icon: string }) => {
   return (
-    <div className="flex justify-between items-center bg-[#1a1429]/60 backdrop-blur-md border border-white/5 hover:border-cyan-500/30 hover:bg-cyan-500/5 hover:-translate-y-1 hover:shadow-[0_4px_15px_rgba(34,211,238,0.15)] rounded-2xl p-3 md:p-4 transition-all duration-300 group cursor-default">
+    <div className="flex justify-between items-center bg-[#1a1429]/60 backdrop-blur-md border border-white/5 hover:border-cyan-500/30 hover:bg-cyan-500/5 hover:-translate-y-1 hover:shadow-[0_4px_15px_rgba(34,211,238,0.15)] rounded-2xl py-2 px-3 md:p-4 transition-all duration-300 group cursor-default">
       <div className="flex items-center gap-3">
         <div className="w-6 h-6 md:w-7 md:h-7 flex-shrink-0 flex items-center justify-center filter drop-shadow-[0_0_8px_rgba(255,255,255,0.2)] group-hover:drop-shadow-[0_0_8px_rgba(34,211,238,0.5)] group-hover:scale-110 transition-transform duration-300">
           <img src={icon} alt={name} className="max-w-full max-h-full object-contain" />
@@ -82,11 +82,11 @@ export default function Skills() {
   };
 
   return (
-    <section id="skills" className="relative w-full py-16 z-10">
+    <section id="skills" className="relative w-full pt-12 pb-32 md:py-16 z-10">
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         
         {/* Section Header (Matched to other sections) */}
-        <div className="mb-10">
+        <div className="mb-6 md:mb-10">
           <h3 className="text-white text-xl md:text-2xl font-bold border-l-4 border-[#d946ef] pl-4">Skills</h3>
         </div>
 
@@ -102,8 +102,8 @@ export default function Skills() {
         >
           
            {/* Languages */}
-           <motion.div variants={itemVariants} className="w-[85vw] sm:w-[350px] md:w-auto flex-shrink-0 snap-center bg-[#141021]/60 backdrop-blur-xl border border-white/5 rounded-3xl p-6 md:p-8 shadow-xl">
-             <h3 className="text-xl font-bold text-white mb-6 border-b border-white/10 pb-4 flex items-center gap-3">
+           <motion.div variants={itemVariants} className="w-[85vw] sm:w-[350px] md:w-auto flex-shrink-0 snap-center bg-[#141021]/60 backdrop-blur-xl border border-white/5 rounded-3xl p-5 md:p-8 shadow-xl">
+             <h3 className="text-lg md:text-xl font-bold text-white mb-4 md:mb-6 border-b border-white/10 pb-3 md:pb-4 flex items-center gap-3">
                 <span className="w-2 h-2 rounded-full bg-cyan-400 drop-shadow-[0_0_5px_rgba(34,211,238,0.8)]" />
                 Languages
              </h3>
@@ -115,8 +115,8 @@ export default function Skills() {
            </motion.div>
 
            {/* Frontend */}
-           <motion.div variants={itemVariants} className="w-[85vw] sm:w-[350px] md:w-auto flex-shrink-0 snap-center bg-[#141021]/60 backdrop-blur-xl border border-white/5 rounded-3xl p-6 md:p-8 shadow-xl">
-             <h3 className="text-xl font-bold text-white mb-6 border-b border-white/10 pb-4 flex items-center gap-3">
+           <motion.div variants={itemVariants} className="w-[85vw] sm:w-[350px] md:w-auto flex-shrink-0 snap-center bg-[#141021]/60 backdrop-blur-xl border border-white/5 rounded-3xl p-5 md:p-8 shadow-xl">
+             <h3 className="text-lg md:text-xl font-bold text-white mb-4 md:mb-6 border-b border-white/10 pb-3 md:pb-4 flex items-center gap-3">
                 <span className="w-2 h-2 rounded-full bg-fuchsia-400 drop-shadow-[0_0_5px_rgba(217,70,239,0.8)]" />
                 Frontend Development
              </h3>
@@ -128,8 +128,8 @@ export default function Skills() {
            </motion.div>
 
            {/* Backend & DB */}
-           <motion.div variants={itemVariants} className="w-[85vw] sm:w-[350px] md:w-auto flex-shrink-0 snap-center bg-[#141021]/60 backdrop-blur-xl border border-white/5 rounded-3xl p-6 md:p-8 shadow-xl">
-             <h3 className="text-xl font-bold text-white mb-6 border-b border-white/10 pb-4 flex items-center gap-3">
+           <motion.div variants={itemVariants} className="w-[85vw] sm:w-[350px] md:w-auto flex-shrink-0 snap-center bg-[#141021]/60 backdrop-blur-xl border border-white/5 rounded-3xl p-5 md:p-8 shadow-xl">
+             <h3 className="text-lg md:text-xl font-bold text-white mb-4 md:mb-6 border-b border-white/10 pb-3 md:pb-4 flex items-center gap-3">
                 <span className="w-2 h-2 rounded-full bg-green-400 drop-shadow-[0_0_5px_rgba(74,222,128,0.8)]" />
                 Backend & Databases
              </h3>
@@ -141,8 +141,8 @@ export default function Skills() {
            </motion.div>
 
            {/* Tools & DevOps */}
-           <motion.div variants={itemVariants} className="w-[85vw] sm:w-[350px] md:w-auto flex-shrink-0 snap-center bg-[#141021]/60 backdrop-blur-xl border border-white/5 rounded-3xl p-6 md:p-8 shadow-xl">
-             <h3 className="text-xl font-bold text-white mb-6 border-b border-white/10 pb-4 flex items-center gap-3">
+           <motion.div variants={itemVariants} className="w-[85vw] sm:w-[350px] md:w-auto flex-shrink-0 snap-center bg-[#141021]/60 backdrop-blur-xl border border-white/5 rounded-3xl p-5 md:p-8 shadow-xl">
+             <h3 className="text-lg md:text-xl font-bold text-white mb-4 md:mb-6 border-b border-white/10 pb-3 md:pb-4 flex items-center gap-3">
                 <span className="w-2 h-2 rounded-full bg-yellow-400 drop-shadow-[0_0_5px_rgba(250,204,21,0.8)]" />
                 Tools & DevOps
              </h3>
