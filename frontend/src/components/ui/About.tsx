@@ -35,7 +35,7 @@ export default function About() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-16 md:gap-6 mb-4 md:mb-6">
           
           {/* Main Bio Box (left, col-span-2) */}
-          <div className="lg:col-span-2 flex flex-col justify-between bg-[#141021]/80 backdrop-blur-md border border-white/5 rounded-3xl p-6 pr-16 sm:pr-8 sm:p-8 lg:p-10 shadow-xl hover:border-white/10 hover:bg-[#1a1429]/90 transition-all duration-300 group relative overflow-hidden">
+          <div className="lg:col-span-2 flex flex-col justify-between bg-[#141021]/95 md:bg-[#141021]/80 backdrop-blur-md border border-white/25 md:border-white/5 rounded-3xl p-6 pr-16 sm:pr-8 sm:p-8 lg:p-10 shadow-xl hover:border-white/10 hover:bg-[#1a1429]/90 transition-all duration-300 group relative overflow-hidden">
             <div className="absolute top-0 right-0 w-64 h-64 bg-cyan-500/10 rounded-full blur-[80px] pointer-events-none group-hover:bg-cyan-500/20 transition-colors duration-500" />
             
             <div className="relative z-10 space-y-3 mb-6 md:mb-8 text-left">
@@ -70,7 +70,7 @@ export default function About() {
           {/* Right Stack (Location, Languages, Soft Skills) */}
           <div className="lg:col-span-1 flex flex-col gap-4 md:gap-6">
             {/* Box: Location */}
-            <div className="flex-1 bg-[#141021]/80 backdrop-blur-md border border-white/5 rounded-3xl p-5 md:p-6 shadow-xl hover:border-white/10 hover:bg-[#1a1429]/90 hover:-translate-y-1 transition-all duration-300 flex flex-col justify-center relative overflow-hidden group">
+            <div className="flex-1 bg-[#141021]/95 md:bg-[#141021]/80 backdrop-blur-md border border-white/25 md:border-white/5 rounded-3xl p-5 md:p-6 shadow-xl hover:border-white/10 hover:bg-[#1a1429]/90 hover:-translate-y-1 transition-all duration-300 flex flex-col justify-center relative overflow-hidden group">
               <div className="flex items-center justify-between mb-2 md:mb-3">
                 <div className="flex items-center gap-3 md:gap-4">
                   <MapPin className="w-4 h-4 md:w-5 md:h-5 text-cyan-400 drop-shadow-[0_0_8px_rgba(6,182,212,0.8)]" />
@@ -86,7 +86,7 @@ export default function About() {
             </div>
 
             {/* Box: Languages */}
-            <div className="flex-1 bg-[#141021]/80 backdrop-blur-md border border-white/5 rounded-3xl p-5 md:p-6 shadow-xl hover:border-white/10 hover:bg-[#1a1429]/90 hover:-translate-y-1 transition-all duration-300 flex flex-col justify-center relative overflow-hidden group">
+            <div className="flex-1 bg-[#141021]/95 md:bg-[#141021]/80 backdrop-blur-md border border-white/25 md:border-white/5 rounded-3xl p-5 md:p-6 shadow-xl hover:border-white/10 hover:bg-[#1a1429]/90 hover:-translate-y-1 transition-all duration-300 flex flex-col justify-center relative overflow-hidden group">
               <div className="flex items-center gap-3 md:gap-4 mb-2 md:mb-3">
                 <Languages className="w-4 h-4 md:w-5 md:h-5 text-fuchsia-400 drop-shadow-[0_0_8px_rgba(217,70,239,0.8)]" />
                 <h3 className="text-base md:text-lg font-bold text-white tracking-wide">Languages</h3>
@@ -98,7 +98,7 @@ export default function About() {
             </div>
 
             {/* Box: Soft Skills */}
-            <div className="flex-1 bg-[#141021]/80 backdrop-blur-md border border-white/5 rounded-3xl p-5 md:p-6 shadow-xl hover:border-white/10 hover:bg-[#1a1429]/90 hover:-translate-y-1 transition-all duration-300 flex flex-col justify-center relative overflow-hidden group">
+            <div className="flex-1 bg-[#141021]/95 md:bg-[#141021]/80 backdrop-blur-md border border-white/25 md:border-white/5 rounded-3xl p-5 md:p-6 shadow-xl hover:border-white/10 hover:bg-[#1a1429]/90 hover:-translate-y-1 transition-all duration-300 flex flex-col justify-center relative overflow-hidden group">
               <div className="flex items-center gap-3 md:gap-4 mb-2 md:mb-3">
                 <MessageSquare className="w-4 h-4 md:w-5 md:h-5 text-green-400 drop-shadow-[0_0_8px_rgba(74,222,128,0.8)]" />
                 <h3 className="text-base md:text-lg font-bold text-white tracking-wide">Soft Skills</h3>
@@ -113,7 +113,7 @@ export default function About() {
         {/* Row 2: 3 Equal Boxes (Focus, Stack, Achievements) */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 mb-4 md:mb-6">
           {/* Current Focus */}
-          <div className="bg-[#141021]/80 backdrop-blur-md border border-white/5 rounded-3xl p-5 md:p-8 shadow-xl hover:border-white/10 hover:bg-[#1a1429]/90 hover:-translate-y-1 transition-all duration-300 relative overflow-hidden group">
+          <div className="bg-[#141021]/95 md:bg-[#141021]/80 backdrop-blur-md border border-white/25 md:border-white/5 rounded-3xl p-5 md:p-8 shadow-xl hover:border-white/10 hover:bg-[#1a1429]/90 hover:-translate-y-1 transition-all duration-300 relative overflow-hidden group">
              <div className="absolute top-0 right-0 w-32 h-32 bg-cyan-500/15 rounded-full blur-[50px] pointer-events-none" />
              <Terminal className="w-6 h-6 md:w-8 md:h-8 text-cyan-400 drop-shadow-[0_0_8px_rgba(6,182,212,0.8)] mb-3 md:mb-4" />
              <h3 className="text-lg md:text-xl font-bold text-white mb-1.5 md:mb-2 tracking-wide">Current Focus</h3>
@@ -123,7 +123,7 @@ export default function About() {
           </div>
 
           {/* Favorite Stack */}
-          <div className="bg-[#141021]/80 backdrop-blur-md border border-white/5 rounded-3xl p-5 md:p-8 shadow-xl hover:border-white/10 hover:bg-[#1a1429]/90 hover:-translate-y-1 transition-all duration-300 relative overflow-hidden group">
+          <div className="bg-[#141021]/95 md:bg-[#141021]/80 backdrop-blur-md border border-white/25 md:border-white/5 rounded-3xl p-5 md:p-8 shadow-xl hover:border-white/10 hover:bg-[#1a1429]/90 hover:-translate-y-1 transition-all duration-300 relative overflow-hidden group">
              <div className="absolute top-0 right-0 w-32 h-32 bg-fuchsia-500/15 rounded-full blur-[50px] pointer-events-none" />
              <Layers className="w-6 h-6 md:w-8 md:h-8 text-fuchsia-400 drop-shadow-[0_0_8px_rgba(217,70,239,0.8)] mb-3 md:mb-4" />
              <h3 className="text-lg md:text-xl font-bold text-white mb-1.5 md:mb-2 tracking-wide">Favorite Stack</h3>
@@ -133,7 +133,7 @@ export default function About() {
           </div>
 
           {/* Achievements */}
-          <div className="bg-[#141021]/80 backdrop-blur-md border border-white/5 rounded-3xl p-5 md:p-8 shadow-xl hover:border-white/10 hover:bg-[#1a1429]/90 hover:-translate-y-1 transition-all duration-300 relative overflow-hidden group">
+          <div className="bg-[#141021]/95 md:bg-[#141021]/80 backdrop-blur-md border border-white/25 md:border-white/5 rounded-3xl p-5 md:p-8 shadow-xl hover:border-white/10 hover:bg-[#1a1429]/90 hover:-translate-y-1 transition-all duration-300 relative overflow-hidden group">
              <div className="absolute top-0 right-0 w-32 h-32 bg-yellow-500/15 rounded-full blur-[50px] pointer-events-none" />
              <Award className="w-6 h-6 md:w-8 md:h-8 text-yellow-400 drop-shadow-[0_0_8px_rgba(250,204,21,0.8)] mb-3 md:mb-4" />
              <h3 className="text-lg md:text-xl font-bold text-white mb-1.5 md:mb-2 tracking-wide">Achievements</h3>
@@ -146,7 +146,7 @@ export default function About() {
         {/* Row 3: Certificates & Badges */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 mb-4 md:mb-6">
           {/* Certificates */}
-          <div className="bg-[#141021]/80 backdrop-blur-md border border-white/5 rounded-3xl p-5 md:p-8 shadow-xl hover:border-white/10 hover:bg-[#1a1429]/90 hover:-translate-y-1 transition-all duration-300 relative overflow-hidden group">
+          <div className="bg-[#141021]/95 md:bg-[#141021]/80 backdrop-blur-md border border-white/25 md:border-white/5 rounded-3xl p-5 md:p-8 shadow-xl hover:border-white/10 hover:bg-[#1a1429]/90 hover:-translate-y-1 transition-all duration-300 relative overflow-hidden group">
              <div className="absolute top-0 right-0 w-48 h-48 bg-fuchsia-500/15 rounded-full blur-[60px] pointer-events-none" />
              <div className="flex items-start gap-4 relative z-10">
                 <div className="w-12 h-12 rounded-xl bg-[#141021] border border-fuchsia-500/30 flex items-center justify-center text-fuchsia-400 shadow-[inset_0_0_15px_rgba(217,70,239,0.2)] shrink-0">
@@ -163,7 +163,7 @@ export default function About() {
           </div>
 
           {/* Badges */}
-          <div className="bg-[#141021]/80 backdrop-blur-md border border-white/5 rounded-3xl p-5 md:p-8 shadow-xl hover:border-white/10 hover:bg-[#1a1429]/90 hover:-translate-y-1 transition-all duration-300 relative overflow-hidden group">
+          <div className="bg-[#141021]/95 md:bg-[#141021]/80 backdrop-blur-md border border-white/25 md:border-white/5 rounded-3xl p-5 md:p-8 shadow-xl hover:border-white/10 hover:bg-[#1a1429]/90 hover:-translate-y-1 transition-all duration-300 relative overflow-hidden group">
              <div className="absolute top-0 right-0 w-48 h-48 bg-cyan-500/15 rounded-full blur-[60px] pointer-events-none" />
              <div className="flex items-start gap-4 relative z-10">
                 <div className="w-12 h-12 rounded-xl bg-[#141021] border border-cyan-500/30 flex items-center justify-center text-cyan-400 shadow-[inset_0_0_15px_rgba(6,182,212,0.2)] shrink-0">
@@ -181,7 +181,7 @@ export default function About() {
         </div>
 
         {/* Row 4: Education */}
-        <div className="bg-[#141021]/80 backdrop-blur-md border border-white/5 rounded-3xl p-5 md:p-8 shadow-xl hover:border-white/10 hover:bg-[#1a1429]/90 hover:-translate-y-1 transition-all duration-300 relative overflow-hidden group">
+        <div className="bg-[#141021]/95 md:bg-[#141021]/80 backdrop-blur-md border border-white/25 md:border-white/5 rounded-3xl p-5 md:p-8 shadow-xl hover:border-white/10 hover:bg-[#1a1429]/90 hover:-translate-y-1 transition-all duration-300 relative overflow-hidden group">
            <div className="absolute top-0 left-0 w-48 h-48 bg-cyan-500/15 rounded-full blur-[60px] pointer-events-none" />
            <div className="flex items-start gap-4 md:gap-5 relative z-10">
               <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-[#141021] border border-cyan-500/30 flex items-center justify-center text-cyan-400 shadow-[inset_0_0_15px_rgba(6,182,212,0.2)] shrink-0">

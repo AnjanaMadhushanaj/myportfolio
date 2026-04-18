@@ -29,7 +29,7 @@ body {
 }
 
 .glass-panel {
-  @apply bg-slate-900/60 backdrop-blur-xl border border-white/10 shadow-2xl;
+  @apply bg-slate-900/90 md:bg-slate-900/60 backdrop-blur-xl border border-white/20 md:border-white/10 shadow-[0_8px_30px_rgba(0,0,0,0.5)] md:shadow-2xl;
 }
 
 .glow-magenta {
