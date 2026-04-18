@@ -38,7 +38,7 @@ const toolsAndDevops = [
 
 const SkillBadge = ({ name, proficiency, icon }: { name: string, proficiency: number, icon: string }) => {
   return (
-    <div className="flex justify-between items-center bg-[#1a1429]/95 md:bg-[#1a1429]/60 backdrop-blur-md border border-white/25 md:border-white/5 hover:border-cyan-500/30 hover:bg-cyan-500/5 hover:-translate-y-1 hover:shadow-[0_4px_15px_rgba(34,211,238,0.15)] rounded-2xl py-2 px-3 md:p-4 transition-all duration-300 group cursor-default">
+    <div className="flex justify-between items-center bg-[#1a1429]/60 backdrop-blur-md border border-white/5 hover:border-cyan-500/30 hover:bg-cyan-500/5 hover:-translate-y-1 hover:shadow-[0_4px_15px_rgba(34,211,238,0.15)] rounded-2xl py-2 px-3 md:p-4 transition-all duration-300 group cursor-default">
       <div className="flex items-center gap-3">
         <div className="w-6 h-6 md:w-7 md:h-7 flex-shrink-0 flex items-center justify-center filter drop-shadow-[0_0_8px_rgba(255,255,255,0.2)] group-hover:drop-shadow-[0_0_8px_rgba(34,211,238,0.5)] group-hover:scale-110 transition-transform duration-300">
           <img src={icon} alt={name} className="max-w-full max-h-full object-contain" />
