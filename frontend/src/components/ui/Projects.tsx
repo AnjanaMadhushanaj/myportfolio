@@ -52,7 +52,7 @@ export default function Projects() {
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, margin: "100px" }}
-          className="flex overflow-x-auto md:grid md:grid-cols-2 gap-5 md:gap-10 pb-8 pt-4 -mx-6 px-6 md:mx-0 md:px-0 md:pb-0 md:pt-0 snap-x snap-mandatory [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+          className="flex touch-pan-x md:touch-auto overflow-x-auto md:grid md:grid-cols-2 gap-5 md:gap-10 pb-8 pt-4 -mx-6 px-6 md:mx-0 md:px-0 md:pb-0 md:pt-0 snap-x snap-mandatory [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
         >
           {/* Project 1: The Crown Jewel */}
           <motion.div variants={itemVariants} className="w-[85vw] sm:w-[400px] md:max-w-none md:w-full md:col-span-2 shrink-0 snap-center relative group">
