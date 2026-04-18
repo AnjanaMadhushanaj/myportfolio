@@ -19,7 +19,7 @@ export default function Navbar() {
   return (
     <nav className="fixed top-0 left-0 right-0 z-[110] pt-4 md:pt-8 pb-4 w-full flex justify-start md:justify-center px-4 md:px-0 drop-shadow-2xl">
       <div 
-        className={`bg-white/10 backdrop-blur-xl border border-white/20 shadow-[0_8px_32px_rgba(0,0,0,0.3)] transition-all duration-300 ${isOpen ? 'rounded-2xl w-full max-w-sm' : 'rounded-full p-1 md:px-6 md:py-2'}`}
+        className={`backdrop-blur-xl border border-white/20 shadow-[0_8px_32px_rgba(0,0,0,0.3)] transition-all duration-300 ${isOpen ? 'bg-[#0f0a1a]/95 md:bg-[#0f0a1a]/95 rounded-2xl w-full max-w-sm' : 'bg-white/10 rounded-full p-1 md:px-6 md:py-2'}`}
       >
         {/* Mobile Header (Visible only on small screens when closed, or always when open) */}
         <div className={`md:hidden flex justify-between items-center ${isOpen ? 'p-4 border-b border-white/10' : ''}`}>

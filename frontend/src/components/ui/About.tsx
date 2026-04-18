@@ -35,10 +35,10 @@ export default function About() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
           
           {/* Main Bio Box (left, col-span-2) */}
-          <div className="lg:col-span-2 flex flex-col justify-between bg-[#141021]/80 backdrop-blur-md border border-white/5 rounded-3xl p-8 lg:p-10 shadow-xl hover:border-white/10 hover:bg-[#1a1429]/90 transition-all duration-300 group relative overflow-hidden">
+          <div className="lg:col-span-2 flex flex-col justify-between bg-[#141021]/80 backdrop-blur-md border border-white/5 rounded-3xl p-6 pr-16 sm:pr-8 sm:p-8 lg:p-10 shadow-xl hover:border-white/10 hover:bg-[#1a1429]/90 transition-all duration-300 group relative overflow-hidden">
             <div className="absolute top-0 right-0 w-64 h-64 bg-cyan-500/10 rounded-full blur-[80px] pointer-events-none group-hover:bg-cyan-500/20 transition-colors duration-500" />
             
-            <div className="relative z-10 space-y-4 mb-8 text-center md:text-left">
+            <div className="relative z-10 space-y-4 mb-8 text-left">
               <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight text-white leading-tight">
                 Hi! I am <br className="md:hidden" />
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-fuchsia-500">
@@ -56,7 +56,7 @@ export default function About() {
               </p>
             </div>
 
-            <div className="relative z-10 mt-auto flex justify-center md:justify-start">
+            <div className="relative z-10 mt-auto flex justify-start">
               <a 
                 href="#resume" 
                 className="inline-flex items-center gap-3 px-6 py-3 rounded-xl bg-[#d946ef] text-white font-semibold transition-all duration-300 hover:scale-105 hover:bg-[#e85bff] shadow-[0_0_20px_rgba(217,70,239,0.4)] hover:shadow-[0_0_30px_rgba(217,70,239,0.6)] text-sm group/btn"

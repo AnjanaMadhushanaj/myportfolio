@@ -5,15 +5,16 @@ import { Globe, Palette, Terminal, Database } from 'lucide-react';
 
 export default function Services() {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
-  const [scrollProgress, setScrollProgress] = useState(0);
+  const [activeIndex, setActiveIndex] = useState(0);
 
   const handleScroll = () => {
     if (!scrollContainerRef.current) return;
     const { scrollLeft, scrollWidth, clientWidth } = scrollContainerRef.current;
     
-    if (scrollWidth > clientWidth) {
-      const progress = (scrollLeft / (scrollWidth - clientWidth)) * 100;
-      setScrollProgress(progress);
+    const maxScroll = scrollWidth - clientWidth;
+    if (maxScroll > 0) {
+      const newIndex = Math.round((scrollLeft / maxScroll) * (services.length - 1));
+      setActiveIndex(newIndex);
     }
   };
 
@@ -78,13 +79,17 @@ export default function Services() {
         </div>
 
         {/* Mobile Scroll Indicator */}
-        <div className="md:hidden mt-6 flex justify-center w-full">
-          <div className="w-16 h-1.5 bg-white/10 rounded-full relative overflow-hidden backdrop-blur-sm">
-            <div 
-              className="absolute top-0 bottom-0 w-1/2 bg-gradient-to-r from-fuchsia-500 to-cyan-400 rounded-full transition-all duration-150 ease-out"
-              style={{ left: `${scrollProgress * 0.5}%` }}
+        <div className="flex justify-center gap-2 mt-6 md:hidden">
+          {services.map((_, index) => (
+            <div
+              key={index}
+              className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                activeIndex === index
+                  ? "bg-cyan-400 w-4 shadow-[0_0_8px_rgba(34,211,238,0.8)]"
+                  : "bg-white/20"
+              }`}
             />
-          </div>
+          ))}
         </div>
 
       </div>
