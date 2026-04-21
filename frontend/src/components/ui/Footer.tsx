@@ -11,16 +11,16 @@ export default function Footer() {
   return (
     <footer className="relative mt-24 border-t border-white/10 bg-black/40 backdrop-blur-xl overflow-hidden">
       {/* Decorative top gradient line */}
-      <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-cyan-500/50 to-transparent"></div>
+      <div className="absolute top-0 left-0 right-0 h-px bg-linear-to-r from-transparent via-cyan-500/50 to-transparent"></div>
       
       {/* Background glow effects */}
-      <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-[300px] h-[100px] bg-cyan-500/20 blur-[100px] rounded-full pointer-events-none"></div>
+      <div className="absolute -top-24 left-1/2 -translate-x-1/2 w-72 h-24 bg-cyan-500/20 blur-[100px] rounded-full pointer-events-none"></div>
 
       <div className="max-w-7xl mx-auto px-6 pt-16 pb-8">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12 relative z-10">
           {/* Brand & Intro */}
           <div className="space-y-4">
-            <h3 className="text-2xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent inline-block">
+            <h3 className="text-2xl font-bold bg-linear-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent inline-block">
               Anjana Madhushan
             </h3>
             <p className="text-slate-400 text-sm leading-relaxed max-w-sm">
@@ -31,7 +31,7 @@ export default function Footer() {
           {/* Quick Links */}
           <div className="space-y-4">
             <h4 className="text-white font-semibold flex items-center gap-2">
-              <span className="w-4 h-[2px] bg-cyan-500"></span>
+              <span className="w-4 h-0.5 bg-cyan-500"></span>
               Quick Links
             </h4>
             <div className="flex flex-col gap-2">
@@ -50,7 +50,7 @@ export default function Footer() {
           {/* Socials & Connect */}
           <div className="space-y-4">
             <h4 className="text-white font-semibold flex items-center gap-2">
-              <span className="w-4 h-[2px] bg-cyan-500"></span>
+              <span className="w-4 h-0.5 bg-cyan-500"></span>
               Connect
             </h4>
             <div className="flex gap-4">
