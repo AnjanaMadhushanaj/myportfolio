@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "@/lib/firebase";
+import { getFirebaseAuth } from "@/lib/firebase";
 
 export default function AdminLogin() {
     const [email, setEmail]       = useState("");
@@ -32,6 +32,13 @@ export default function AdminLogin() {
         setLoading(true);
 
         try {
+            const auth = getFirebaseAuth();
+            if (!auth) {
+                setError("Firebase is not configured. Add NEXT_PUBLIC_FIREBASE_* variables.");
+                setLoading(false);
+                return;
+            }
+
             await signInWithEmailAndPassword(auth, email, password);
             // Redirect to portfolio homepage — admin mode activates automatically via Firebase auth
             router.push("/");
