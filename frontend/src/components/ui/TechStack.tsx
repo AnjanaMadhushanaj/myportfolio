@@ -34,7 +34,7 @@ const techRow3 = [
 ];
 
 const TechCard = ({ name, icon }: { name: string; icon: string }) => (
-  <div className="flex flex-col items-center justify-center py-3 px-4 min-w-[100px] md:min-w-[110px] bg-[#141021]/90 md:bg-[#141021]/80 backdrop-blur-md border border-white/20 md:border-white/5 shadow-[0_4px_12px_rgba(0,0,0,0.4)] md:shadow-none rounded-2xl hover:bg-[#201836] transition-all duration-300 hover:scale-105 group hover:border-white/10 hover:shadow-[0_0_15px_rgba(217,70,239,0.1)]">
+  <div className="flex flex-col items-center justify-center py-3 px-4 min-w-24 md:min-w-28 bg-[#141021]/90 md:bg-[#141021]/80 backdrop-blur-md border border-white/20 md:border-white/5 shadow-[0_4px_12px_rgba(0,0,0,0.4)] md:shadow-none rounded-2xl hover:bg-[#201836] transition-all duration-300 hover:scale-105 group hover:border-white/10 hover:shadow-[0_0_15px_rgba(217,70,239,0.1)]">
     <div className="h-7 w-7 md:h-9 md:w-9 mb-2 relative flex items-center justify-center group-hover:-translate-y-1 transition-transform duration-300">
       <img src={icon} alt={name} className="max-h-full max-w-full object-contain filter drop-shadow-[0_0_8px_rgba(0,0,0,0.6)]" />
     </div>

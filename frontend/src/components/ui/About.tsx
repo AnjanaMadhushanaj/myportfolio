@@ -21,8 +21,8 @@ export default function About() {
     <section id="about" className="relative w-full py-12 md:py-16 overflow-hidden z-10">
       
       {/* Background Glowing Blobs */}
-      <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-cyan-500/5 rounded-full blur-[120px] -translate-x-1/2 -translate-y-1/2 pointer-events-none mix-blend-screen" />
-      <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-fuchsia-500/5 rounded-full blur-[120px] translate-x-1/4 translate-y-1/3 pointer-events-none mix-blend-screen" />
+      <div className="absolute top-1/4 left-1/4 w-96 h-96 md:w-[500px] md:h-[500px] bg-cyan-500/5 rounded-full blur-[120px] -translate-x-1/2 -translate-y-1/2 pointer-events-none mix-blend-screen" />
+      <div className="absolute bottom-1/4 right-1/4 w-80 h-80 md:w-[400px] md:h-[400px] bg-fuchsia-500/5 rounded-full blur-[120px] translate-x-1/4 translate-y-1/3 pointer-events-none mix-blend-screen" />
       
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         
@@ -41,7 +41,7 @@ export default function About() {
             <div className="relative z-10 space-y-3 mb-6 md:mb-8 text-left">
               <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight text-white leading-tight">
                 Hi! I am <br className="md:hidden" />
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-fuchsia-500">
+                <span className="text-transparent bg-clip-text bg-linear-to-r from-cyan-400 to-fuchsia-500">
                    Anjana Madhushan
                 </span>
               </h2>

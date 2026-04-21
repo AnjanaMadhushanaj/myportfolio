@@ -61,7 +61,7 @@ export default function Hero() {
           {/* Right Side: Circular Glassmorphism Profile Image */}
           <div className="relative w-full max-w-md mx-auto md:ml-auto flex justify-center md:justify-end -mt-6 md:mt-0">
             {/* Glass Outer Ring */}
-            <div className="relative w-[280px] h-[280px] sm:w-[320px] sm:h-[320px] md:w-[420px] md:h-[420px] rounded-full p-3 md:p-4 glass backdrop-blur-2xl border border-white/20 shadow-[0_0_40px_rgba(217,70,239,0.2)] md:shadow-[0_0_60px_rgba(217,70,239,0.25)] flex items-center justify-center transition-all duration-500 hover:shadow-[0_0_60px_rgba(217,70,239,0.4)] md:hover:shadow-[0_0_80px_rgba(217,70,239,0.4)] hover:border-white/40">
+            <div className="relative w-72 h-72 sm:w-80 sm:h-80 md:w-96 md:h-96 rounded-full p-3 md:p-4 glass backdrop-blur-2xl border border-white/20 shadow-[0_0_40px_rgba(217,70,239,0.2)] md:shadow-[0_0_60px_rgba(217,70,239,0.25)] flex items-center justify-center transition-all duration-500 hover:shadow-[0_0_60px_rgba(217,70,239,0.4)] md:hover:shadow-[0_0_80px_rgba(217,70,239,0.4)] hover:border-white/40">
               {/* Inner Profile Image Wrapper */}
               <div className="w-full h-full rounded-full overflow-hidden relative shadow-[inset_0_0_30px_rgba(0,0,0,0.8)] border-4 border-white/5 inner-glass">
                 <img 
@@ -76,7 +76,7 @@ export default function Hero() {
 
               {/* Floating Experience Badge */}
               <div className="absolute bottom-2 right-2 sm:bottom-4 sm:right-0 md:bottom-10 md:-right-4 bg-slate-900/80 backdrop-blur-xl pl-2 pr-4 md:pr-5 py-1.5 md:py-2 rounded-full border border-white/10 flex items-center gap-2 md:gap-3 shadow-2xl transition-all duration-300 hover:scale-105 hover:border-white/30 z-30 cursor-default">
-                <div className="w-6 h-6 md:w-8 md:h-8 rounded-full bg-gradient-to-tr from-[#c026d3] to-[#d946ef] flex items-center justify-center shadow-[0_0_10px_rgba(217,70,239,0.5)]">
+                <div className="w-6 h-6 md:w-8 md:h-8 rounded-full bg-linear-to-tr from-[#c026d3] to-[#d946ef] flex items-center justify-center shadow-[0_0_10px_rgba(217,70,239,0.5)]">
                   <span className="text-white text-[10px] md:text-xs font-bold">1+</span>
                 </div>
                 <span className="text-slate-200 text-xs md:text-sm font-medium tracking-wide">Years Experience</span>
@@ -99,7 +99,7 @@ export default function Hero() {
 
       {/* FIXED GLOBAL UI ELEMENTS */}
       {/* Desktop Vertical Social Icons */}
-      <div className="hidden md:flex fixed top-1/2 right-4 md:right-6 flex-col gap-6 md:gap-7 z-[100] transform -translate-y-1/2">
+      <div className="hidden md:flex fixed top-1/2 right-4 md:right-6 flex-col gap-6 md:gap-7 z-100 transform -translate-y-1/2">
         {socialLinks.map((social, i) => (
           <a 
             key={i} 
@@ -118,7 +118,7 @@ export default function Hero() {
       </div>
 
       {/* Mobile Vertical Social Icons */}
-      <div className="flex md:hidden fixed top-1/2 right-2 sm:right-4 flex-col gap-6 sm:gap-7 z-[100] transform -translate-y-1/2">
+      <div className="flex md:hidden fixed top-1/2 right-2 sm:right-4 flex-col gap-6 sm:gap-7 z-100 transform -translate-y-1/2">
         {socialLinks.map((social, i) => (
           <a 
             key={i} 
