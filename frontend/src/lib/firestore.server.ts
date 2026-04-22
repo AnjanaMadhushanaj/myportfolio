@@ -84,6 +84,11 @@ const DEFAULT_HERO: HeroData = {
   worksLink: "#projects",
   experienceYears: "1+",
   profileImageUrl: "/pro1.png",
+  githubUrl: "https://github.com/",
+  linkedinUrl: "#",
+  facebookUrl: "#",
+  whatsappUrl: "#",
+  emailUrl: "mailto:example@gmail.com",
 };
 
 const DEFAULT_ABOUT: AboutData = {
