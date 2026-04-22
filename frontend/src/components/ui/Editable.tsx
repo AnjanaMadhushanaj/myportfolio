@@ -88,7 +88,7 @@ export default function Editable({ path, type = 'text', children, className = ""
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={() => setIsEditing(true)}
-            className="cursor-pointer relative rounded-sm transition-all duration-300"
+            className="cursor-pointer relative h-full w-full rounded-sm transition-all duration-300"
           >
             {/* Hover Indicator */}
             <div className="absolute -inset-2 border-2 border-dashed border-cyan-500/0 group-hover/editable:border-cyan-500/40 rounded-lg transition-all duration-300 pointer-events-none z-10" />
