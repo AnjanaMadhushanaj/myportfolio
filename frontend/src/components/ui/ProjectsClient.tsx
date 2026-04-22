@@ -331,6 +331,7 @@ export default function ProjectsClient({ data: initialData }: Props) {
                       isAdmin={isAdmin}
                       onDelete={() => deleteProject(p.id)}
                       onToggleFeatured={() => toggleFeatured(p.id)}
+                      accentColor="cyan"
                     />
                   </div>
                 );
