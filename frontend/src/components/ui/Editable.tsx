@@ -20,8 +20,9 @@ interface EditableProps {
   isAdmin?: boolean;
 }
 
-export default function Editable({ path, type = 'text', children, className = "" }: EditableProps) {
-  const { isAdmin } = useAdmin();
+export default function Editable({ path, type = 'text', children, className = "", isAdmin: forcedAdmin }: EditableProps) {
+  const { isAdmin: authAdmin } = useAdmin();
+  const isAdmin = forcedAdmin !== undefined ? forcedAdmin : authAdmin;
   const updateField = useCMSStore((state) => state.updateField);
   const sectionKey = path.split('.')[0];
   
