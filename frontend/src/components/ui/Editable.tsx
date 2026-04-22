@@ -16,6 +16,8 @@ interface EditableProps {
   children: React.ReactNode;
   /** Optional custom class for the wrapper */
   className?: string;
+  /** Force admin state (optional) */
+  isAdmin?: boolean;
 }
 
 export default function Editable({ path, type = 'text', children, className = "" }: EditableProps) {
