@@ -21,6 +21,11 @@ export interface HeroData {
   worksLink: string;       // "#projects"
   experienceYears: string; // "1+" shown in badge
   profileImageUrl: string; // "/pro1.png"
+  githubUrl: string;
+  linkedinUrl: string;
+  facebookUrl: string;
+  whatsappUrl: string;
+  emailUrl: string;
 }
 
 // ---------------------------------------------------------------------------

@@ -2,13 +2,17 @@
 
 /**
  * ProjectsClient.tsx — Client Interactive Inner
- * Owns: framer-motion animations, mobile scroll tracking.
+ * Fully integrated with CMS Store for inline editing.
  */
 
 import React, { useRef, useState } from "react";
 import { motion } from "framer-motion";
-import { Github, ExternalLink } from "lucide-react";
+import { Github, ExternalLink, Plus, Trash2, Star, Image as ImageIcon } from "lucide-react";
 import type { ProjectsData, ProjectItem } from "@/types/cms";
+import { useCMSStore } from "@/store/useCMSStore";
+import { useAdmin } from "@/context/AuthContext";
+import Editable from "@/components/ui/Editable";
+import { updateCMSSection } from "@/app/actions/cms";
 
 interface Props {
   data: ProjectsData;
@@ -17,33 +21,77 @@ interface Props {
 const containerVariants = { hidden: { opacity: 0 }, show: { opacity: 1, transition: { staggerChildren: 0.2 } } };
 const itemVariants = { hidden: { opacity: 0, y: 40 }, show: { opacity: 1, y: 0, transition: { type: "spring" as const, stiffness: 80 } } };
 
-function FeaturedCard({ project }: { project: ProjectItem }) {
+interface CardProps {
+  project: ProjectItem;
+  path: string;
+  isAdmin: boolean;
+  onDelete: () => void;
+  onToggleFeatured: () => void;
+}
+
+function FeaturedCard({ project, path, isAdmin, onDelete, onToggleFeatured }: CardProps) {
   return (
-    <motion.div variants={itemVariants} className="w-[85vw] sm:w-100 md:max-w-none md:w-full md:col-span-2 shrink-0 snap-center relative group">
+    <motion.div variants={itemVariants} className="w-[85vw] sm:w-100 md:max-w-none md:w-full md:col-span-2 shrink-0 snap-center relative group/card">
+      {isAdmin && (
+        <div className="absolute top-4 right-4 flex gap-2 z-50">
+          <button onClick={onToggleFeatured} className="p-2 bg-yellow-500/20 text-yellow-400 hover:bg-yellow-500/40 rounded-xl transition-all" title="Featured Project">
+            <Star size={18} fill="currentColor" />
+          </button>
+          <button onClick={onDelete} className="p-2 bg-red-500/20 text-red-400 hover:bg-red-500/40 rounded-xl transition-all opacity-0 group-hover/card:opacity-100" title="Delete Project">
+            <Trash2 size={18} />
+          </button>
+        </div>
+      )}
+
       <div className="absolute inset-0 bg-linear-to-r from-cyan-500/10 to-fuchsia-500/10 rounded-3xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-      <div className="relative flex flex-col lg:flex-row bg-[#141021]/95 md:bg-[#141021]/60 backdrop-blur-md border border-white/25 md:border-white/10 group-hover:border-white/20 rounded-3xl overflow-hidden shadow-2xl transition-all duration-300">
-        <div className="w-full lg:w-1/2 relative min-h-40 md:min-h-75 lg:min-h-full overflow-hidden bg-[#0A0710]">
-          <div
-            className="absolute inset-0 bg-cover bg-center opacity-40 group-hover:scale-105 transition-transform duration-700"
-            style={{ backgroundImage: `url('${project.imageUrl}')` }}
-          />
-          <div className="absolute inset-0 bg-cyan-900/20 mix-blend-overlay" />
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-32 bg-cyan-500/20 rounded-full blur-2xl" />
+      <div className="relative flex flex-col lg:flex-row bg-[#141021]/95 md:bg-[#141021]/60 backdrop-blur-md border border-white/25 md:border-white/10 group-hover:border-white/20 rounded-3xl overflow-hidden shadow-2xl transition-all duration-300 h-full">
+        <div className="w-full lg:w-1/2 relative min-h-48 md:min-h-75 lg:min-h-full overflow-hidden bg-[#0A0710]">
+          {isAdmin ? (
+            <Editable path={`${path}.imageUrl`} type="image" className="absolute inset-0 h-full w-full">
+              <div
+                className="absolute inset-0 bg-cover bg-center opacity-90 group-hover:scale-105 transition-transform duration-700"
+                style={{ backgroundImage: `url('${project.imageUrl}')` }}
+              />
+            </Editable>
+          ) : (
+            <div
+              className="absolute inset-0 bg-cover bg-center opacity-90 group-hover:scale-105 transition-transform duration-700"
+              style={{ backgroundImage: `url('${project.imageUrl}')` }}
+            />
+          )}
+          <div className="absolute inset-0 bg-cyan-900/20 mix-blend-overlay pointer-events-none" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-32 bg-cyan-500/20 rounded-full blur-2xl pointer-events-none" />
         </div>
         <div className="w-full lg:w-1/2 p-6 md:p-8 lg:p-12 flex flex-col justify-center border-l-0 lg:border-l border-white/5">
-          <span className="text-cyan-400 font-mono text-[10px] md:text-sm font-semibold tracking-wider mb-2 uppercase">{project.category}</span>
-          <h3 className="text-xl md:text-4xl font-bold text-white mb-3 md:mb-6 leading-tight group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-linear-to-r group-hover:from-cyan-300 group-hover:to-fuchsia-300 transition-all duration-300">
-            {project.title}
-          </h3>
-          <p className="text-slate-300 font-light leading-snug md:leading-relaxed mb-5 md:mb-8 text-xs md:text-base">{project.description}</p>
+          <Editable path={`${path}.category`} className="inline-block" isAdmin={isAdmin}>
+            <span className="text-cyan-400 font-mono text-[10px] md:text-sm font-semibold tracking-wider mb-2 uppercase block">{project.category}</span>
+          </Editable>
+          <Editable path={`${path}.title`} className="inline-block" isAdmin={isAdmin}>
+            <h3 className="text-xl md:text-4xl font-bold text-white mb-3 md:mb-6 leading-tight group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-linear-to-r group-hover:from-cyan-300 group-hover:to-fuchsia-300 transition-all duration-300">
+              {project.title}
+            </h3>
+          </Editable>
+          <Editable path={`${path}.description`} type="textarea" className="inline-block" isAdmin={isAdmin}>
+            <p className="text-slate-300 font-light leading-snug md:leading-relaxed mb-5 md:mb-8 text-xs md:text-base">{project.description}</p>
+          </Editable>
+
           <div className="flex flex-wrap gap-2 md:gap-3 mb-5 md:mb-8">
-            {project.techStack.map((tech, i) => (
-              <span key={i} className="px-3 md:px-4 py-1 md:py-1.5 text-[10px] md:text-xs font-medium text-cyan-100 bg-white/5 border border-white/10 rounded-full backdrop-blur-sm group-hover:border-cyan-500/40 transition-all duration-300">{tech}</span>
-            ))}
+            <Editable path={`${path}.techStack`} type="array" className="inline-block" isAdmin={isAdmin}>
+              <div className="flex flex-wrap gap-2">
+                {project.techStack.map((tech, i) => (
+                  <span key={i} className="px-3 md:px-4 py-1 md:py-1.5 text-[10px] md:text-xs font-medium text-cyan-100 bg-white/5 border border-white/10 rounded-full backdrop-blur-sm group-hover:border-cyan-500/40 transition-all duration-300">{tech}</span>
+                ))}
+              </div>
+            </Editable>
           </div>
+
           <div className="flex items-center gap-5 mt-auto">
-            <a href={project.githubLink} target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-white hover:scale-110 transition-all duration-300"><Github className="w-6 h-6" /></a>
-            <a href={project.liveLink}   target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-cyan-400 hover:scale-110 transition-all duration-300"><ExternalLink className="w-6 h-6" /></a>
+            <Editable path={`${path}.githubLink`} className="inline-block" isAdmin={isAdmin}>
+              <a href={project.githubLink} target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-white hover:scale-110 transition-all duration-300 block"><Github className="w-6 h-6" /></a>
+            </Editable>
+            <Editable path={`${path}.liveLink`} className="inline-block" isAdmin={isAdmin}>
+              <a href={project.liveLink} target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-cyan-400 hover:scale-110 transition-all duration-300 block"><ExternalLink className="w-6 h-6" /></a>
+            </Editable>
           </div>
         </div>
       </div>
@@ -51,91 +99,264 @@ function FeaturedCard({ project }: { project: ProjectItem }) {
   );
 }
 
-function StandardCard({ project, accentColor }: { project: ProjectItem; accentColor: "fuchsia" | "cyan" }) {
-  const borderHover   = accentColor === "fuchsia" ? "hover:border-fuchsia-500/50" : "hover:border-cyan-500/50";
-  const catColor      = accentColor === "fuchsia" ? "text-fuchsia-400"           : "text-cyan-400";
-  const overlayColor  = accentColor === "fuchsia" ? "bg-fuchsia-900/20"          : "bg-cyan-900/20";
+function StandardCard({ project, path, isAdmin, onDelete, onToggleFeatured, accentColor }: CardProps & { accentColor: "fuchsia" | "cyan" }) {
+  const borderHover = accentColor === "fuchsia" ? "hover:border-fuchsia-500/50" : "hover:border-cyan-500/50";
+  const catColor = accentColor === "fuchsia" ? "text-fuchsia-400" : "text-cyan-400";
+  const overlayColor = accentColor === "fuchsia" ? "bg-fuchsia-900/20" : "bg-cyan-900/20";
 
   return (
     <motion.div
       variants={itemVariants}
-      className={`w-[85vw] sm:w-100 md:max-w-none md:w-auto shrink-0 snap-center relative bg-[#141021]/95 md:bg-[#141021]/60 backdrop-blur-md border border-white/25 md:border-white/10 ${borderHover} rounded-3xl overflow-hidden shadow-[0_10px_30px_rgba(0,0,0,0.5)] transition-all duration-300 group hover:-translate-y-2 md:h-auto flex flex-col`}
+      className={`w-full h-[500px] md:h-[530px] shrink-0 snap-center relative bg-[#141021]/95 md:bg-[#141021]/60 backdrop-blur-md border border-white/25 md:border-white/10 ${borderHover} rounded-3xl overflow-hidden shadow-[0_10px_30px_rgba(0,0,0,0.5)] transition-all duration-300 group/card hover:-translate-y-2 flex flex-col items-start text-left`}
     >
-      <div className="w-full h-44 md:h-56 relative overflow-hidden bg-[#0A0710]">
-        <div
-          className="absolute inset-0 bg-cover bg-center opacity-40 group-hover:scale-105 transition-transform duration-700"
-          style={{ backgroundImage: `url('${project.imageUrl}')` }}
-        />
-        <div className={`absolute inset-0 ${overlayColor} mix-blend-overlay`} />
-      </div>
-      <div className="p-6 md:p-8 border-t border-white/5 flex flex-col grow">
-        <span className={`${catColor} font-mono text-[10px] md:text-xs font-semibold tracking-wider mb-2 uppercase block`}>{project.category}</span>
-        <h3 className="text-lg md:text-xl font-bold text-white mb-3 md:mb-4 leading-tight">{project.title}</h3>
-        <p className="text-slate-300 text-xs md:text-sm font-light leading-snug md:leading-relaxed mb-4 md:mb-6 grow">{project.description}</p>
-        <div className="flex flex-wrap gap-2 mb-4 md:mb-6 mt-auto">
-          {project.techStack.map((tech, i) => (
-            <span key={i} className="px-3 py-1 text-[11px] font-medium text-slate-300 bg-white/5 border border-white/10 rounded-full backdrop-blur-sm group-hover:bg-white/10 transition-colors">{tech}</span>
-          ))}
+      {isAdmin && (
+        <div className="absolute top-4 right-4 flex gap-2 z-50">
+          <button onClick={onToggleFeatured} className="p-2 bg-white/10 text-white/40 hover:text-yellow-400 hover:bg-yellow-500/20 rounded-xl transition-all" title="Make Featured">
+            <Star size={18} />
+          </button>
+          <button onClick={onDelete} className="p-2 bg-red-500/20 text-red-400 hover:bg-red-500/40 rounded-xl transition-all opacity-0 group-hover/card:opacity-100" title="Delete Project">
+            <Trash2 size={18} />
+          </button>
         </div>
-        <div className="flex items-center gap-4">
-          <a href={project.githubLink} target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-white transition-colors cursor-pointer"><Github className="w-5 h-5" /></a>
-          <a href={project.liveLink}   target="_blank" rel="noopener noreferrer" className={`text-slate-400 ${accentColor === "fuchsia" ? "hover:text-fuchsia-400" : "hover:text-cyan-400"} transition-colors cursor-pointer`}><ExternalLink className="w-5 h-5" /></a>
+      )}
+
+      <div className="w-full h-40 md:h-48 relative overflow-hidden bg-[#0A0710] shrink-0">
+        {isAdmin ? (
+          <Editable path={`${path}.imageUrl`} type="image" className="absolute inset-0 h-full w-full">
+            <div
+              className="absolute inset-0 bg-cover bg-center opacity-90 group-hover:scale-105 transition-transform duration-700"
+              style={{ backgroundImage: `url('${project.imageUrl}')` }}
+            />
+          </Editable>
+        ) : (
+          <div
+            className="absolute inset-0 bg-cover bg-center opacity-90 group-hover:scale-105 transition-transform duration-700"
+            style={{ backgroundImage: `url('${project.imageUrl}')` }}
+          />
+        )}
+        <div className={`absolute inset-0 ${overlayColor} mix-blend-overlay pointer-events-none`} />
+      </div>
+
+      <div className="p-6 md:p-8 border-t border-white/5 flex flex-col grow w-full items-start">
+        {/* Static content area - no scrolling */}
+        <div className="flex flex-col grow w-full items-start space-y-4 pt-2">
+          <div className="w-full flex justify-start">
+            <Editable path={`${path}.category`} className="block" isAdmin={isAdmin}>
+              <span className={`${catColor} font-mono text-[10px] md:text-xs font-bold tracking-[0.2em] uppercase`}>{project.category}</span>
+            </Editable>
+          </div>
+          
+          <div className="w-full flex justify-start text-left">
+            <Editable path={`${path}.title`} className="block" isAdmin={isAdmin}>
+              <h3 className="text-xl md:text-2xl font-extrabold text-white leading-tight pr-4">{project.title}</h3>
+            </Editable>
+          </div>
+          
+          <div className="w-full flex justify-start text-left">
+            <Editable path={`${path}.description`} type="textarea" className="block w-full" isAdmin={isAdmin}>
+              <p className="text-slate-400 text-xs md:text-sm font-normal leading-relaxed pr-4 line-clamp-4">{project.description}</p>
+            </Editable>
+          </div>
+          
+          <div className="pt-2 w-full flex justify-start">
+            <Editable path={`${path}.techStack`} type="array" className="block w-full" isAdmin={isAdmin}>
+              <div className="flex flex-wrap gap-2 justify-start">
+                {project.techStack.filter(t => t.trim() !== "").slice(0, 8).map((tech, i) => (
+                  <span key={i} className="px-3 py-1 text-[10px] font-semibold text-slate-300 bg-white/5 border border-white/10 rounded-lg backdrop-blur-sm group-hover:bg-white/10 transition-colors uppercase tracking-wider">{tech}</span>
+                ))}
+              </div>
+            </Editable>
+          </div>
+        </div>
+
+        {/* Fixed bottom area - icons close together */}
+        <div className="flex items-center justify-start gap-6 shrink-0 pt-6 mt-auto border-t border-white/5 w-full">
+          <Editable path={`${path}.githubLink`} className="inline-block" isAdmin={isAdmin}>
+            <a href={project.githubLink} target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-white transition-colors cursor-pointer block"><Github className="w-5 h-5" /></a>
+          </Editable>
+          <Editable path={`${path}.liveLink`} className="inline-block" isAdmin={isAdmin}>
+            <a href={project.liveLink} target="_blank" rel="noopener noreferrer" className={`text-slate-400 ${accentColor === "fuchsia" ? "hover:text-fuchsia-400" : "hover:text-cyan-400"} transition-colors cursor-pointer block`}><ExternalLink className="w-5 h-5" /></a>
+          </Editable>
         </div>
       </div>
     </motion.div>
   );
 }
 
-export default function ProjectsClient({ data }: Props) {
+export default function ProjectsClient({ data: initialData }: Props) {
+  const { isAdmin } = useAdmin();
+  const { projects: storeData, updateField } = useCMSStore();
+
+  // Safe data merge
+  const data = React.useMemo(() => {
+    return storeData || initialData;
+  }, [storeData, initialData]);
+
   const scrollRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
 
-  const handleScroll = () => {
-    if (!scrollRef.current) return;
-    const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
-    const maxScroll = scrollWidth - clientWidth;
-    if (maxScroll > 0) setActiveIndex(Math.round((scrollLeft / maxScroll) * (data.items.length - 1)));
+
+  const addProject = async () => {
+    try {
+      const newProject: ProjectItem = {
+        id: `proj-${Date.now()}`,
+        title: "New Project Title",
+        category: "Project Category",
+        description: "Click here to edit the project description and details.",
+        techStack: ["Next.js", "React"],
+        githubLink: "https://github.com",
+        liveLink: "https://example.com",
+        imageUrl: "https://images.unsplash.com/photo-1555949963-aa79dcee981c?auto=format&fit=crop&w=1000&q=80",
+        featured: false // Default to false so it appears in the slider
+      };
+
+      const newItems = [...data.items, newProject];
+      // 1. Instant local update
+      updateField("projects", { items: newItems });
+
+      // 2. Background sync (no await)
+      updateCMSSection("projects", { items: newItems }).catch(err => console.error("Sync failed:", err));
+
+      // 3. Scroll to the far right to see the new project
+      setTimeout(() => {
+        if (scrollRef.current) {
+          scrollRef.current.scrollTo({
+            left: scrollRef.current.scrollWidth,
+            behavior: "smooth"
+          });
+        }
+      }, 100);
+    } catch (error) {
+      console.error("❌ Add project failed:", error);
+    }
+  };
+
+  const deleteProject = async (id: string) => {
+    if (!confirm("Delete this project?")) return;
+    const newItems = data.items.filter(p => p.id !== id);
+    // 1. Instant local update
+    updateField("projects", { items: newItems });
+    // 2. Background sync
+    updateCMSSection("projects", { items: newItems }).catch(err => console.error("Sync failed:", err));
+  };
+
+  const toggleFeatured = async (id: string) => {
+    const newItems = data.items.map(p => {
+      if (p.id === id) return { ...p, featured: !p.featured };
+      return { ...p, featured: false };
+    });
+
+    // 1. Instant local update
+    updateField("projects", { items: newItems });
+    // 2. Background sync
+    updateCMSSection("projects", { items: newItems }).catch(err => console.error("Sync failed:", err));
   };
 
   const featured = data.items.filter((p) => p.featured);
   const standard = data.items.filter((p) => !p.featured);
-  const totalDots = data.items.length;
+
+  const handleScroll = () => {
+    if (!scrollRef.current) return;
+    const { scrollLeft, offsetWidth } = scrollRef.current;
+    // Each card is roughly 50% of offsetWidth. 
+    // Gap is 24px (gap-6). Card width + gap = offsetWidth / 2 + 12px? 
+    // Let's use a simpler approach: 
+    const cardWidthWithGap = (offsetWidth + 24) / 2;
+    const index = Math.round(scrollLeft / cardWidthWithGap);
+    setActiveIndex(index);
+  };
+
+  const scrollToIndex = (index: number) => {
+    if (!scrollRef.current) return;
+    const { offsetWidth } = scrollRef.current;
+    const cardWidthWithGap = (offsetWidth + 24) / 2;
+    scrollRef.current.scrollTo({
+      left: index * cardWidthWithGap,
+      behavior: "smooth"
+    });
+  };
 
   return (
-    <section id="projects" className="relative w-full py-12 md:py-24 z-10 border-t border-white/5 bg-[#0f0a1a]/40">
+    <section id="projects" className="relative w-full py-12 md:py-24 z-10 border-t border-white/5 bg-[#0f0a1a]/40 overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 relative z-10">
-        <div className="mb-6 md:mb-10">
-          <h3 className="text-white text-xl md:text-2xl font-bold border-l-4 border-[#d946ef] pl-4">Projects</h3>
+        <div className="mb-6 md:mb-10 flex justify-between items-end">
+          <h3 className="text-white text-xl md:text-2xl font-bold border-l-4 border-cyan-500 pl-4 uppercase tracking-widest">Projects</h3>
+          {isAdmin && (
+            <button
+              onClick={addProject}
+              className="flex items-center gap-2 px-4 py-2 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-white text-sm font-semibold transition-all shadow-lg shadow-cyan-500/20 active:scale-95"
+            >
+              <Plus size={18} />
+              Add Project
+            </button>
+          )}
         </div>
 
-        <motion.div
-          ref={scrollRef as React.RefObject<HTMLDivElement>}
-          onScroll={handleScroll}
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, margin: "100px" }}
-          className="flex touch-pan-x md:touch-auto overflow-x-auto md:grid md:grid-cols-2 gap-5 md:gap-10 pb-4 pt-2 -mx-6 px-6 md:mx-0 md:px-0 md:pb-0 md:pt-0 snap-x snap-mandatory [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
-        >
-          {featured.map((p) => <FeaturedCard key={p.id} project={p} />)}
-          {standard.map((p, i) => (
-            <StandardCard key={p.id} project={p} accentColor={i % 2 === 0 ? "fuchsia" : "cyan"} />
-          ))}
-        </motion.div>
-
-        {/* Mobile dots */}
-        <div className="flex justify-center gap-2 mt-4 md:mt-8 md:hidden">
-          {Array.from({ length: totalDots }).map((_, index) => (
-            <div
-              key={index}
-              className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                activeIndex === index
-                  ? "bg-cyan-400 w-4 shadow-[0_0_8px_rgba(34,211,238,0.8)]"
-                  : "bg-white/20"
-              }`}
-            />
-          ))}
+        {/* 1. Featured Project(s) at the Top - Static */}
+        <div className="space-y-10 mb-12">
+          {featured.map((p) => {
+            const originalIdx = data.items.findIndex(item => item.id === p.id);
+            return (
+              <FeaturedCard
+                key={p.id}
+                project={p}
+                path={`projects.items.${originalIdx}`}
+                isAdmin={isAdmin}
+                onDelete={() => deleteProject(p.id)}
+                onToggleFeatured={() => toggleFeatured(p.id)}
+              />
+            );
+          })}
         </div>
+
+        {/* 2. Standard Projects - Slidable Slider */}
+        {standard.length > 0 && (
+          <div className="relative">
+            <motion.div
+              ref={scrollRef as React.RefObject<HTMLDivElement>}
+              onScroll={handleScroll}
+              variants={containerVariants}
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true, margin: "100px" }}
+              className="flex gap-6 pb-8 pt-2 overflow-x-auto snap-x snap-mandatory [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden scroll-smooth scroll-px-0"
+            >
+              {standard.map((p, i) => {
+                const originalIdx = data.items.findIndex(item => item.id === p.id);
+                return (
+                  <div key={p.id} className="w-[calc(50%-12px)] flex-shrink-0 snap-start snap-always">
+                    <StandardCard
+                      project={p}
+                      path={`projects.items.${originalIdx}`}
+                      isAdmin={isAdmin}
+                      onDelete={() => deleteProject(p.id)}
+                      onToggleFeatured={() => toggleFeatured(p.id)}
+                      accentColor="cyan"
+                    />
+                  </div>
+                );
+              })}
+            </motion.div>
+
+            {/* Pagination dots for standard slider - clickable and accurate */}
+            {standard.length > 2 && (
+              <div className="flex justify-center gap-3 mt-4">
+                {Array.from({ length: standard.length - 1 }).map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => scrollToIndex(index)}
+                    className={`h-2 rounded-full transition-all duration-500 cursor-pointer ${
+                      activeIndex === index
+                        ? "bg-cyan-400 w-10 shadow-[0_0_15px_rgba(34,211,238,0.8)]"
+                        : "bg-white/10 w-2 hover:bg-white/30"
+                    }`}
+                    aria-label={`Go to slide ${index + 1}`}
+                  />
+                ))}
+              </div>
+            )}
+          </div>
+        )}
       </div>
     </section>
   );
