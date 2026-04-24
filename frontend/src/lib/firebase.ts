@@ -1,5 +1,7 @@
 import { initializeApp, getApps, getApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
+import { getStorage } from "firebase/storage";
+import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
     apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY ?? "",
@@ -12,11 +14,25 @@ const firebaseConfig = {
 
 const hasFirebaseConfig = Object.values(firebaseConfig).every((value) => value.length > 0);
 
-// Client-only lazy init to avoid build-time Firebase evaluation during prerender.
-export const getFirebaseAuth = () => {
+// Helper to get or initialize the app
+const getFirebaseApp = () => {
     if (typeof window === "undefined") return null;
     if (!hasFirebaseConfig) return null;
+    return !getApps().length ? initializeApp(firebaseConfig) : getApp();
+};
 
-    const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
-    return getAuth(app);
+// Client-only lazy init to avoid build-time Firebase evaluation during prerender.
+export const getFirebaseAuth = () => {
+    const app = getFirebaseApp();
+    return app ? getAuth(app) : null;
+};
+
+export const getFirebaseStorage = () => {
+    const app = getFirebaseApp();
+    return app ? getStorage(app) : null;
+};
+
+export const getFirebaseFirestore = () => {
+    const app = getFirebaseApp();
+    return app ? getFirestore(app) : null;
 };

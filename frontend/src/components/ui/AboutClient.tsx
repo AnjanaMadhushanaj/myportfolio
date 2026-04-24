@@ -6,6 +6,7 @@ import {
   Terminal, Layers, Award, GraduationCap, FileBadge,
 } from "lucide-react";
 import { useCMSStore } from "@/store/useCMSStore";
+import { useAdmin } from "@/context/AuthContext";
 import Editable from "@/components/ui/Editable";
 import type { AboutData } from "@/types/cms";
 
@@ -14,6 +15,7 @@ interface Props {
 }
 
 export default function AboutClient({ data: initialData }: Props) {
+  const { isAdmin } = useAdmin();
   const storeData = useCMSStore((state) => state.about);
   const data = storeData || initialData;
   const [time, setTime] = useState("");
@@ -74,14 +76,19 @@ export default function AboutClient({ data: initialData }: Props) {
             <div className="relative z-10 mt-auto flex justify-start gap-4">
               <a
                 href={data.resumeLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                download="Anjana_Madhushana_Resume.pdf"
                 className="inline-flex items-center gap-3 px-6 py-3 rounded-xl bg-[#d946ef] text-white font-semibold transition-all duration-300 hover:scale-105 hover:bg-[#e85bff] shadow-[0_0_20px_rgba(217,70,239,0.4)] hover:shadow-[0_0_30px_rgba(217,70,239,0.6)] text-sm group/btn"
               >
                 <Download className="w-4 h-4 text-white group-hover/btn:-translate-y-1 transition-transform" />
                 Resume / Download
               </a>
-              <Editable path="about.resumeLink">
-                <span className="text-[10px] text-slate-500 mt-2 block">Edit link</span>
-              </Editable>
+              {isAdmin && (
+                <Editable path="about.resumeLink" type="file" accept=".pdf">
+                  <span className="text-[10px] text-slate-500 mt-2 block cursor-pointer">Update Resume (PDF)</span>
+                </Editable>
+              )}
             </div>
           </div>
 
