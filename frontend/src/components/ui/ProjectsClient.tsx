@@ -5,7 +5,7 @@
  * Fully integrated with CMS Store for inline editing.
  */
 
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Github, ExternalLink, Plus, Trash2, Star, Image as ImageIcon } from "lucide-react";
 import type { ProjectsData, ProjectItem } from "@/types/cms";
@@ -31,7 +31,7 @@ interface CardProps {
 
 function FeaturedCard({ project, path, isAdmin, onDelete, onToggleFeatured }: CardProps) {
   return (
-    <motion.div variants={itemVariants} className="w-[85vw] sm:w-100 md:max-w-none md:w-full md:col-span-2 shrink-0 snap-center relative group/card">
+    <motion.div variants={itemVariants} className="w-full shrink-0 snap-center relative group/card">
       {isAdmin && (
         <div className="absolute top-4 right-4 flex gap-2 z-50">
           <button onClick={onToggleFeatured} className="p-2 bg-yellow-500/20 text-yellow-400 hover:bg-yellow-500/40 rounded-xl transition-all" title="Featured Project">
@@ -194,6 +194,14 @@ export default function ProjectsClient({ data: initialData }: Props) {
 
   const scrollRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
 
   const addProject = async () => {
@@ -257,19 +265,23 @@ export default function ProjectsClient({ data: initialData }: Props) {
 
   const handleScroll = () => {
     if (!scrollRef.current) return;
-    const { scrollLeft, offsetWidth } = scrollRef.current;
-    // Each card is roughly 50% of offsetWidth. 
-    // Gap is 24px (gap-6). Card width + gap = offsetWidth / 2 + 12px? 
-    // Let's use a simpler approach: 
-    const cardWidthWithGap = (offsetWidth + 24) / 2;
+    const { scrollLeft } = scrollRef.current;
+    
+    // Get actual width of a card (including gap)
+    const firstCard = scrollRef.current.firstElementChild as HTMLElement;
+    if (!firstCard) return;
+    
+    const cardWidthWithGap = firstCard.offsetWidth + 24; // 24px is gap-6
     const index = Math.round(scrollLeft / cardWidthWithGap);
     setActiveIndex(index);
   };
 
   const scrollToIndex = (index: number) => {
     if (!scrollRef.current) return;
-    const { offsetWidth } = scrollRef.current;
-    const cardWidthWithGap = (offsetWidth + 24) / 2;
+    const firstCard = scrollRef.current.firstElementChild as HTMLElement;
+    if (!firstCard) return;
+    
+    const cardWidthWithGap = firstCard.offsetWidth + 24;
     scrollRef.current.scrollTo({
       left: index * cardWidthWithGap,
       behavior: "smooth"
@@ -292,25 +304,27 @@ export default function ProjectsClient({ data: initialData }: Props) {
           )}
         </div>
 
-        {/* 1. Featured Project(s) at the Top - Static */}
-        <div className="space-y-10 mb-12">
-          {featured.map((p) => {
-            const originalIdx = data.items.findIndex(item => item.id === p.id);
-            return (
-              <FeaturedCard
-                key={p.id}
-                project={p}
-                path={`projects.items.${originalIdx}`}
-                isAdmin={isAdmin}
-                onDelete={() => deleteProject(p.id)}
-                onToggleFeatured={() => toggleFeatured(p.id)}
-              />
-            );
-          })}
-        </div>
+        {/* 1. Featured Project(s) at the Top - Static (Desktop Only) */}
+        {!isMobile && featured.length > 0 && (
+          <div className="space-y-10 mb-12">
+            {featured.map((p) => {
+              const originalIdx = data.items.findIndex(item => item.id === p.id);
+              return (
+                <FeaturedCard
+                  key={p.id}
+                  project={p}
+                  path={`projects.items.${originalIdx}`}
+                  isAdmin={isAdmin}
+                  onDelete={() => deleteProject(p.id)}
+                  onToggleFeatured={() => toggleFeatured(p.id)}
+                />
+              );
+            })}
+          </div>
+        )}
 
-        {/* 2. Standard Projects - Slidable Slider */}
-        {standard.length > 0 && (
+        {/* 2. Projects Slider */}
+        {(isMobile ? data.items : standard).length > 0 && (
           <div className="relative">
             <motion.div
               ref={scrollRef as React.RefObject<HTMLDivElement>}
@@ -319,40 +333,54 @@ export default function ProjectsClient({ data: initialData }: Props) {
               initial="hidden"
               whileInView="show"
               viewport={{ once: true, margin: "100px" }}
-              className="flex gap-6 pb-8 pt-2 overflow-x-auto snap-x snap-mandatory [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden scroll-smooth scroll-px-0"
+              className="flex gap-6 pb-8 pt-2 overflow-x-auto snap-x snap-mandatory [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden scroll-smooth"
             >
-              {standard.map((p, i) => {
+              {(isMobile ? data.items : standard).map((p, i) => {
                 const originalIdx = data.items.findIndex(item => item.id === p.id);
+                const accentColor = i % 2 === 0 ? "cyan" : "fuchsia";
+                
                 return (
-                  <div key={p.id} className="w-[calc(50%-12px)] flex-shrink-0 snap-start snap-always">
-                    <StandardCard
-                      project={p}
-                      path={`projects.items.${originalIdx}`}
-                      isAdmin={isAdmin}
-                      onDelete={() => deleteProject(p.id)}
-                      onToggleFeatured={() => toggleFeatured(p.id)}
-                      accentColor="cyan"
-                    />
+                  <div key={p.id} className="w-[85vw] md:w-[calc(50%-12px)] flex-shrink-0 snap-center md:snap-start snap-always">
+                    {isMobile && p.featured ? (
+                      <FeaturedCard
+                        project={p}
+                        path={`projects.items.${originalIdx}`}
+                        isAdmin={isAdmin}
+                        onDelete={() => deleteProject(p.id)}
+                        onToggleFeatured={() => toggleFeatured(p.id)}
+                      />
+                    ) : (
+                      <StandardCard
+                        project={p}
+                        path={`projects.items.${originalIdx}`}
+                        isAdmin={isAdmin}
+                        onDelete={() => deleteProject(p.id)}
+                        onToggleFeatured={() => toggleFeatured(p.id)}
+                        accentColor={accentColor}
+                      />
+                    )}
                   </div>
                 );
               })}
             </motion.div>
 
-            {/* Pagination dots for standard slider - clickable and accurate */}
-            {standard.length > 2 && (
-              <div className="flex justify-center gap-3 mt-4">
-                {Array.from({ length: standard.length - 1 }).map((_, index) => (
-                  <button
-                    key={index}
-                    onClick={() => scrollToIndex(index)}
-                    className={`h-2 rounded-full transition-all duration-500 cursor-pointer ${
-                      activeIndex === index
-                        ? "bg-cyan-400 w-10 shadow-[0_0_15px_rgba(34,211,238,0.8)]"
-                        : "bg-white/10 w-2 hover:bg-white/30"
-                    }`}
-                    aria-label={`Go to slide ${index + 1}`}
-                  />
-                ))}
+            {/* Pagination dots for slider - clickable and accurate */}
+            {(isMobile ? data.items : standard).length > (isMobile ? 1 : 2) && (
+              <div className="flex justify-center items-center gap-4 mt-6">
+                <div className="flex gap-2.5">
+                  {Array.from({ length: isMobile ? data.items.length : standard.length - 1 }).map((_, index) => (
+                    <button
+                      key={index}
+                      onClick={() => scrollToIndex(index)}
+                      className={`h-1.5 rounded-full transition-all duration-500 cursor-pointer ${
+                        activeIndex === index
+                          ? "bg-cyan-400 w-8 shadow-[0_0_10px_rgba(34,211,238,0.6)]"
+                          : "bg-white/10 w-1.5 hover:bg-white/30"
+                      }`}
+                      aria-label={`Go to slide ${index + 1}`}
+                    />
+                  ))}
+                </div>
               </div>
             )}
           </div>
