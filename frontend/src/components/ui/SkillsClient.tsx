@@ -14,6 +14,9 @@ import { useCMSStore } from "@/store/useCMSStore";
 import { useAdmin } from "@/context/AuthContext";
 import Editable from "@/components/ui/Editable";
 import { updateCMSSection } from "@/app/actions/cms";
+import { triggerRevalidate } from "@/app/actions/revalidate";
+import { doc, setDoc } from "firebase/firestore";
+import { getFirebaseFirestore } from "@/lib/firebase";
 
 interface Props {
   data: SkillsData;
@@ -134,7 +137,7 @@ export default function SkillsClient({ data: initialData }: Props) {
       const newCategories = [...currentCategories, newCategory];
       
       // 1. Update Local Store (Instant UI change)
-      updateField("skills", { categories: newCategories });
+      updateField("skills.categories", newCategories);
       
       console.log("✅ Store updated locally. New count:", newCategories.length);
 
@@ -150,7 +153,9 @@ export default function SkillsClient({ data: initialData }: Props) {
       }, 150);
 
       // 3. Sync with Backend
-      await updateCMSSection("skills", { categories: newCategories });
+      const db = getFirebaseFirestore();
+      if (db) await setDoc(doc(db, "portfolio", "skills"), { categories: newCategories }, { merge: true });
+      triggerRevalidate("/").catch(e => console.error(e));
       console.log("☁️ Backend sync completed.");
     } catch (error) {
       console.error("❌ Failed to add category:", error);
@@ -162,7 +167,9 @@ export default function SkillsClient({ data: initialData }: Props) {
     if (!confirm("Delete this entire skill category?")) return;
     const newCategories = data.categories.filter(c => c.id !== id);
     updateField("skills.categories", newCategories);
-    await updateCMSSection("skills", { categories: newCategories });
+    const db = getFirebaseFirestore();
+    if (db) await setDoc(doc(db, "portfolio", "skills"), { categories: newCategories }, { merge: true });
+    triggerRevalidate("/").catch(e => console.error(e));
   };
 
   const addSkillToCategory = async (catIndex: number) => {
@@ -172,33 +179,45 @@ export default function SkillsClient({ data: initialData }: Props) {
       icon: "https://cdn.simpleicons.org/react/61DAFB",
     };
     const newCategories = [...data.categories];
-    newCategories[catIndex].items = [...newCategories[catIndex].items, newSkill];
+    newCategories[catIndex] = {
+      ...newCategories[catIndex],
+      items: [...newCategories[catIndex].items, newSkill]
+    };
     
     updateField("skills.categories", newCategories);
-    await updateCMSSection("skills", { categories: newCategories });
+    const db = getFirebaseFirestore();
+    if (db) await setDoc(doc(db, "portfolio", "skills"), { categories: newCategories }, { merge: true });
+    triggerRevalidate("/").catch(e => console.error(e));
   };
 
   const deleteSkillFromCategory = async (catIndex: number, skillIndex: number) => {
     const newCategories = [...data.categories];
-    newCategories[catIndex].items = newCategories[catIndex].items.filter((_, i) => i !== skillIndex);
+    newCategories[catIndex] = {
+      ...newCategories[catIndex],
+      items: newCategories[catIndex].items.filter((_, i) => i !== skillIndex)
+    };
     
     updateField("skills.categories", newCategories);
-    await updateCMSSection("skills", { categories: newCategories });
+    const db = getFirebaseFirestore();
+    if (db) await setDoc(doc(db, "portfolio", "skills"), { categories: newCategories }, { merge: true });
+    triggerRevalidate("/").catch(e => console.error(e));
   };
 
   return (
-    <section id="skills" className="relative w-full pt-2 pb-8 md:pt-4 md:pb-16 z-10 overflow-hidden">
+    <section id="skills" className="relative w-full pt-12 pb-32 md:py-16 z-10 overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         <div className="mb-6 md:mb-10 flex justify-between items-end">
           <h3 className="text-white text-xl md:text-2xl font-bold border-l-4 border-[#d946ef] pl-4">Skills</h3>
           {isAdmin && (
-            <button 
-              onClick={addCategory}
-              className="flex items-center gap-2 px-4 py-2 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-white text-sm font-semibold transition-all shadow-lg shadow-cyan-500/20 active:scale-95"
-            >
-              <Plus size={18} />
-              Add Skill Card
-            </button>
+            <div className="flex gap-2">
+              <button 
+                onClick={addCategory}
+                className="flex items-center gap-2 px-4 py-2 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-white text-sm font-semibold transition-all shadow-lg shadow-cyan-500/20 active:scale-95"
+              >
+                <Plus size={18} />
+                Add Skill Card
+              </button>
+            </div>
           )}
         </div>
 
@@ -210,7 +229,7 @@ export default function SkillsClient({ data: initialData }: Props) {
           whileInView="show"
           viewport={{ once: true, margin: "100px" }}
           style={{ gridAutoColumns: 'calc(50% - 16px)' }}
-          className="flex overflow-x-auto md:grid md:grid-rows-2 md:grid-flow-col gap-5 md:gap-8 pb-8 pt-4 -mx-6 px-6 md:mx-0 md:px-0 snap-x snap-mandatory scroll-pl-6 md:scroll-pl-0 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+          className="flex overflow-x-auto md:grid md:grid-rows-2 md:grid-flow-col gap-5 md:gap-8 pb-8 pt-4 -mx-6 px-6 md:mx-0 md:px-0 snap-x snap-mandatory [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
         >
           {data.categories && data.categories.map((cat, catIndex) => (
             <motion.div

@@ -74,7 +74,7 @@ async function fetchDoc<T>(docPath: string, fallback: T): Promise<T> {
 
 // ─── Section Defaults (identical to what was previously hardcoded in components) ──
 
-const DEFAULT_HERO: HeroData = {
+export const DEFAULT_HERO: HeroData = {
   greeting: "Hello I'm",
   name: "Anjana Madhushan",
   title: "Fullstack Developer",
@@ -83,7 +83,7 @@ const DEFAULT_HERO: HeroData = {
   hireLink: "#contact",
   worksLink: "#projects",
   experienceYears: "1+",
-  profileImageUrl: "/pro1.png",
+  profileImageUrl: "/pro1_updated.png",
   githubUrl: "https://github.com/",
   linkedinUrl: "#",
   facebookUrl: "#",
@@ -91,7 +91,7 @@ const DEFAULT_HERO: HeroData = {
   emailUrl: "mailto:example@gmail.com",
 };
 
-const DEFAULT_ABOUT: AboutData = {
+export const DEFAULT_ABOUT: AboutData = {
   headline: "Hi! I am Anjana Madhushan",
   subline: "Full-Stack Developer | DevOps Engineer | MLOps Enthusiast",
   bio: "A 3rd-year university student transitioning from building scalable user experiences as a Full-Stack Developer to designing high-performance computational systems. My current drive lies in automating robust CI/CD pipelines, architecting resilient cloud infrastructure, and integrating MLOps workflows to support AI-driven outcomes.",
@@ -107,7 +107,7 @@ const DEFAULT_ABOUT: AboutData = {
   resumeLink: "#resume",
 };
 
-const DEFAULT_SERVICES: ServicesData = {
+export const DEFAULT_SERVICES: ServicesData = {
   items: [
     { id: "web", title: "Web Development", description: "Building responsive and performant web applications using modern frameworks like React and Next.js.", color: "from-cyan-500 to-blue-500", iconName: "Globe" },
     { id: "design", title: "UI/UX Design", description: "Crafting premium, glassmorphic interfaces that provide an exceptional user experience.", color: "from-fuchsia-500 to-purple-500", iconName: "Palette" },
@@ -116,7 +116,7 @@ const DEFAULT_SERVICES: ServicesData = {
   ],
 };
 
-const DEFAULT_SKILLS: SkillsData = {
+export const DEFAULT_SKILLS: SkillsData = {
   categories: [
     {
       id: "languages",
@@ -125,6 +125,9 @@ const DEFAULT_SKILLS: SkillsData = {
         { name: "JavaScript", proficiency: 90, icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/javascript/javascript-original.svg" },
         { name: "TypeScript",  proficiency: 85, icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/typescript/typescript-original.svg" },
         { name: "Python",      proficiency: 75, icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg" },
+        { name: "Java",        proficiency: 70, icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/java/java-original.svg" },
+        { name: "C#",          proficiency: 70, icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/csharp/csharp-original.svg" },
+        { name: "C++",         proficiency: 65, icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/cplusplus/cplusplus-original.svg" },
       ]
     },
     {
@@ -133,12 +136,37 @@ const DEFAULT_SKILLS: SkillsData = {
       items: [
         { name: "React",       proficiency: 90, icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/react/react-original.svg" },
         { name: "Next.js",     proficiency: 85, icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nextjs/nextjs-original.svg" },
+        { name: "Tailwind CSS",proficiency: 90, icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tailwindcss/tailwindcss-original.svg" },
+        { name: "HTML5",       proficiency: 95, icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/html5/html5-original.svg" },
+        { name: "CSS3",        proficiency: 90, icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/css3/css3-original.svg" },
+        { name: "Bootstrap",   proficiency: 85, icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/bootstrap/bootstrap-original.svg" },
+      ]
+    },
+    {
+      id: "backend",
+      label: "Backend & Databases",
+      items: [
+        { name: "Node.js",     proficiency: 85, icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nodejs/nodejs-original.svg" },
+        { name: "PHP",         proficiency: 75, icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/php/php-original.svg" },
+        { name: "MySQL",       proficiency: 80, icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/mysql/mysql-original.svg" },
+        { name: "C",           proficiency: 60, icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/c/c-original.svg" },
+      ]
+    },
+    {
+      id: "tools",
+      label: "Tools & DevOps",
+      items: [
+        { name: "Docker",      proficiency: 75, icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/docker/docker-original.svg" },
+        { name: "Git",         proficiency: 85, icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/git/git-original.svg" },
+        { name: "Linux",       proficiency: 75, icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/linux/linux-original.svg" },
+        { name: "Figma",       proficiency: 70, icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/figma/figma-original.svg" },
+        { name: "Postman",     proficiency: 80, icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/postman/postman-original.svg" },
       ]
     }
   ]
 };
 
-const DEFAULT_PROJECTS: ProjectsData = {
+export const DEFAULT_PROJECTS: ProjectsData = {
   items: [
     {
       id: "cicd",

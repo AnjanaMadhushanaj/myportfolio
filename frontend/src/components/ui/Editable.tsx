@@ -83,12 +83,26 @@ export default function Editable({
     setIsSaving(true);
     try {
       const storageRef = ref(storage, `portfolio/${sectionKey}/${Date.now()}-${file.name}`);
-      const snapshot = await uploadBytes(storageRef, file);
+      const metadata = file.type === 'application/pdf' 
+        ? { contentDisposition: `attachment; filename="${file.name}"` } 
+        : undefined;
+      
+      // Force a timeout after 15 seconds so the UI doesn't hang forever
+      const uploadPromise = uploadBytes(storageRef, file, metadata);
+      const timeoutPromise = new Promise((_, reject) => {
+        setTimeout(() => reject(new Error("TIMEOUT")), 15000);
+      });
+      
+      const snapshot = await Promise.race([uploadPromise, timeoutPromise]) as any;
       const downloadURL = await getDownloadURL(snapshot.ref);
       setValue(downloadURL);
-    } catch (error) {
+    } catch (error: any) {
       console.error("Upload failed:", error);
-      alert("Upload failed. Please try again.");
+      if (error.message === "TIMEOUT") {
+        alert("Upload timed out! Please check your Firebase Storage Rules and make sure they allow authenticated uploads, or check your internet connection.");
+      } else {
+        alert("Upload failed: " + (error.message || "Please check console and Firebase Storage Rules."));
+      }
     } finally {
       setIsSaving(false);
     }
@@ -134,13 +148,13 @@ export default function Editable({
       // 1. Direct Client-side write to Firestore
       await setDoc(docRef, payload, { merge: true });
       
-      // 2. If it was a simple update, sync the store now (if Case 2, it's already done)
+      // 2. If it was a simple update, sync the store now
       if (keys.length === 2) {
         updateField(path, value);
       }
       
-      // 3. Revalidate the server-rendered page
-      await triggerRevalidate("/");
+      // 3. Revalidate the server-rendered page in the background to not block UI
+      triggerRevalidate("/").catch(err => console.error("Revalidation failed:", err));
       
       setIsEditing(false); // Close UI on success
     } catch (error: any) {
@@ -214,7 +228,9 @@ export default function Editable({
                       {isSaving ? <Loader2 size={24} className="animate-spin" /> : <Upload size={24} />}
                     </div>
                     <div className="text-center">
-                      <p className="text-white text-sm font-semibold">Click to upload {type === 'image' ? 'image' : 'file'}</p>
+                      <p className="text-white text-sm font-semibold">
+                        {isSaving ? "Uploading..." : `Click to upload ${type === 'image' ? 'image' : 'file'}`}
+                      </p>
                       <p className="text-slate-400 text-[10px] mt-1">{value ? "Currently: " + value.split('/').pop()?.split('?')[0] : "No file uploaded"}</p>
                     </div>
                   </div>
