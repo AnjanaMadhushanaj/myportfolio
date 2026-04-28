@@ -53,7 +53,7 @@ export default function TechStack() {
   const desktopRow2 = [...techRow2, techRow3[4], techRow3[5], techRow3[6], techRow3[7]]; // 11 items
 
   return (
-    <section className="py-12 relative w-full overflow-hidden border-y border-white/5 bg-[#0e0a1a]/50">
+    <section className="py-8 md:py-12 relative w-full overflow-hidden border-y border-white/5 bg-[#0e0a1a]/50">
       <div className="max-w-7xl mx-auto px-6 mb-8">
         <h3 className="text-white text-xl md:text-2xl font-bold border-l-4 border-[#d946ef] pl-4">Languages & Tools</h3>
       </div>

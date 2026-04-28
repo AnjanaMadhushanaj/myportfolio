@@ -39,7 +39,7 @@ export default function HeroClient({ data: initialData }: Props) {
       {/* Main Hero Section */}
       <section
         id="home"
-        className="relative w-full min-h-screen flex items-center pt-16 md:pt-40 pb-24 md:pb-20 overflow-hidden"
+        className="relative w-full min-h-screen flex items-center pt-16 md:pt-40 pb-8 md:pb-16 overflow-hidden"
       >
         <div className="max-w-7xl mx-auto px-6 relative z-10 w-full grid md:grid-cols-2 gap-10 md:gap-12 items-center">
 

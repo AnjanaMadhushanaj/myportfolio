@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { 
   Globe, Palette, Terminal, Database, Plus, Trash2, Settings,
   ChevronLeft, ChevronRight,
@@ -31,6 +31,12 @@ export default function ServicesClient({ data: initialData }: Props) {
   
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
+
+  useEffect(() => {
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollLeft = 0;
+    }
+  }, []);
 
   const handleScroll = () => {
     if (!scrollContainerRef.current) return;
@@ -75,7 +81,7 @@ export default function ServicesClient({ data: initialData }: Props) {
   };
 
   return (
-    <section id="services" className="pt-12 pb-32 md:py-24 relative z-10 w-full overflow-hidden">
+    <section id="services" className="pt-12 pb-2 md:pt-20 md:pb-4 relative z-10 w-full overflow-hidden">
       <div className="max-w-7xl mx-auto px-6">
         <div className="mb-6 md:mb-12 flex justify-between items-end">
           <div>
@@ -96,7 +102,7 @@ export default function ServicesClient({ data: initialData }: Props) {
           ref={scrollContainerRef}
           onScroll={handleScroll}
           style={{ gridAutoColumns: 'calc(50% - 16px)' }}
-          className="flex overflow-x-auto md:grid md:grid-rows-2 md:grid-flow-col gap-5 md:gap-8 pb-8 -mx-6 px-6 md:mx-0 md:px-0 snap-x snap-mandatory [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+          className="flex overflow-x-auto md:grid md:grid-rows-2 md:grid-flow-col gap-5 md:gap-8 pb-8 -mx-6 px-6 md:mx-0 md:px-0 snap-x snap-mandatory scroll-pl-6 md:scroll-pl-0 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
         >
           {data.items.map((service, i) => {
             const Icon = ICON_MAP[service.iconName] ?? Globe;
