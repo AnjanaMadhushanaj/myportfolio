@@ -31,7 +31,7 @@ export default function AboutClient({ data: initialData }: Props) {
   const headlineRest = rest.join(" ");
 
   return (
-    <section id="about" className="relative w-full py-12 md:py-16 overflow-hidden z-10">
+    <section id="about" className="relative w-full pt-8 pb-12 md:py-16 overflow-hidden z-10">
       {/* Background blobs */}
       <div className="absolute top-1/4 left-1/4 w-96 h-96 md:w-125 md:h-125 bg-cyan-500/5 rounded-full blur-[120px] -translate-x-1/2 -translate-y-1/2 pointer-events-none mix-blend-screen" />
       <div className="absolute bottom-1/4 right-1/4 w-80 h-80 md:w-100 md:h-100 bg-fuchsia-500/5 rounded-full blur-[120px] translate-x-1/4 translate-y-1/3 pointer-events-none mix-blend-screen" />

@@ -24,6 +24,13 @@ export default function CMSHydrator({ hero, about, services, skills, projects }:
   const setProjects = useCMSStore((s) => s.setProjects);
 
   useEffect(() => {
+    if (typeof window !== "undefined") {
+      if ("scrollRestoration" in history) {
+        history.scrollRestoration = "manual";
+      }
+      window.scrollTo(0, 0);
+    }
+
     if (hero) setHero(hero);
     if (about) setAbout(about);
     if (services) setServices(services);

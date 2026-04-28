@@ -5,7 +5,7 @@
  * Dynamic Category Cards with Horizontal Sliding.
  */
 
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Plus, Trash2, Globe, Terminal, Code } from "lucide-react";
 import Image from "next/image";
@@ -102,6 +102,12 @@ export default function SkillsClient({ data: initialData }: Props) {
   const [activeIndex, setActiveIndex] = useState(0);
   const scrollRef = useRef<HTMLDivElement>(null);
 
+  useEffect(() => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollLeft = 0;
+    }
+  }, []);
+
   const handleScroll = () => {
     if (!scrollRef.current) return;
     const container = scrollRef.current;
@@ -181,7 +187,7 @@ export default function SkillsClient({ data: initialData }: Props) {
   };
 
   return (
-    <section id="skills" className="relative w-full pt-12 pb-32 md:py-16 z-10 overflow-hidden">
+    <section id="skills" className="relative w-full pt-2 pb-8 md:pt-4 md:pb-16 z-10 overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         <div className="mb-6 md:mb-10 flex justify-between items-end">
           <h3 className="text-white text-xl md:text-2xl font-bold border-l-4 border-[#d946ef] pl-4">Skills</h3>
@@ -204,7 +210,7 @@ export default function SkillsClient({ data: initialData }: Props) {
           whileInView="show"
           viewport={{ once: true, margin: "100px" }}
           style={{ gridAutoColumns: 'calc(50% - 16px)' }}
-          className="flex overflow-x-auto md:grid md:grid-rows-2 md:grid-flow-col gap-5 md:gap-8 pb-8 pt-4 -mx-6 px-6 md:mx-0 md:px-0 snap-x snap-mandatory [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+          className="flex overflow-x-auto md:grid md:grid-rows-2 md:grid-flow-col gap-5 md:gap-8 pb-8 pt-4 -mx-6 px-6 md:mx-0 md:px-0 snap-x snap-mandatory scroll-pl-6 md:scroll-pl-0 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
         >
           {data.categories && data.categories.map((cat, catIndex) => (
             <motion.div

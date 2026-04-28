@@ -63,7 +63,7 @@ export default async function Home() {
       <div className="relative z-10 w-full">
         <Navbar />
         
-        <div className="pb-24">
+        <div className="pb-4 md:pb-8">
           <Hero />
           <TechStack />
           <About />

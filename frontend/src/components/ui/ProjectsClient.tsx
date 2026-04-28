@@ -200,6 +200,12 @@ export default function ProjectsClient({ data: initialData }: Props) {
     const checkMobile = () => setIsMobile(window.innerWidth < 768);
     checkMobile();
     window.addEventListener("resize", checkMobile);
+    
+    // Reset horizontal scroll on load
+    if (scrollRef.current) {
+      scrollRef.current.scrollLeft = 0;
+    }
+    
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
@@ -289,7 +295,7 @@ export default function ProjectsClient({ data: initialData }: Props) {
   };
 
   return (
-    <section id="projects" className="relative w-full py-12 md:py-24 z-10 border-t border-white/5 bg-[#0f0a1a]/40 overflow-hidden">
+    <section id="projects" className="relative w-full pt-8 pb-4 md:pt-20 md:pb-8 z-10 border-t border-white/5 bg-[#0f0a1a]/40 overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         <div className="mb-6 md:mb-10 flex justify-between items-end">
           <h3 className="text-white text-xl md:text-2xl font-bold border-l-4 border-cyan-500 pl-4 uppercase tracking-widest">Projects</h3>
@@ -333,7 +339,7 @@ export default function ProjectsClient({ data: initialData }: Props) {
               initial="hidden"
               whileInView="show"
               viewport={{ once: true, margin: "100px" }}
-              className="flex gap-6 pb-8 pt-2 overflow-x-auto snap-x snap-mandatory [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden scroll-smooth"
+              className="flex gap-6 pb-8 pt-2 -mx-6 px-6 md:mx-0 md:px-0 overflow-x-auto snap-x snap-mandatory scroll-pl-6 md:scroll-pl-0 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden scroll-smooth"
             >
               {(isMobile ? data.items : standard).map((p, i) => {
                 const originalIdx = data.items.findIndex(item => item.id === p.id);
