@@ -2,6 +2,7 @@ import * as dotenv from 'dotenv';
 dotenv.config({ path: '.env.local' });
 import { initializeApp, getApps, getApp } from "firebase/app";
 import { getFirestore, doc, setDoc } from "firebase/firestore";
+import { DEFAULT_SKILLS } from "../src/lib/firestore.server";
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -15,37 +16,14 @@ const firebaseConfig = {
 const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
 const db = getFirestore(app);
 
-import {
-  DEFAULT_HERO,
-  DEFAULT_ABOUT,
-  DEFAULT_SERVICES,
-  DEFAULT_SKILLS,
-  DEFAULT_PROJECTS
-} from './firestore.server';
-
-const DATA = {
-  hero: DEFAULT_HERO,
-  about: DEFAULT_ABOUT,
-  services: DEFAULT_SERVICES,
-  skills: DEFAULT_SKILLS,
-  projects: DEFAULT_PROJECTS,
-};
-
-export async function seed() {
-  console.log("🚀 Starting database seed...");
-  
+async function run() {
+  console.log("Seeding ONLY skills...");
   try {
-    for (const [key, value] of Object.entries(DATA)) {
-      await setDoc(doc(db, "portfolio", key), value);
-      console.log(`✅ Seeded ${key} collection.`);
-    }
-    console.log("✨ Seeding completed successfully!");
+    await setDoc(doc(db, "portfolio", "skills"), DEFAULT_SKILLS);
+    console.log("✅ Seeded skills collection.");
   } catch (error) {
     console.error("❌ Seeding failed:", error);
   }
 }
 
-// Run the script directly if called
-if (require.main === module || process.argv[1].includes('seed.ts')) {
-  seed().then(() => process.exit(0)).catch(() => process.exit(1));
-}
+run();

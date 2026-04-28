@@ -30,6 +30,32 @@ export default function AboutClient({ data: initialData }: Props) {
   const [headlineName, ...rest] = data.headline.split(" ");
   const headlineRest = rest.join(" ");
 
+  const handleDownload = async (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    if (!data.resumeLink || data.resumeLink === "#resume") {
+      window.open(data.resumeLink, "_blank");
+      return;
+    }
+    
+    try {
+      const response = await fetch(data.resumeLink);
+      if (!response.ok) throw new Error("Network response was not ok");
+      
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = "Anjana_Madhushana_Resume.pdf";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error("Forced download failed (possibly CORS), opening in new tab...", error);
+      window.open(data.resumeLink, "_blank");
+    }
+  };
+
   return (
     <section id="about" className="relative w-full pt-8 pb-12 md:py-16 overflow-hidden z-10">
       {/* Background blobs */}
@@ -73,13 +99,11 @@ export default function AboutClient({ data: initialData }: Props) {
                 </p>
               </Editable>
             </div>
-            <div className="relative z-10 mt-auto flex justify-start gap-4">
+            <div className="relative z-10 mt-auto flex items-start gap-4">
               <a
                 href={data.resumeLink}
-                target="_blank"
-                rel="noopener noreferrer"
-                download="Anjana_Madhushana_Resume.pdf"
-                className="inline-flex items-center gap-3 px-6 py-3 rounded-xl bg-[#d946ef] text-white font-semibold transition-all duration-300 hover:scale-105 hover:bg-[#e85bff] shadow-[0_0_20px_rgba(217,70,239,0.4)] hover:shadow-[0_0_30px_rgba(217,70,239,0.6)] text-sm group/btn"
+                onClick={handleDownload}
+                className="inline-flex items-center gap-3 px-6 py-3 rounded-xl bg-[#d946ef] text-white font-semibold transition-all duration-300 hover:scale-105 hover:bg-[#e85bff] shadow-[0_0_20px_rgba(217,70,239,0.4)] hover:shadow-[0_0_30px_rgba(217,70,239,0.6)] text-sm group/btn cursor-pointer"
               >
                 <Download className="w-4 h-4 text-white group-hover/btn:-translate-y-1 transition-transform" />
                 Resume / Download
