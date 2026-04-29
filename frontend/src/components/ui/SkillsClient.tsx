@@ -23,16 +23,16 @@ interface Props {
 }
 
 const SkillBadge = ({ skill, path, onDelete, isAdmin }: { skill: SkillItem; path: string; onDelete: () => void; isAdmin: boolean }) => (
-  <div className="flex justify-between items-center bg-[#1a1429]/60 backdrop-blur-md border border-white/5 hover:border-cyan-500/30 hover:bg-cyan-500/5 hover:-translate-y-1 hover:shadow-[0_4px_15px_rgba(34,211,238,0.15)] rounded-2xl py-2 px-3 md:p-4 transition-all duration-300 group relative cursor-default">
+  <div className="flex justify-between items-center bg-[#1a1429]/60 backdrop-blur-md border border-white/5 hover:border-cyan-500/30 hover:bg-cyan-500/5 hover:-translate-y-1 hover:shadow-[0_4px_15px_rgba(34,211,238,0.15)] rounded-xl py-1.5 px-2.5 md:py-1.5 md:px-2.5 transition-all duration-300 group relative cursor-default">
     <div className="flex items-center gap-3">
-      <div className="w-6 h-6 md:w-7 md:h-7 shrink-0 flex items-center justify-center filter drop-shadow-[0_0_8px_rgba(255,255,255,0.2)] group-hover:drop-shadow-[0_0_8px_rgba(34,211,238,0.5)] group-hover:scale-110 transition-transform duration-300">
+      <div className="w-5 h-5 shrink-0 flex items-center justify-center filter drop-shadow-[0_0_8px_rgba(255,255,255,0.2)] group-hover:drop-shadow-[0_0_8px_rgba(34,211,238,0.5)] group-hover:scale-110 transition-transform duration-300">
         {isAdmin ? (
           <Editable path={`${path}.icon`} className="inline-block">
             <Image 
               src={skill.icon} 
               alt={skill.name} 
-              width={28} 
-              height={28} 
+              width={20} 
+              height={20} 
               className="max-w-full max-h-full object-contain"
               unoptimized // SVGs don't need resizing optimization
               loading="lazy"
@@ -42,8 +42,8 @@ const SkillBadge = ({ skill, path, onDelete, isAdmin }: { skill: SkillItem; path
           <Image 
             src={skill.icon} 
             alt={skill.name} 
-            width={28} 
-            height={28} 
+            width={20} 
+            height={20} 
             className="max-w-full max-h-full object-contain"
             unoptimized
             loading="lazy"
@@ -51,12 +51,12 @@ const SkillBadge = ({ skill, path, onDelete, isAdmin }: { skill: SkillItem; path
         )}
       </div>
       <Editable path={`${path}.name`} className="inline-block" isAdmin={isAdmin}>
-        <span className="font-semibold text-[13px] md:text-sm lg:text-base text-slate-300 group-hover:text-white transition-colors tracking-wide">{skill.name}</span>
+        <span className="font-semibold text-[12px] md:text-[13px] text-slate-300 group-hover:text-white transition-colors tracking-wide">{skill.name}</span>
       </Editable>
     </div>
     <div className="flex items-center gap-2">
       <Editable path={`${path}.proficiency`} className="inline-block" isAdmin={isAdmin}>
-        <span className="font-mono text-cyan-400 font-bold text-xs md:text-sm bg-[#141021]/80 px-2 py-1 rounded-lg border border-cyan-500/20 group-hover:bg-cyan-500/10 group-hover:border-cyan-400/40 transition-colors shadow-[0_0_5px_rgba(0,0,0,0.5)]">
+        <span className="font-mono text-cyan-400 font-bold text-[10px] md:text-xs bg-[#141021]/80 px-1.5 py-0.5 rounded-md border border-cyan-500/20 group-hover:bg-cyan-500/10 group-hover:border-cyan-400/40 transition-colors shadow-[0_0_5px_rgba(0,0,0,0.5)]">
           {skill.proficiency}%
         </span>
       </Editable>
@@ -103,12 +103,19 @@ export default function SkillsClient({ data: initialData }: Props) {
   }, [rawData]);
 
   const [activeIndex, setActiveIndex] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    
     if (scrollRef.current) {
       scrollRef.current.scrollLeft = 0;
     }
+    
+    return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
   const handleScroll = () => {
@@ -116,9 +123,20 @@ export default function SkillsClient({ data: initialData }: Props) {
     const container = scrollRef.current;
     const scrollLeft = container.scrollLeft;
     const maxScroll = container.scrollWidth - container.clientWidth;
-    if (maxScroll <= 0) return;
+    if (maxScroll <= 0) {
+      setActiveIndex(0);
+      return;
+    }
     
-    const index = Math.round((scrollLeft / container.clientWidth));
+    const numItems = data.categories?.length || 0;
+    const numPages = isMobile ? numItems : Math.ceil(numItems / 4);
+    if (numPages <= 1) {
+      setActiveIndex(0);
+      return;
+    }
+    
+    const scrollRatio = scrollLeft / maxScroll;
+    const index = Math.round(scrollRatio * (numPages - 1));
     setActiveIndex(index);
   };
 
@@ -204,7 +222,7 @@ export default function SkillsClient({ data: initialData }: Props) {
   };
 
   return (
-    <section id="skills" className="relative w-full pt-12 pb-32 md:py-16 z-10 overflow-hidden">
+    <section id="skills" className="relative w-full pt-12 pb-32 md:py-10 z-10 overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         <div className="mb-6 md:mb-10 flex justify-between items-end">
           <h3 className="text-white text-xl md:text-2xl font-bold border-l-4 border-[#d946ef] pl-4">Skills</h3>
@@ -228,14 +246,14 @@ export default function SkillsClient({ data: initialData }: Props) {
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, margin: "100px" }}
-          style={{ gridAutoColumns: 'calc(50% - 16px)' }}
-          className="flex overflow-x-auto md:grid md:grid-rows-2 md:grid-flow-col gap-5 md:gap-8 pb-8 pt-4 -mx-6 px-6 md:mx-0 md:px-0 snap-x snap-mandatory [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+          style={{ gridAutoColumns: 'calc(50% - 8px)' }}
+          className="flex overflow-x-auto md:grid md:grid-rows-2 md:grid-flow-col gap-3 md:gap-4 pb-8 pt-4 -mx-6 px-6 md:mx-0 md:px-0 snap-x snap-mandatory scroll-pl-6 md:scroll-pl-0 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
         >
           {data.categories && data.categories.map((cat, catIndex) => (
             <motion.div
               key={cat.id || catIndex}
               variants={itemVariants}
-              className="w-[85vw] md:w-full shrink-0 snap-start snap-always bg-[#141021]/95 md:bg-[#141021]/60 backdrop-blur-xl border border-white/25 md:border-white/5 rounded-3xl p-5 md:p-8 shadow-xl relative group/card"
+              className="w-[85vw] md:w-full shrink-0 snap-start snap-always bg-[#141021]/95 md:bg-[#141021]/60 backdrop-blur-xl border border-white/25 md:border-white/5 rounded-3xl p-4 md:p-5 shadow-xl relative group/card"
             >
               {isAdmin && (
                 <div className="absolute top-4 right-4 flex gap-2 z-20">
@@ -256,14 +274,14 @@ export default function SkillsClient({ data: initialData }: Props) {
                 </div>
               )}
               
-              <div className="mb-4 md:mb-6 border-b border-white/10 pb-3 md:pb-4 flex items-center gap-3">
+              <div className="mb-3 border-b border-white/10 pb-2.5 flex items-center gap-2.5">
                 <span className={`w-2 h-2 rounded-full bg-cyan-400 drop-shadow-[0_0_5px_rgba(34,211,238,0.8)]`} />
                 <Editable path={`skills.categories.${catIndex}.label`} className="inline-block" isAdmin={isAdmin}>
-                  <h3 className="text-lg md:text-xl font-bold text-white">{cat.label}</h3>
+                  <h3 className="text-base font-bold text-white tracking-wide">{cat.label}</h3>
                 </Editable>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 lg:gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 lg:gap-2.5">
                 {cat.items && cat.items.map((skill, i) => (
                   <SkillBadge 
                     key={i} 
@@ -280,13 +298,15 @@ export default function SkillsClient({ data: initialData }: Props) {
 
         {/* Indicators for both mobile and desktop views */}
         <div className="flex justify-center gap-2 mt-6">
-          {data.categories && Array.from({ length: Math.ceil(data.categories.length / 4) }).map((_, index) => (
+          {data.categories && Array.from({ length: isMobile ? data.categories.length : Math.ceil(data.categories.length / 4) }).map((_, index) => (
             <button
               key={index}
               onClick={() => {
                 if (scrollRef.current) {
                   const container = scrollRef.current;
-                  const scrollAmount = container.clientWidth * index;
+                  const firstCard = container.firstElementChild as HTMLElement;
+                  const cardWidth = firstCard ? firstCard.offsetWidth + 16 : container.clientWidth;
+                  const scrollAmount = isMobile ? cardWidth * index : container.clientWidth * index;
                   container.scrollTo({ left: scrollAmount, behavior: 'smooth' });
                 }
               }}

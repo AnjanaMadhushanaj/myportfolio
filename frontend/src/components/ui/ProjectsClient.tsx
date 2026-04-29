@@ -62,24 +62,24 @@ function FeaturedCard({ project, path, isAdmin, onDelete, onToggleFeatured }: Ca
           <div className="absolute inset-0 bg-cyan-900/20 mix-blend-overlay pointer-events-none" />
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-32 bg-cyan-500/20 rounded-full blur-2xl pointer-events-none" />
         </div>
-        <div className="w-full lg:w-1/2 p-6 md:p-8 lg:p-12 flex flex-col justify-center border-l-0 lg:border-l border-white/5">
+        <div className="w-full lg:w-1/2 p-5 md:p-6 lg:p-8 flex flex-col justify-center border-l-0 lg:border-l border-white/5">
           <Editable path={`${path}.category`} className="inline-block" isAdmin={isAdmin}>
             <span className="text-cyan-400 font-mono text-[10px] md:text-sm font-semibold tracking-wider mb-2 uppercase block">{project.category}</span>
           </Editable>
           <Editable path={`${path}.title`} className="inline-block" isAdmin={isAdmin}>
-            <h3 className="text-xl md:text-4xl font-bold text-white mb-3 md:mb-6 leading-tight group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-linear-to-r group-hover:from-cyan-300 group-hover:to-fuchsia-300 transition-all duration-300">
+            <h3 className="text-lg md:text-2xl font-bold text-white mb-2 md:mb-4 leading-tight group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-linear-to-r group-hover:from-cyan-300 group-hover:to-fuchsia-300 transition-all duration-300">
               {project.title}
             </h3>
           </Editable>
           <Editable path={`${path}.description`} type="textarea" className="inline-block" isAdmin={isAdmin}>
-            <p className="text-slate-300 font-light leading-snug md:leading-relaxed mb-5 md:mb-8 text-xs md:text-base">{project.description}</p>
+            <p className="text-slate-300 font-light leading-snug md:leading-relaxed mb-4 md:mb-5 text-[13px] md:text-sm">{project.description}</p>
           </Editable>
 
-          <div className="flex flex-wrap gap-2 md:gap-3 mb-5 md:mb-8">
+          <div className="flex flex-wrap gap-2 md:gap-2.5 mb-4 md:mb-5">
             <Editable path={`${path}.techStack`} type="array" className="inline-block" isAdmin={isAdmin}>
               <div className="flex flex-wrap gap-2">
                 {project.techStack.map((tech, i) => (
-                  <span key={i} className="px-3 md:px-4 py-1 md:py-1.5 text-[10px] md:text-xs font-medium text-cyan-100 bg-white/5 border border-white/10 rounded-full backdrop-blur-sm group-hover:border-cyan-500/40 transition-all duration-300">{tech}</span>
+                  <span key={i} className="px-2.5 md:px-3 py-1 md:py-1 text-[10px] md:text-[11px] font-medium text-cyan-100 bg-white/5 border border-white/10 rounded-full backdrop-blur-sm group-hover:border-cyan-500/40 transition-all duration-300">{tech}</span>
                 ))}
               </div>
             </Editable>
@@ -107,7 +107,7 @@ function StandardCard({ project, path, isAdmin, onDelete, onToggleFeatured, acce
   return (
     <motion.div
       variants={itemVariants}
-      className={`w-full h-[500px] md:h-[530px] shrink-0 snap-center relative bg-[#141021]/95 md:bg-[#141021]/60 backdrop-blur-md border border-white/25 md:border-white/10 ${borderHover} rounded-3xl overflow-hidden shadow-[0_10px_30px_rgba(0,0,0,0.5)] transition-all duration-300 group/card hover:-translate-y-2 flex flex-col items-start text-left`}
+      className={`w-full h-[440px] md:h-[460px] shrink-0 snap-center relative bg-[#141021]/95 md:bg-[#141021]/60 backdrop-blur-md border border-white/25 md:border-white/10 ${borderHover} rounded-3xl overflow-hidden shadow-[0_10px_30px_rgba(0,0,0,0.5)] transition-all duration-300 group/card hover:-translate-y-2 flex flex-col items-start text-left`}
     >
       {isAdmin && (
         <div className="absolute top-4 right-4 flex gap-2 z-50">
@@ -120,7 +120,7 @@ function StandardCard({ project, path, isAdmin, onDelete, onToggleFeatured, acce
         </div>
       )}
 
-      <div className="w-full h-40 md:h-48 relative overflow-hidden bg-[#0A0710] shrink-0">
+      <div className="w-full h-32 md:h-40 relative overflow-hidden bg-[#0A0710] shrink-0">
         {isAdmin ? (
           <Editable path={`${path}.imageUrl`} type="image" className="absolute inset-0 h-full w-full">
             <div
@@ -137,9 +137,9 @@ function StandardCard({ project, path, isAdmin, onDelete, onToggleFeatured, acce
         <div className={`absolute inset-0 ${overlayColor} mix-blend-overlay pointer-events-none`} />
       </div>
 
-      <div className="p-6 md:p-8 border-t border-white/5 flex flex-col grow w-full items-start">
+      <div className="p-5 md:p-6 border-t border-white/5 flex flex-col grow w-full items-start">
         {/* Static content area - no scrolling */}
-        <div className="flex flex-col grow w-full items-start space-y-4 pt-2">
+        <div className="flex flex-col grow w-full items-start space-y-3 pt-1">
           <div className="w-full flex justify-start">
             <Editable path={`${path}.category`} className="block" isAdmin={isAdmin}>
               <span className={`${catColor} font-mono text-[10px] md:text-xs font-bold tracking-[0.2em] uppercase`}>{project.category}</span>
@@ -148,17 +148,17 @@ function StandardCard({ project, path, isAdmin, onDelete, onToggleFeatured, acce
           
           <div className="w-full flex justify-start text-left">
             <Editable path={`${path}.title`} className="block" isAdmin={isAdmin}>
-              <h3 className="text-xl md:text-2xl font-extrabold text-white leading-tight pr-4">{project.title}</h3>
+              <h3 className="text-lg md:text-xl font-extrabold text-white leading-tight pr-4">{project.title}</h3>
             </Editable>
           </div>
           
           <div className="w-full flex justify-start text-left">
             <Editable path={`${path}.description`} type="textarea" className="block w-full" isAdmin={isAdmin}>
-              <p className="text-slate-400 text-xs md:text-sm font-normal leading-relaxed pr-4 line-clamp-4">{project.description}</p>
+              <p className="text-slate-400 text-[12px] md:text-[13px] font-normal leading-relaxed pr-4 line-clamp-4">{project.description}</p>
             </Editable>
           </div>
           
-          <div className="pt-2 w-full flex justify-start">
+          <div className="pt-1 w-full flex justify-start">
             <Editable path={`${path}.techStack`} type="array" className="block w-full" isAdmin={isAdmin}>
               <div className="flex flex-wrap gap-2 justify-start">
                 {project.techStack.filter(t => t.trim() !== "").slice(0, 8).map((tech, i) => (
@@ -170,7 +170,7 @@ function StandardCard({ project, path, isAdmin, onDelete, onToggleFeatured, acce
         </div>
 
         {/* Fixed bottom area - icons close together */}
-        <div className="flex items-center justify-start gap-6 shrink-0 pt-6 mt-auto border-t border-white/5 w-full">
+        <div className="flex items-center justify-start gap-5 shrink-0 pt-4 mt-auto border-t border-white/5 w-full">
           <Editable path={`${path}.githubLink`} className="inline-block" isAdmin={isAdmin}>
             <a href={project.githubLink} target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-white transition-colors cursor-pointer block"><Github className="w-5 h-5" /></a>
           </Editable>
@@ -295,7 +295,7 @@ export default function ProjectsClient({ data: initialData }: Props) {
   };
 
   return (
-    <section id="projects" className="relative w-full pt-8 pb-4 md:pt-20 md:pb-8 z-10 border-t border-white/5 bg-[#0f0a1a]/40 overflow-hidden">
+    <section id="projects" className="relative w-full pt-8 pb-4 md:pt-10 md:pb-8 z-10 border-t border-white/5 bg-[#0f0a1a]/40 overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         <div className="mb-6 md:mb-10 flex justify-between items-end">
           <h3 className="text-white text-xl md:text-2xl font-bold border-l-4 border-cyan-500 pl-4 uppercase tracking-widest">Projects</h3>

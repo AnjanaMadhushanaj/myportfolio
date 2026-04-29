@@ -71,6 +71,13 @@ export function AdminOverlayProvider({ children }: { children: ReactNode }) {
       return;
     }
 
+    // Enforce session persistence globally. This ensures that even if a user was
+    // previously logged in with local persistence, their session is migrated to
+    // session persistence and won't survive a browser restart.
+    import("firebase/auth").then(({ setPersistence, browserSessionPersistence }) => {
+      setPersistence(auth, browserSessionPersistence).catch(console.error);
+    });
+
     // Subscribe — Firebase calls this immediately with the cached token,
     // so the loading state resolves on the very first render cycle.
     const unsubscribe = auth.onAuthStateChanged((user) => {

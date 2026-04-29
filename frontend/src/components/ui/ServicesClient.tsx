@@ -31,21 +31,39 @@ export default function ServicesClient({ data: initialData }: Props) {
   
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    
     if (scrollContainerRef.current) {
       scrollContainerRef.current.scrollLeft = 0;
     }
+    
+    return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
   const handleScroll = () => {
     if (!scrollContainerRef.current) return;
     const { scrollLeft, scrollWidth, clientWidth } = scrollContainerRef.current;
     const maxScroll = scrollWidth - clientWidth;
-    if (maxScroll > 0) {
-      const newIndex = Math.round((scrollLeft / maxScroll) * (data.items.length - 1));
-      setActiveIndex(newIndex);
+    if (maxScroll <= 0) {
+      setActiveIndex(0);
+      return;
     }
+    
+    const numItems = data.items?.length || 0;
+    const numPages = isMobile ? numItems : Math.ceil(numItems / 4);
+    if (numPages <= 1) {
+      setActiveIndex(0);
+      return;
+    }
+    
+    const scrollRatio = scrollLeft / maxScroll;
+    const index = Math.round(scrollRatio * (numPages - 1));
+    setActiveIndex(index);
   };
 
   const addService = async () => {
@@ -81,7 +99,7 @@ export default function ServicesClient({ data: initialData }: Props) {
   };
 
   return (
-    <section id="services" className="pt-12 pb-2 md:pt-20 md:pb-4 relative z-10 w-full overflow-hidden">
+    <section id="services" className="pt-12 pb-2 md:pt-10 md:pb-4 relative z-10 w-full overflow-hidden">
       <div className="max-w-7xl mx-auto px-6">
         <div className="mb-6 md:mb-12 flex justify-between items-end">
           <div>
@@ -101,15 +119,15 @@ export default function ServicesClient({ data: initialData }: Props) {
         <div
           ref={scrollContainerRef}
           onScroll={handleScroll}
-          style={{ gridAutoColumns: 'calc(50% - 16px)' }}
-          className="flex overflow-x-auto md:grid md:grid-rows-2 md:grid-flow-col gap-5 md:gap-8 pb-8 -mx-6 px-6 md:mx-0 md:px-0 snap-x snap-mandatory scroll-pl-6 md:scroll-pl-0 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+          style={{ gridAutoColumns: 'calc(50% - 8px)' }}
+          className="flex overflow-x-auto md:grid md:grid-rows-2 md:grid-flow-col gap-3 md:gap-4 pb-8 -mx-6 px-6 md:mx-0 md:px-0 snap-x snap-mandatory scroll-pl-6 md:scroll-pl-0 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
         >
           {data.items.map((service, i) => {
             const Icon = ICON_MAP[service.iconName] ?? Globe;
             return (
               <div
                 key={service.id ?? i}
-                className="w-[85vw] md:w-full shrink-0 snap-start snap-always glass-panel p-6 md:p-8 rounded-3xl group hover:-translate-y-2 transition-all duration-300 relative overflow-hidden flex flex-col justify-start min-h-70 md:min-h-80"
+                className="w-[85vw] md:w-full shrink-0 snap-start snap-always glass-panel p-4 md:p-5 rounded-3xl group hover:-translate-y-2 transition-all duration-300 relative overflow-hidden flex flex-col justify-start min-h-[220px] md:min-h-[240px]"
               >
                 <div className={`absolute top-0 right-0 w-32 h-32 bg-linear-to-br ${service.color} opacity-20 blur-3xl rounded-full group-hover:opacity-40 transition-opacity`} />
                 
@@ -128,26 +146,26 @@ export default function ServicesClient({ data: initialData }: Props) {
                 )}
 
                 <div className="relative z-10">
-                  <div className={`w-14 h-14 rounded-2xl bg-linear-to-br ${service.color} p-0.5 mb-5 md:mb-6 shadow-lg`}>
-                    <div className="w-full h-full bg-slate-950 rounded-xl flex items-center justify-center">
+                  <div className={`w-10 h-10 rounded-xl bg-linear-to-br ${service.color} p-0.5 mb-4 shadow-lg`}>
+                    <div className="w-full h-full bg-slate-950 rounded-[10px] flex items-center justify-center">
                       {isAdmin ? (
                         <Editable path={`services.items.${i}.iconName`}>
-                          <Icon className="w-6 h-6 text-white" />
+                          <Icon className="w-5 h-5 text-white" />
                         </Editable>
                       ) : (
-                        <Icon className="w-6 h-6 text-white" />
+                        <Icon className="w-5 h-5 text-white" />
                       )}
                     </div>
                   </div>
                   
                   <Editable path={`services.items.${i}.title`}>
-                    <h3 className="text-xl md:text-2xl font-bold text-white mb-3 md:mb-4 group-hover:text-cyan-300 transition-colors">
+                    <h3 className="text-base md:text-lg font-bold text-white mb-2 md:mb-3 group-hover:text-cyan-300 transition-colors tracking-wide">
                       {service.title}
                     </h3>
                   </Editable>
                   
                   <Editable path={`services.items.${i}.description`} type="textarea">
-                    <p className="text-sm md:text-base text-slate-400 leading-relaxed">
+                    <p className="text-[13px] md:text-sm text-slate-400 leading-relaxed">
                       {service.description}
                     </p>
                   </Editable>
@@ -159,19 +177,20 @@ export default function ServicesClient({ data: initialData }: Props) {
 
         {/* Universal Scroll Indicator */}
         <div className="flex justify-center gap-2 mt-6">
-          {Array.from({ length: Math.ceil(data.items.length / 4) }).map((_, index) => (
+          {Array.from({ length: isMobile ? data.items.length : Math.ceil(data.items.length / 4) }).map((_, index) => (
             <button
               key={index}
               onClick={() => {
                 if (scrollContainerRef.current) {
                   const container = scrollContainerRef.current;
-                  // Scroll by one full container width per dot index
-                  const scrollAmount = container.clientWidth * index;
+                  const firstCard = container.firstElementChild as HTMLElement;
+                  const cardWidth = firstCard ? firstCard.offsetWidth + 16 : container.clientWidth;
+                  const scrollAmount = isMobile ? cardWidth * index : container.clientWidth * index;
                   container.scrollTo({ left: scrollAmount, behavior: 'smooth' });
                 }
               }}
               className={`h-2 rounded-full transition-all duration-300 ${
-                activeIndex >= index * 4 && activeIndex < (index + 1) * 4
+                activeIndex === index
                   ? "bg-cyan-400 w-8 shadow-[0_0_8px_rgba(34,211,238,0.8)]"
                   : "bg-white/20 w-2 hover:bg-white/40"
               }`}
