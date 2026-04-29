@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword, setPersistence, browserSessionPersistence } from "firebase/auth";
 import { getFirebaseAuth } from "@/lib/firebase";
 
 export default function AdminLogin() {
@@ -39,6 +39,7 @@ export default function AdminLogin() {
                 return;
             }
 
+            await setPersistence(auth, browserSessionPersistence);
             await signInWithEmailAndPassword(auth, email, password);
             // Redirect to portfolio homepage — admin mode activates automatically via Firebase auth
             router.push("/");
