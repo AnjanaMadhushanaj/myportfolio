@@ -31,7 +31,7 @@ interface CardProps {
 
 function FeaturedCard({ project, path, isAdmin, onDelete, onToggleFeatured }: CardProps) {
   return (
-    <motion.div variants={itemVariants} className="w-full shrink-0 snap-center relative group/card">
+    <motion.div variants={itemVariants} className="w-full h-full shrink-0 snap-center relative group/card">
       {isAdmin && (
         <div className="absolute top-4 right-4 flex gap-2 z-50">
           <button onClick={onToggleFeatured} className="p-2 bg-yellow-500/20 text-yellow-400 hover:bg-yellow-500/40 rounded-xl transition-all" title="Featured Project">
@@ -107,7 +107,7 @@ function StandardCard({ project, path, isAdmin, onDelete, onToggleFeatured, acce
   return (
     <motion.div
       variants={itemVariants}
-      className={`w-full h-[440px] md:h-[460px] shrink-0 snap-center relative bg-[#141021]/95 md:bg-[#141021]/60 backdrop-blur-md border border-white/25 md:border-white/10 ${borderHover} rounded-3xl overflow-hidden shadow-[0_10px_30px_rgba(0,0,0,0.5)] transition-all duration-300 group/card hover:-translate-y-2 flex flex-col items-start text-left`}
+      className={`w-full h-full shrink-0 snap-center relative bg-[#141021]/95 md:bg-[#141021]/60 backdrop-blur-md border border-white/25 md:border-white/10 ${borderHover} rounded-3xl overflow-hidden shadow-[0_10px_30px_rgba(0,0,0,0.5)] transition-all duration-300 group/card hover:-translate-y-2 flex flex-col items-start text-left`}
     >
       {isAdmin && (
         <div className="absolute top-4 right-4 flex gap-2 z-50">
@@ -120,7 +120,7 @@ function StandardCard({ project, path, isAdmin, onDelete, onToggleFeatured, acce
         </div>
       )}
 
-      <div className="w-full h-32 md:h-40 relative overflow-hidden bg-[#0A0710] shrink-0">
+      <div className="w-full h-48 md:h-40 relative overflow-hidden bg-[#0A0710] shrink-0">
         {isAdmin ? (
           <Editable path={`${path}.imageUrl`} type="image" className="absolute inset-0 h-full w-full">
             <div
@@ -298,7 +298,7 @@ export default function ProjectsClient({ data: initialData }: Props) {
     <section id="projects" className="relative w-full pt-8 pb-4 md:pt-10 md:pb-8 z-10 border-t border-white/5 bg-[#0f0a1a]/40 overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         <div className="mb-6 md:mb-10 flex justify-between items-end">
-          <h3 className="text-white text-xl md:text-2xl font-bold border-l-4 border-cyan-500 pl-4 uppercase tracking-widest">Projects</h3>
+          <h3 className="text-white text-xl md:text-2xl font-bold border-l-4 border-[#d946ef] pl-4">Projects</h3>
           {isAdmin && (
             <button
               onClick={addProject}
@@ -339,7 +339,7 @@ export default function ProjectsClient({ data: initialData }: Props) {
               initial="hidden"
               whileInView="show"
               viewport={{ once: true, margin: "100px" }}
-              className="flex gap-6 pb-8 pt-2 -mx-6 px-6 md:mx-0 md:px-0 overflow-x-auto snap-x snap-mandatory scroll-pl-6 md:scroll-pl-0 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden scroll-smooth"
+              className="flex gap-6 pb-8 pt-2 -mx-6 px-6 md:mx-0 md:px-0 overflow-x-auto snap-x snap-mandatory scroll-pl-6 md:scroll-pl-0 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden scroll-smooth items-stretch"
             >
               {(isMobile ? data.items : standard).map((p, i) => {
                 const originalIdx = data.items.findIndex(item => item.id === p.id);
