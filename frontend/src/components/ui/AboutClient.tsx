@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import { motion } from "framer-motion";
 import {
   Download, MapPin, Clock, Languages, MessageSquare,
   Terminal, Layers, Award, GraduationCap, FileBadge,
@@ -13,6 +14,9 @@ import type { AboutData } from "@/types/cms";
 interface Props {
   data: AboutData;
 }
+
+const containerVariants = { hidden: { opacity: 0 }, show: { opacity: 1, transition: { staggerChildren: 0.15 } } };
+const itemVariants = { hidden: { opacity: 0, y: 30 }, show: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 100 } } };
 
 export default function AboutClient({ data: initialData }: Props) {
   const { isAdmin } = useAdmin();
@@ -28,6 +32,28 @@ export default function AboutClient({ data: initialData }: Props) {
     setTime(fmt());
     const timer = setInterval(() => setTime(fmt()), 1000);
     return () => clearInterval(timer);
+  }, []);
+
+  // Reset slider on scroll away (when not intersecting)
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting && scrollRef.current) {
+          scrollRef.current.scrollLeft = 0;
+          setActiveIndex(0);
+        }
+      },
+      { threshold: 0 }
+    );
+
+    const currentScrollRef = scrollRef.current;
+    if (currentScrollRef) {
+      observer.observe(currentScrollRef);
+    }
+
+    return () => {
+      if (currentScrollRef) observer.unobserve(currentScrollRef);
+    };
   }, []);
 
   const handleScroll = () => {
@@ -298,13 +324,17 @@ export default function AboutClient({ data: initialData }: Props) {
         {/* Mobile Layout (Slider for everything including Bio Box) */}
         <div className="block md:hidden">
           {/* Cards Slider */}
-          <div 
+          <motion.div 
             ref={scrollRef}
             onScroll={handleScroll}
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, margin: "100px" }}
             className="flex overflow-x-auto gap-3 pb-4 pt-2 -mx-6 px-6 snap-x snap-mandatory scroll-pl-6 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden items-stretch"
           >
             {/* Slide 1: Bio Box Mobile */}
-            <div className="w-[85vw] shrink-0 snap-center flex flex-col justify-between bg-[#141021]/95 backdrop-blur-md border border-white/25 rounded-3xl p-5 shadow-xl group relative overflow-hidden h-auto">
+            <motion.div variants={itemVariants} className="w-[85vw] shrink-0 snap-center flex flex-col justify-between bg-[#141021]/95 backdrop-blur-md border border-white/25 rounded-3xl p-5 shadow-xl group relative overflow-hidden h-auto">
               <div className="absolute top-0 right-0 w-64 h-64 bg-cyan-500/10 rounded-full blur-[80px] pointer-events-none" />
               <div className="relative z-10 space-y-3 mb-6 text-left">
                 <Editable path="about.headline">
@@ -344,7 +374,7 @@ export default function AboutClient({ data: initialData }: Props) {
             </div>
 
             {/* Slide 2: Basic Info (Location, Languages, Soft Skills) */}
-            <div className="w-[85vw] shrink-0 snap-center flex flex-col gap-3">
+            <motion.div variants={itemVariants} className="w-[85vw] shrink-0 snap-center flex flex-col gap-3">
               <div className="flex-1 flex flex-col justify-center bg-[#141021]/95 backdrop-blur-md border border-white/25 rounded-3xl p-4 shadow-xl relative overflow-hidden group">
                 <div className="flex items-center justify-between mb-2">
                   <div className="flex items-center gap-3">
@@ -401,7 +431,7 @@ export default function AboutClient({ data: initialData }: Props) {
             </div>
 
             {/* Slide 2: Focus, Stack, Achievements */}
-            <div className="w-[85vw] shrink-0 snap-center flex flex-col gap-3">
+            <motion.div variants={itemVariants} className="w-[85vw] shrink-0 snap-center flex flex-col gap-3">
               <div className="flex-1 flex flex-col justify-center bg-[#141021]/95 backdrop-blur-md border border-white/25 rounded-3xl p-4 shadow-xl relative overflow-hidden group">
                 <div className="absolute top-0 right-0 w-32 h-32 bg-cyan-500/15 rounded-full blur-[50px] pointer-events-none" />
                 <Terminal className="w-5 h-5 text-cyan-400 drop-shadow-[0_0_8px_rgba(6,182,212,0.8)] mb-2" />
@@ -431,7 +461,7 @@ export default function AboutClient({ data: initialData }: Props) {
             </div>
 
             {/* Slide 4: Certificates, Badges, Education */}
-            <div className="w-[85vw] shrink-0 snap-center flex flex-col gap-3">
+            <motion.div variants={itemVariants} className="w-[85vw] shrink-0 snap-center flex flex-col gap-3">
               <div className="flex-1 flex flex-col justify-center bg-[#141021]/95 backdrop-blur-md border border-white/25 rounded-3xl p-4 shadow-xl relative overflow-hidden group">
                 <div className="absolute top-0 right-0 w-48 h-48 bg-fuchsia-500/15 rounded-full blur-[60px] pointer-events-none" />
                 <div className="flex items-start gap-4 relative z-10">
@@ -495,7 +525,7 @@ export default function AboutClient({ data: initialData }: Props) {
                 </div>
               </div>
             </div>
-          </div>
+          </motion.div>
 
           {/* Indicators */}
           <div className="flex justify-center gap-2 mt-4">

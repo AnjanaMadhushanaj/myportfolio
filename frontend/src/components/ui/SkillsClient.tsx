@@ -118,6 +118,28 @@ export default function SkillsClient({ data: initialData }: Props) {
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
+  // Reset slider on scroll away (when not intersecting)
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting && scrollRef.current) {
+          scrollRef.current.scrollLeft = 0;
+          setActiveIndex(0);
+        }
+      },
+      { threshold: 0 }
+    );
+
+    const currentScrollRef = scrollRef.current;
+    if (currentScrollRef) {
+      observer.observe(currentScrollRef);
+    }
+
+    return () => {
+      if (currentScrollRef) observer.unobserve(currentScrollRef);
+    };
+  }, []);
+
   const handleScroll = () => {
     if (!scrollRef.current) return;
     const container = scrollRef.current;
@@ -222,7 +244,7 @@ export default function SkillsClient({ data: initialData }: Props) {
   };
 
   return (
-    <section id="skills" className="relative w-full pt-12 pb-32 md:py-10 z-10 overflow-hidden">
+    <section id="skills" className="relative w-full pt-6 pb-12 md:pt-10 md:pb-10 z-10 overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         <div className="mb-6 md:mb-10 flex justify-between items-end">
           <h3 className="text-white text-xl md:text-2xl font-bold border-l-4 border-[#d946ef] pl-4">Skills</h3>

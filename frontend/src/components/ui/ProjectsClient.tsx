@@ -192,6 +192,9 @@ export default function ProjectsClient({ data: initialData }: Props) {
     return storeData || initialData;
   }, [storeData, initialData]);
 
+  const featured = React.useMemo(() => data.items.filter((p) => p.featured), [data.items]);
+  const standard = React.useMemo(() => data.items.filter((p) => !p.featured), [data.items]);
+
   const scrollRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
@@ -200,14 +203,45 @@ export default function ProjectsClient({ data: initialData }: Props) {
     const checkMobile = () => setIsMobile(window.innerWidth < 768);
     checkMobile();
     window.addEventListener("resize", checkMobile);
-    
-    // Reset horizontal scroll on load
-    if (scrollRef.current) {
-      scrollRef.current.scrollLeft = 0;
-    }
-    
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
+
+  // Reset scroll position on mount or when switching to mobile
+  useEffect(() => {
+    if (isMobile && scrollRef.current) {
+      scrollRef.current.scrollTo({ left: 0, behavior: 'auto' });
+      setActiveIndex(0);
+    }
+  }, [isMobile]);
+
+  // Reset slider on scroll away (when not intersecting)
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting && scrollRef.current) {
+          // Use scrollTo with behavior auto to bypass scroll-smooth for immediate reset
+          scrollRef.current.scrollTo({ left: 0, behavior: 'auto' });
+          setActiveIndex(0);
+        }
+      },
+      { threshold: 0 }
+    );
+
+    const currentScrollRef = scrollRef.current;
+    if (currentScrollRef) {
+      observer.observe(currentScrollRef);
+    }
+
+    return () => {
+      if (currentScrollRef) observer.unobserve(currentScrollRef);
+    };
+  }, []);
+
+  const displayItems = React.useMemo(() => {
+    if (!isMobile) return standard;
+    // On mobile, always put featured project first if it exists
+    return [...data.items].sort((a, b) => (b.featured ? 1 : 0) - (a.featured ? 1 : 0));
+  }, [data.items, isMobile, standard]);
 
 
   const addProject = async () => {
@@ -266,8 +300,7 @@ export default function ProjectsClient({ data: initialData }: Props) {
     updateCMSSection("projects", { items: newItems }).catch(err => console.error("Sync failed:", err));
   };
 
-  const featured = data.items.filter((p) => p.featured);
-  const standard = data.items.filter((p) => !p.featured);
+
 
   const handleScroll = () => {
     if (!scrollRef.current) return;
@@ -295,7 +328,7 @@ export default function ProjectsClient({ data: initialData }: Props) {
   };
 
   return (
-    <section id="projects" className="relative w-full pt-8 pb-4 md:pt-10 md:pb-8 z-10 border-t border-white/5 bg-[#0f0a1a]/40 overflow-hidden">
+    <section id="projects" className="relative w-full pt-6 pb-6 md:pt-10 md:pb-10 z-10 border-t border-white/5 bg-[#0f0a1a]/40 overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         <div className="mb-6 md:mb-10 flex justify-between items-end">
           <h3 className="text-white text-xl md:text-2xl font-bold border-l-4 border-[#d946ef] pl-4">Projects</h3>
@@ -330,7 +363,7 @@ export default function ProjectsClient({ data: initialData }: Props) {
         )}
 
         {/* 2. Projects Slider */}
-        {(isMobile ? data.items : standard).length > 0 && (
+        {displayItems.length > 0 && (
           <div className="relative">
             <motion.div
               ref={scrollRef as React.RefObject<HTMLDivElement>}
@@ -341,12 +374,12 @@ export default function ProjectsClient({ data: initialData }: Props) {
               viewport={{ once: true, margin: "100px" }}
               className="flex gap-6 pb-8 pt-2 -mx-6 px-6 md:mx-0 md:px-0 overflow-x-auto snap-x snap-mandatory scroll-pl-6 md:scroll-pl-0 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden scroll-smooth items-stretch"
             >
-              {(isMobile ? data.items : standard).map((p, i) => {
+              {displayItems.map((p, i) => {
                 const originalIdx = data.items.findIndex(item => item.id === p.id);
                 const accentColor = i % 2 === 0 ? "cyan" : "fuchsia";
                 
                 return (
-                  <div key={p.id} className="w-[85vw] md:w-[calc(50%-12px)] flex-shrink-0 snap-center md:snap-start snap-always">
+                  <motion.div key={p.id} variants={itemVariants} className="w-[85vw] md:w-[calc(50%-12px)] flex-shrink-0 snap-center md:snap-start snap-always">
                     {isMobile && p.featured ? (
                       <FeaturedCard
                         project={p}
@@ -365,16 +398,16 @@ export default function ProjectsClient({ data: initialData }: Props) {
                         accentColor={accentColor}
                       />
                     )}
-                  </div>
+                  </motion.div>
                 );
               })}
             </motion.div>
 
             {/* Pagination dots for slider - clickable and accurate */}
-            {(isMobile ? data.items : standard).length > (isMobile ? 1 : 2) && (
+            {displayItems.length > (isMobile ? 1 : 2) && (
               <div className="flex justify-center items-center gap-4 mt-6">
                 <div className="flex gap-2.5">
-                  {Array.from({ length: isMobile ? data.items.length : standard.length - 1 }).map((_, index) => (
+                  {Array.from({ length: isMobile ? displayItems.length : displayItems.length - 1 }).map((_, index) => (
                     <button
                       key={index}
                       onClick={() => scrollToIndex(index)}

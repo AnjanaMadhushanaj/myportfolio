@@ -45,6 +45,28 @@ export default function ServicesClient({ data: initialData }: Props) {
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
+  // Reset slider on scroll away (when not intersecting)
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting && scrollContainerRef.current) {
+          scrollContainerRef.current.scrollLeft = 0;
+          setActiveIndex(0);
+        }
+      },
+      { threshold: 0 }
+    );
+
+    const currentScrollRef = scrollContainerRef.current;
+    if (currentScrollRef) {
+      observer.observe(currentScrollRef);
+    }
+
+    return () => {
+      if (currentScrollRef) observer.unobserve(currentScrollRef);
+    };
+  }, []);
+
   const handleScroll = () => {
     if (!scrollContainerRef.current) return;
     const { scrollLeft, scrollWidth, clientWidth } = scrollContainerRef.current;
@@ -99,7 +121,7 @@ export default function ServicesClient({ data: initialData }: Props) {
   };
 
   return (
-    <section id="services" className="pt-12 pb-2 md:pt-10 md:pb-4 relative z-10 w-full overflow-hidden">
+    <section id="services" className="pt-6 pb-6 md:pt-10 md:pb-10 relative z-10 w-full overflow-hidden">
       <div className="max-w-7xl mx-auto px-6">
         <div className="mb-6 md:mb-12 flex justify-between items-end">
           <div>

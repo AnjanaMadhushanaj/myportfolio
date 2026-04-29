@@ -61,6 +61,14 @@ const AdminContext = createContext<AdminContextValue>({
 export function AdminOverlayProvider({ children }: { children: ReactNode }) {
   const [adminUser, setAdminUser] = useState<User | null>(null);
   const [isAuthLoading, setIsAuthLoading] = useState(true);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 1024);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
   useEffect(() => {
     // getFirebaseAuth() returns null during SSR or when env vars are missing.
@@ -102,7 +110,7 @@ export function AdminOverlayProvider({ children }: { children: ReactNode }) {
   return (
     <AdminContext.Provider
       value={{
-        isAdmin: adminUser !== null,
+        isAdmin: adminUser !== null && !isMobile,
         adminUser,
         isAuthLoading,
         signOut,
