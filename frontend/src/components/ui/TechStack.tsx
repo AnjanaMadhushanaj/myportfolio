@@ -34,11 +34,11 @@ const techRow3 = [
 ];
 
 const TechCard = ({ name, icon }: { name: string; icon: string }) => (
-  <div className="flex flex-col items-center justify-center py-3 px-4 min-w-24 md:min-w-28 bg-[#141021]/90 md:bg-[#141021]/80 backdrop-blur-md border border-white/20 md:border-white/5 shadow-[0_4px_12px_rgba(0,0,0,0.4)] md:shadow-none rounded-2xl hover:bg-[#201836] transition-all duration-300 hover:scale-105 group hover:border-white/10 hover:shadow-[0_0_15px_rgba(217,70,239,0.1)]">
-    <div className="h-7 w-7 md:h-9 md:w-9 mb-2 relative flex items-center justify-center group-hover:-translate-y-1 transition-transform duration-300">
+  <div className="flex flex-col items-center justify-center py-3 px-4 min-w-24 md:min-w-28 bg-[#141021]/90 md:bg-[#141021]/80 backdrop-blur-md border border-white/20 md:border-white/15 shadow-[0_4px_12px_rgba(0,0,0,0.4)] rounded-2xl">
+    <div className="h-7 w-7 md:h-9 md:w-9 mb-2 flex items-center justify-center">
       <img src={icon} alt={name} className="max-h-full max-w-full object-contain filter drop-shadow-[0_0_8px_rgba(0,0,0,0.6)]" />
     </div>
-    <span className="text-slate-200 md:text-slate-400 text-xs md:text-sm font-semibold md:font-medium group-hover:text-white transition-colors tracking-wide">{name}</span>
+    <span className="text-slate-300 md:text-slate-400 text-xs md:text-sm font-medium tracking-wide">{name}</span>
   </div>
 );
 
@@ -53,8 +53,8 @@ export default function TechStack() {
   const desktopRow2 = [...techRow2, techRow3[4], techRow3[5], techRow3[6], techRow3[7]]; // 11 items
 
   return (
-    <section className="py-8 md:py-12 relative w-full overflow-hidden border-y border-white/5 bg-[#0e0a1a]/50">
-      <div className="max-w-7xl mx-auto px-6 mb-8">
+    <section className="py-4 md:py-12 relative w-full overflow-hidden border-y border-white/10 bg-[#0e0a1a]/50">
+      <div className="max-w-7xl mx-auto px-6 mb-4 md:mb-8">
         <h3 className="text-white text-xl md:text-2xl font-bold border-l-4 border-[#d946ef] pl-4">Languages & Tools</h3>
       </div>
       
@@ -84,7 +84,7 @@ export default function TechStack() {
       </div>
 
       {/* Container for Infinite Scroll - MOBILE (5 Rows) */}
-      <div className="flex md:hidden relative w-full flex-col gap-4 mask-image-linear-x pt-2 pb-2">
+      <div className="flex md:hidden relative w-full flex-col gap-4 mask-image-linear-x pt-2 pb-0">
         
         {/* Mobile Row 1 */}
         <div className="flex w-full overflow-hidden">
@@ -145,10 +145,6 @@ export default function TechStack() {
         
         .animate-scroll-right {
           animation: scrollRight 40s linear infinite;
-        }
-
-        .animate-scroll-left:hover, .animate-scroll-right:hover {
-          animation-play-state: paused;
         }
         
         @keyframes scrollLeft {

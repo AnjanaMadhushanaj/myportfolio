@@ -31,7 +31,7 @@ interface CardProps {
 
 function FeaturedCard({ project, path, isAdmin, onDelete, onToggleFeatured }: CardProps) {
   return (
-    <motion.div variants={itemVariants} className="w-full shrink-0 snap-center relative group/card">
+    <motion.div variants={itemVariants} className="w-full h-full shrink-0 snap-center relative group/card">
       {isAdmin && (
         <div className="absolute top-4 right-4 flex gap-2 z-50">
           <button onClick={onToggleFeatured} className="p-2 bg-yellow-500/20 text-yellow-400 hover:bg-yellow-500/40 rounded-xl transition-all" title="Featured Project">
@@ -107,7 +107,7 @@ function StandardCard({ project, path, isAdmin, onDelete, onToggleFeatured, acce
   return (
     <motion.div
       variants={itemVariants}
-      className={`w-full h-[440px] md:h-[460px] shrink-0 snap-center relative bg-[#141021]/95 md:bg-[#141021]/60 backdrop-blur-md border border-white/25 md:border-white/10 ${borderHover} rounded-3xl overflow-hidden shadow-[0_10px_30px_rgba(0,0,0,0.5)] transition-all duration-300 group/card hover:-translate-y-2 flex flex-col items-start text-left`}
+      className={`w-full h-full shrink-0 snap-center relative bg-[#141021]/95 md:bg-[#141021]/60 backdrop-blur-md border border-white/25 md:border-white/10 ${borderHover} rounded-3xl overflow-hidden shadow-[0_10px_30px_rgba(0,0,0,0.5)] transition-all duration-300 group/card hover:-translate-y-2 flex flex-col items-start text-left`}
     >
       {isAdmin && (
         <div className="absolute top-4 right-4 flex gap-2 z-50">
@@ -120,7 +120,7 @@ function StandardCard({ project, path, isAdmin, onDelete, onToggleFeatured, acce
         </div>
       )}
 
-      <div className="w-full h-32 md:h-40 relative overflow-hidden bg-[#0A0710] shrink-0">
+      <div className="w-full h-48 md:h-40 relative overflow-hidden bg-[#0A0710] shrink-0">
         {isAdmin ? (
           <Editable path={`${path}.imageUrl`} type="image" className="absolute inset-0 h-full w-full">
             <div
@@ -137,7 +137,7 @@ function StandardCard({ project, path, isAdmin, onDelete, onToggleFeatured, acce
         <div className={`absolute inset-0 ${overlayColor} mix-blend-overlay pointer-events-none`} />
       </div>
 
-      <div className="p-5 md:p-6 border-t border-white/5 flex flex-col grow w-full items-start">
+      <div className="p-5 md:p-6 border-t border-white/10 flex flex-col grow w-full items-start">
         {/* Static content area - no scrolling */}
         <div className="flex flex-col grow w-full items-start space-y-3 pt-1">
           <div className="w-full flex justify-start">
@@ -170,7 +170,7 @@ function StandardCard({ project, path, isAdmin, onDelete, onToggleFeatured, acce
         </div>
 
         {/* Fixed bottom area - icons close together */}
-        <div className="flex items-center justify-start gap-5 shrink-0 pt-4 mt-auto border-t border-white/5 w-full">
+        <div className="flex items-center justify-start gap-5 shrink-0 pt-4 mt-auto border-t border-white/10 w-full">
           <Editable path={`${path}.githubLink`} className="inline-block" isAdmin={isAdmin}>
             <a href={project.githubLink} target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-white transition-colors cursor-pointer block"><Github className="w-5 h-5" /></a>
           </Editable>
@@ -192,6 +192,9 @@ export default function ProjectsClient({ data: initialData }: Props) {
     return storeData || initialData;
   }, [storeData, initialData]);
 
+  const featured = React.useMemo(() => data.items.filter((p) => p.featured), [data.items]);
+  const standard = React.useMemo(() => data.items.filter((p) => !p.featured), [data.items]);
+
   const scrollRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
@@ -200,14 +203,45 @@ export default function ProjectsClient({ data: initialData }: Props) {
     const checkMobile = () => setIsMobile(window.innerWidth < 768);
     checkMobile();
     window.addEventListener("resize", checkMobile);
-    
-    // Reset horizontal scroll on load
-    if (scrollRef.current) {
-      scrollRef.current.scrollLeft = 0;
-    }
-    
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
+
+  // Reset scroll position on mount or when switching to mobile
+  useEffect(() => {
+    if (isMobile && scrollRef.current) {
+      scrollRef.current.scrollTo({ left: 0, behavior: 'auto' });
+      setActiveIndex(0);
+    }
+  }, [isMobile]);
+
+  // Reset slider on scroll away (when not intersecting)
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting && scrollRef.current) {
+          // Use scrollTo with behavior auto to bypass scroll-smooth for immediate reset
+          scrollRef.current.scrollTo({ left: 0, behavior: 'auto' });
+          setActiveIndex(0);
+        }
+      },
+      { threshold: 0 }
+    );
+
+    const currentScrollRef = scrollRef.current;
+    if (currentScrollRef) {
+      observer.observe(currentScrollRef);
+    }
+
+    return () => {
+      if (currentScrollRef) observer.unobserve(currentScrollRef);
+    };
+  }, []);
+
+  const displayItems = React.useMemo(() => {
+    if (!isMobile) return standard;
+    // On mobile, always put featured project first if it exists
+    return [...data.items].sort((a, b) => (b.featured ? 1 : 0) - (a.featured ? 1 : 0));
+  }, [data.items, isMobile, standard]);
 
 
   const addProject = async () => {
@@ -266,8 +300,7 @@ export default function ProjectsClient({ data: initialData }: Props) {
     updateCMSSection("projects", { items: newItems }).catch(err => console.error("Sync failed:", err));
   };
 
-  const featured = data.items.filter((p) => p.featured);
-  const standard = data.items.filter((p) => !p.featured);
+
 
   const handleScroll = () => {
     if (!scrollRef.current) return;
@@ -295,10 +328,10 @@ export default function ProjectsClient({ data: initialData }: Props) {
   };
 
   return (
-    <section id="projects" className="relative w-full pt-8 pb-4 md:pt-10 md:pb-8 z-10 border-t border-white/5 bg-[#0f0a1a]/40 overflow-hidden">
+    <section id="projects" className="relative w-full pt-6 pb-6 md:pt-10 md:pb-10 z-10 border-t border-white/10 bg-[#0f0a1a]/40 overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         <div className="mb-6 md:mb-10 flex justify-between items-end">
-          <h3 className="text-white text-xl md:text-2xl font-bold border-l-4 border-cyan-500 pl-4 uppercase tracking-widest">Projects</h3>
+          <h3 className="text-white text-xl md:text-2xl font-bold border-l-4 border-[#d946ef] pl-4">Projects</h3>
           {isAdmin && (
             <button
               onClick={addProject}
@@ -330,7 +363,7 @@ export default function ProjectsClient({ data: initialData }: Props) {
         )}
 
         {/* 2. Projects Slider */}
-        {(isMobile ? data.items : standard).length > 0 && (
+        {displayItems.length > 0 && (
           <div className="relative">
             <motion.div
               ref={scrollRef as React.RefObject<HTMLDivElement>}
@@ -339,14 +372,14 @@ export default function ProjectsClient({ data: initialData }: Props) {
               initial="hidden"
               whileInView="show"
               viewport={{ once: true, margin: "100px" }}
-              className="flex gap-6 pb-8 pt-2 -mx-6 px-6 md:mx-0 md:px-0 overflow-x-auto snap-x snap-mandatory scroll-pl-6 md:scroll-pl-0 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden scroll-smooth"
+              className="flex gap-6 pb-8 pt-2 -mx-6 px-6 md:mx-0 md:px-0 overflow-x-auto snap-x snap-mandatory scroll-pl-6 md:scroll-pl-0 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden scroll-smooth items-stretch"
             >
-              {(isMobile ? data.items : standard).map((p, i) => {
+              {displayItems.map((p, i) => {
                 const originalIdx = data.items.findIndex(item => item.id === p.id);
                 const accentColor = i % 2 === 0 ? "cyan" : "fuchsia";
                 
                 return (
-                  <div key={p.id} className="w-[85vw] md:w-[calc(50%-12px)] flex-shrink-0 snap-center md:snap-start snap-always">
+                  <motion.div key={p.id} variants={itemVariants} className="w-[85vw] md:w-[calc(50%-12px)] flex-shrink-0 snap-center md:snap-start snap-always">
                     {isMobile && p.featured ? (
                       <FeaturedCard
                         project={p}
@@ -365,16 +398,16 @@ export default function ProjectsClient({ data: initialData }: Props) {
                         accentColor={accentColor}
                       />
                     )}
-                  </div>
+                  </motion.div>
                 );
               })}
             </motion.div>
 
             {/* Pagination dots for slider - clickable and accurate */}
-            {(isMobile ? data.items : standard).length > (isMobile ? 1 : 2) && (
+            {displayItems.length > (isMobile ? 1 : 2) && (
               <div className="flex justify-center items-center gap-4 mt-6">
                 <div className="flex gap-2.5">
-                  {Array.from({ length: isMobile ? data.items.length : standard.length - 1 }).map((_, index) => (
+                  {Array.from({ length: isMobile ? displayItems.length : displayItems.length - 1 }).map((_, index) => (
                     <button
                       key={index}
                       onClick={() => scrollToIndex(index)}

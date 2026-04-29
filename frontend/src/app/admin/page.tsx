@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { signInWithEmailAndPassword, setPersistence, browserSessionPersistence } from "firebase/auth";
 import { getFirebaseAuth } from "@/lib/firebase";
@@ -11,6 +11,17 @@ export default function AdminLogin() {
     const [error, setError]       = useState("");
     const [loading, setLoading]   = useState(false);
     const router                  = useRouter();
+
+    useEffect(() => {
+        const checkMobile = () => {
+            if (window.innerWidth < 1024) {
+                router.push('/');
+            }
+        };
+        checkMobile();
+        window.addEventListener("resize", checkMobile);
+        return () => window.removeEventListener("resize", checkMobile);
+    }, [router]);
 
     const getErrorMessage = (code: string): string => {
         switch (code) {

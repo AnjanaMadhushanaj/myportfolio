@@ -24,12 +24,30 @@ body {
 
 /* Glassmorphism utilities */
 .glass {
-  @apply bg-white/5 backdrop-blur-md border border-white/10;
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  @apply bg-white/5 backdrop-blur-md border border-white/20;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255,255,255,0.08);
 }
 
 .glass-panel {
-  @apply bg-slate-900/90 md:bg-slate-900/60 backdrop-blur-xl border border-white/20 md:border-white/10 shadow-[0_8px_30px_rgba(0,0,0,0.5)] md:shadow-2xl;
+  @apply bg-slate-900/90 md:bg-slate-900/60 backdrop-blur-xl border border-white/25 md:border-white/15 shadow-[0_8px_30px_rgba(0,0,0,0.5)] md:shadow-2xl;
+}
+
+/* Sharp card — used on all portfolio section cards globally */
+.card-sharp {
+  border: 1px solid rgba(255,255,255,0.18);
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,0.04),
+    0 8px 32px rgba(0,0,0,0.45),
+    inset 0 1px 0 rgba(255,255,255,0.07);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card-sharp:hover {
+  border-color: rgba(255,255,255,0.28);
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,0.06),
+    0 12px 40px rgba(0,0,0,0.55),
+    inset 0 1px 0 rgba(255,255,255,0.1);
 }
 
 .glow-magenta {
@@ -60,24 +78,23 @@ body {
 }
 
 /* Typing name animation from original */
-.typing-name {
-  display: inline-block;
-  overflow: hidden;
-  white-space: nowrap;
-  border-right: 3px solid #d946ef;
-  /* magenta accent */
-  width: 0;
-  animation: typing 1.5s steps(14, end) forwards, blink-caret 0.7s step-end infinite;
-}
-
 @keyframes typing {
   from {
     width: 0;
   }
 
   to {
-    width: 13.5ch;
+    width: 100%;
   }
+}
+
+.typing-name {
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+  border-right: 3px solid #d946ef;
+  width: 0;
+  animation: typing 1.5s steps(30, end) forwards, blink-caret 0.7s step-end infinite;
 }
 
 @keyframes blink-caret {
