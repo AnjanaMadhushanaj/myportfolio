@@ -349,7 +349,7 @@ export default function EditModal() {
               w-8 h-8 rounded-lg flex items-center justify-center
               text-slate-400 hover:text-white
               bg-white/0 hover:bg-white/10
-              border border-transparent hover:border-white/10
+              border border-transparent hover:border-white/25
               transition-all duration-150
               disabled:opacity-40 cursor-pointer
             "

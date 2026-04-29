@@ -275,7 +275,7 @@ export default function SkillsClient({ data: initialData }: Props) {
             <motion.div
               key={cat.id || catIndex}
               variants={itemVariants}
-              className="w-[85vw] md:w-full shrink-0 snap-start snap-always bg-[#141021]/95 md:bg-[#141021]/60 backdrop-blur-xl border border-white/25 md:border-white/5 rounded-3xl p-4 md:p-5 shadow-xl relative group/card"
+              className="w-[85vw] md:w-full shrink-0 snap-start snap-always bg-[#141021]/95 md:bg-[#141021]/60 backdrop-blur-xl border border-white/25 md:border-white/15 rounded-3xl p-4 md:p-5 shadow-xl relative group/card"
             >
               {isAdmin && (
                 <div className="absolute top-4 right-4 flex gap-2 z-20">

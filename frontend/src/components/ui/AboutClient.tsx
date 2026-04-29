@@ -116,7 +116,7 @@ export default function AboutClient({ data: initialData }: Props) {
           {/* Row 1 */}
           <div className="grid grid-cols-3 gap-5 mb-5">
             {/* Bio Box */}
-            <div className="col-span-2 flex flex-col justify-between bg-[#141021]/95 md:bg-[#141021]/80 backdrop-blur-md border border-white/25 md:border-white/5 rounded-3xl p-5 md:p-6 lg:p-8 shadow-xl hover:border-white/10 hover:bg-[#1a1429]/90 transition-all duration-300 group relative overflow-hidden">
+            <div className="col-span-2 flex flex-col justify-between bg-[#141021]/95 md:bg-[#141021]/80 backdrop-blur-md border border-white/25 md:border-white/15 rounded-3xl p-5 md:p-6 lg:p-8 shadow-xl hover:border-white/25 hover:bg-[#1a1429]/90 transition-all duration-300 group relative overflow-hidden">
               <div className="absolute top-0 right-0 w-64 h-64 bg-cyan-500/10 rounded-full blur-[80px] pointer-events-none group-hover:bg-cyan-500/20 transition-colors duration-500" />
               <div className="relative z-10 space-y-3 mb-6 md:mb-8 text-left">
                 <Editable path="about.headline">
@@ -165,7 +165,7 @@ export default function AboutClient({ data: initialData }: Props) {
             {/* Right Stack */}
             <div className="col-span-1 flex flex-col gap-4">
               {/* Location */}
-              <div className="flex-1 bg-[#141021]/95 md:bg-[#141021]/80 backdrop-blur-md border border-white/25 md:border-white/5 rounded-3xl p-4 md:p-5 shadow-xl hover:border-white/10 hover:bg-[#1a1429]/90 hover:-translate-y-1 transition-all duration-300 flex flex-col justify-center relative overflow-hidden group">
+              <div className="flex-1 bg-[#141021]/95 md:bg-[#141021]/80 backdrop-blur-md border border-white/25 md:border-white/15 rounded-3xl p-4 md:p-5 shadow-xl hover:border-white/25 hover:bg-[#1a1429]/90 hover:-translate-y-1 transition-all duration-300 flex flex-col justify-center relative overflow-hidden group">
                 <div className="flex items-center justify-between mb-2 md:mb-3">
                   <div className="flex items-center gap-3 md:gap-4">
                     <MapPin className="w-4 h-4 md:w-5 md:h-5 text-cyan-400 drop-shadow-[0_0_8px_rgba(6,182,212,0.8)]" />
@@ -186,7 +186,7 @@ export default function AboutClient({ data: initialData }: Props) {
               </div>
 
               {/* Languages */}
-              <div className="flex-1 bg-[#141021]/95 md:bg-[#141021]/80 backdrop-blur-md border border-white/25 md:border-white/5 rounded-3xl p-4 md:p-5 shadow-xl hover:border-white/10 hover:bg-[#1a1429]/90 hover:-translate-y-1 transition-all duration-300 flex flex-col justify-center relative overflow-hidden group">
+              <div className="flex-1 bg-[#141021]/95 md:bg-[#141021]/80 backdrop-blur-md border border-white/25 md:border-white/15 rounded-3xl p-4 md:p-5 shadow-xl hover:border-white/25 hover:bg-[#1a1429]/90 hover:-translate-y-1 transition-all duration-300 flex flex-col justify-center relative overflow-hidden group">
                 <div className="flex items-center gap-3 md:gap-4 mb-2 md:mb-3">
                   <Languages className="w-4 h-4 md:w-5 md:h-5 text-fuchsia-400 drop-shadow-[0_0_8px_rgba(217,70,239,0.8)]" />
                   <h3 className="text-sm md:text-base font-bold text-white tracking-wide">Languages</h3>
@@ -204,7 +204,7 @@ export default function AboutClient({ data: initialData }: Props) {
               </div>
 
               {/* Soft Skills */}
-              <div className="flex-1 bg-[#141021]/95 md:bg-[#141021]/80 backdrop-blur-md border border-white/25 md:border-white/5 rounded-3xl p-4 md:p-5 shadow-xl hover:border-white/10 hover:bg-[#1a1429]/90 hover:-translate-y-1 transition-all duration-300 flex flex-col justify-center relative overflow-hidden group">
+              <div className="flex-1 bg-[#141021]/95 md:bg-[#141021]/80 backdrop-blur-md border border-white/25 md:border-white/15 rounded-3xl p-4 md:p-5 shadow-xl hover:border-white/25 hover:bg-[#1a1429]/90 hover:-translate-y-1 transition-all duration-300 flex flex-col justify-center relative overflow-hidden group">
                 <div className="flex items-center gap-3 md:gap-4 mb-2 md:mb-3">
                   <MessageSquare className="w-4 h-4 md:w-5 md:h-5 text-green-400 drop-shadow-[0_0_8px_rgba(74,222,128,0.8)]" />
                   <h3 className="text-sm md:text-base font-bold text-white tracking-wide">Soft Skills</h3>
@@ -225,7 +225,7 @@ export default function AboutClient({ data: initialData }: Props) {
 
           {/* Row 2: Focus / Stack / Achievements */}
           <div className="grid grid-cols-3 gap-5 mb-5">
-            <div className="bg-[#141021]/95 md:bg-[#141021]/80 backdrop-blur-md border border-white/25 md:border-white/5 rounded-3xl p-4 md:p-6 shadow-xl hover:border-white/10 hover:bg-[#1a1429]/90 hover:-translate-y-1 transition-all duration-300 relative overflow-hidden group">
+            <div className="bg-[#141021]/95 md:bg-[#141021]/80 backdrop-blur-md border border-white/25 md:border-white/15 rounded-3xl p-4 md:p-6 shadow-xl hover:border-white/25 hover:bg-[#1a1429]/90 hover:-translate-y-1 transition-all duration-300 relative overflow-hidden group">
               <div className="absolute top-0 right-0 w-32 h-32 bg-cyan-500/15 rounded-full blur-[50px] pointer-events-none" />
               <Terminal className="w-5 h-5 md:w-6 md:h-6 text-cyan-400 drop-shadow-[0_0_8px_rgba(6,182,212,0.8)] mb-2 md:mb-3" />
               <h3 className="text-base md:text-lg font-bold text-white mb-1 md:mb-2 tracking-wide">Current Focus</h3>
@@ -234,7 +234,7 @@ export default function AboutClient({ data: initialData }: Props) {
               </Editable>
             </div>
 
-            <div className="bg-[#141021]/95 md:bg-[#141021]/80 backdrop-blur-md border border-white/25 md:border-white/5 rounded-3xl p-4 md:p-6 shadow-xl hover:border-white/10 hover:bg-[#1a1429]/90 hover:-translate-y-1 transition-all duration-300 relative overflow-hidden group">
+            <div className="bg-[#141021]/95 md:bg-[#141021]/80 backdrop-blur-md border border-white/25 md:border-white/15 rounded-3xl p-4 md:p-6 shadow-xl hover:border-white/25 hover:bg-[#1a1429]/90 hover:-translate-y-1 transition-all duration-300 relative overflow-hidden group">
               <div className="absolute top-0 right-0 w-32 h-32 bg-fuchsia-500/15 rounded-full blur-[50px] pointer-events-none" />
               <Layers className="w-5 h-5 md:w-6 md:h-6 text-fuchsia-400 drop-shadow-[0_0_8px_rgba(217,70,239,0.8)] mb-2 md:mb-3" />
               <h3 className="text-base md:text-lg font-bold text-white mb-1 md:mb-2 tracking-wide">Favorite Stack</h3>
@@ -243,7 +243,7 @@ export default function AboutClient({ data: initialData }: Props) {
               </Editable>
             </div>
 
-            <div className="bg-[#141021]/95 md:bg-[#141021]/80 backdrop-blur-md border border-white/25 md:border-white/5 rounded-3xl p-4 md:p-6 shadow-xl hover:border-white/10 hover:bg-[#1a1429]/90 hover:-translate-y-1 transition-all duration-300 relative overflow-hidden group">
+            <div className="bg-[#141021]/95 md:bg-[#141021]/80 backdrop-blur-md border border-white/25 md:border-white/15 rounded-3xl p-4 md:p-6 shadow-xl hover:border-white/25 hover:bg-[#1a1429]/90 hover:-translate-y-1 transition-all duration-300 relative overflow-hidden group">
               <div className="absolute top-0 right-0 w-32 h-32 bg-yellow-500/15 rounded-full blur-[50px] pointer-events-none" />
               <Award className="w-5 h-5 md:w-6 md:h-6 text-yellow-400 drop-shadow-[0_0_8px_rgba(250,204,21,0.8)] mb-2 md:mb-3" />
               <h3 className="text-base md:text-lg font-bold text-white mb-1 md:mb-2 tracking-wide">Achievements</h3>
@@ -255,7 +255,7 @@ export default function AboutClient({ data: initialData }: Props) {
 
           {/* Row 3: Certificates & Badges */}
           <div className="grid grid-cols-2 gap-5 mb-5">
-            <div className="bg-[#141021]/95 md:bg-[#141021]/80 backdrop-blur-md border border-white/25 md:border-white/5 rounded-3xl p-4 md:p-6 shadow-xl hover:border-white/10 hover:bg-[#1a1429]/90 hover:-translate-y-1 transition-all duration-300 relative overflow-hidden group">
+            <div className="bg-[#141021]/95 md:bg-[#141021]/80 backdrop-blur-md border border-white/25 md:border-white/15 rounded-3xl p-4 md:p-6 shadow-xl hover:border-white/25 hover:bg-[#1a1429]/90 hover:-translate-y-1 transition-all duration-300 relative overflow-hidden group">
               <div className="absolute top-0 right-0 w-48 h-48 bg-fuchsia-500/15 rounded-full blur-[60px] pointer-events-none" />
               <div className="flex items-start gap-4 relative z-10">
                 <div className="w-10 h-10 rounded-xl bg-[#141021] border border-fuchsia-500/30 flex items-center justify-center text-fuchsia-400 shadow-[inset_0_0_15px_rgba(217,70,239,0.2)] shrink-0">
@@ -277,7 +277,7 @@ export default function AboutClient({ data: initialData }: Props) {
               </div>
             </div>
 
-            <div className="bg-[#141021]/95 md:bg-[#141021]/80 backdrop-blur-md border border-white/25 md:border-white/5 rounded-3xl p-4 md:p-6 shadow-xl hover:border-white/10 hover:bg-[#1a1429]/90 hover:-translate-y-1 transition-all duration-300 relative overflow-hidden group">
+            <div className="bg-[#141021]/95 md:bg-[#141021]/80 backdrop-blur-md border border-white/25 md:border-white/15 rounded-3xl p-4 md:p-6 shadow-xl hover:border-white/25 hover:bg-[#1a1429]/90 hover:-translate-y-1 transition-all duration-300 relative overflow-hidden group">
               <div className="absolute top-0 right-0 w-48 h-48 bg-cyan-500/15 rounded-full blur-[60px] pointer-events-none" />
               <div className="flex items-start gap-4 relative z-10">
                 <div className="w-10 h-10 rounded-xl bg-[#141021] border border-cyan-500/30 flex items-center justify-center text-cyan-400 shadow-[inset_0_0_15px_rgba(6,182,212,0.2)] shrink-0">
@@ -300,7 +300,7 @@ export default function AboutClient({ data: initialData }: Props) {
           </div>
 
           {/* Row 4: Education */}
-          <div className="bg-[#141021]/95 md:bg-[#141021]/80 backdrop-blur-md border border-white/25 md:border-white/5 rounded-3xl p-4 md:p-6 shadow-xl hover:border-white/10 hover:bg-[#1a1429]/90 hover:-translate-y-1 transition-all duration-300 relative overflow-hidden group">
+          <div className="bg-[#141021]/95 md:bg-[#141021]/80 backdrop-blur-md border border-white/25 md:border-white/15 rounded-3xl p-4 md:p-6 shadow-xl hover:border-white/25 hover:bg-[#1a1429]/90 hover:-translate-y-1 transition-all duration-300 relative overflow-hidden group">
             <div className="absolute top-0 left-0 w-48 h-48 bg-cyan-500/15 rounded-full blur-[60px] pointer-events-none" />
             <div className="flex items-start gap-4 md:gap-5 relative z-10">
               <div className="w-9 h-9 md:w-10 md:h-10 rounded-xl bg-[#141021] border border-cyan-500/30 flex items-center justify-center text-cyan-400 shadow-[inset_0_0_15px_rgba(6,182,212,0.2)] shrink-0">

@@ -137,7 +137,7 @@ function StandardCard({ project, path, isAdmin, onDelete, onToggleFeatured, acce
         <div className={`absolute inset-0 ${overlayColor} mix-blend-overlay pointer-events-none`} />
       </div>
 
-      <div className="p-5 md:p-6 border-t border-white/5 flex flex-col grow w-full items-start">
+      <div className="p-5 md:p-6 border-t border-white/10 flex flex-col grow w-full items-start">
         {/* Static content area - no scrolling */}
         <div className="flex flex-col grow w-full items-start space-y-3 pt-1">
           <div className="w-full flex justify-start">
@@ -170,7 +170,7 @@ function StandardCard({ project, path, isAdmin, onDelete, onToggleFeatured, acce
         </div>
 
         {/* Fixed bottom area - icons close together */}
-        <div className="flex items-center justify-start gap-5 shrink-0 pt-4 mt-auto border-t border-white/5 w-full">
+        <div className="flex items-center justify-start gap-5 shrink-0 pt-4 mt-auto border-t border-white/10 w-full">
           <Editable path={`${path}.githubLink`} className="inline-block" isAdmin={isAdmin}>
             <a href={project.githubLink} target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-white transition-colors cursor-pointer block"><Github className="w-5 h-5" /></a>
           </Editable>
@@ -328,7 +328,7 @@ export default function ProjectsClient({ data: initialData }: Props) {
   };
 
   return (
-    <section id="projects" className="relative w-full pt-6 pb-6 md:pt-10 md:pb-10 z-10 border-t border-white/5 bg-[#0f0a1a]/40 overflow-hidden">
+    <section id="projects" className="relative w-full pt-6 pb-6 md:pt-10 md:pb-10 z-10 border-t border-white/10 bg-[#0f0a1a]/40 overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         <div className="mb-6 md:mb-10 flex justify-between items-end">
           <h3 className="text-white text-xl md:text-2xl font-bold border-l-4 border-[#d946ef] pl-4">Projects</h3>
