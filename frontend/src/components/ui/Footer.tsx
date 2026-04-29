@@ -51,14 +51,21 @@ export default function Footer() {
               Quick Links
             </h4>
             <div className="flex flex-col gap-2">
-              {['About', 'Services', 'Skills', 'Projects'].map((link) => (
-                <Link 
-                  key={link} 
-                  href={`#${link.toLowerCase()}`}
-                  className="text-slate-400 hover:text-cyan-400 transition-colors w-w-fit text-sm"
+              {['About', 'Services', 'Skills', 'Projects'].map((item) => (
+                <button
+                  key={item}
+                  onClick={() => {
+                    const el = document.getElementById(item.toLowerCase());
+                    if (el) {
+                      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                      const path = `/${item.toLowerCase()}`;
+                      history.pushState(null, '', path);
+                    }
+                  }}
+                  className="text-slate-400 hover:text-cyan-400 transition-colors text-sm text-left cursor-pointer"
                 >
-                  {link}
-                </Link>
+                  {item}
+                </button>
               ))}
             </div>
           </div>
