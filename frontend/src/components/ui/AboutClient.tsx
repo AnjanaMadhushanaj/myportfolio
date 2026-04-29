@@ -371,7 +371,7 @@ export default function AboutClient({ data: initialData }: Props) {
                   Resume / Download
                 </a>
               </div>
-            </div>
+            </motion.div>
 
             {/* Slide 2: Basic Info (Location, Languages, Soft Skills) */}
             <motion.div variants={itemVariants} className="w-[85vw] shrink-0 snap-center flex flex-col gap-3">
@@ -428,7 +428,7 @@ export default function AboutClient({ data: initialData }: Props) {
                   </ul>
                 </Editable>
               </div>
-            </div>
+            </motion.div>
 
             {/* Slide 2: Focus, Stack, Achievements */}
             <motion.div variants={itemVariants} className="w-[85vw] shrink-0 snap-center flex flex-col gap-3">
@@ -458,7 +458,7 @@ export default function AboutClient({ data: initialData }: Props) {
                   <p className="text-[12px] text-slate-200 leading-relaxed font-light">{data.achievements}</p>
                 </Editable>
               </div>
-            </div>
+            </motion.div>
 
             {/* Slide 4: Certificates, Badges, Education */}
             <motion.div variants={itemVariants} className="w-[85vw] shrink-0 snap-center flex flex-col gap-3">
@@ -524,7 +524,7 @@ export default function AboutClient({ data: initialData }: Props) {
                   </div>
                 </div>
               </div>
-            </div>
+            </motion.div>
           </motion.div>
 
           {/* Indicators */}
