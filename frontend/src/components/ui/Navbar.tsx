@@ -42,6 +42,8 @@ export default function Navbar() {
         ([entry]) => {
           if (entry.isIntersecting) {
             setActiveSection(id);
+            const path = id === 'home' ? '/' : `/${id}`;
+            history.replaceState(null, '', path);
           }
         },
         { threshold: 0.25, rootMargin: '-72px 0px -35% 0px' }
@@ -68,10 +70,11 @@ export default function Navbar() {
     };
   }, [isOpen]);
 
-  // Smooth scroll — URL stays clean (no hash updates)
   const scrollTo = (id: string) => {
     const el = document.getElementById(id);
     if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    const path = id === 'home' ? '/' : `/${id}`;
+    history.pushState(null, '', path);
     setActiveSection(id);
     setIsOpen(false);
   };
