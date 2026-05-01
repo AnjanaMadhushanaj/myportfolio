@@ -42,7 +42,10 @@ const securityHeaders = [
 ];
 
 const nextConfig: NextConfig = {
-  output: "standalone",
+  // "standalone" is needed for Docker / self-hosted deployments.
+  // Vercel manages its own output — setting standalone there causes 404s.
+  // Pass DOCKER=true in your Dockerfile/docker-compose to activate it.
+  ...(process.env.DOCKER === "true" ? { output: "standalone" } : {}),
 
   images: {
     remotePatterns: [
