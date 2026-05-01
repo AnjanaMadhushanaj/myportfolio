@@ -34,7 +34,7 @@ export default function AboutClient({ data: initialData }: Props) {
   const scrollRef = React.useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const fmt = () => new Date().toLocaleTimeString("en-US", { timeZone: "Asia/Colombo" });
+    const fmt = () => new Date().toLocaleTimeString("en-US", { timeZone: "Asia/Colombo", hour: "2-digit", minute: "2-digit" });
     setTime(fmt());
     const timer = setInterval(() => setTime(fmt()), 1000);
     return () => clearInterval(timer);
