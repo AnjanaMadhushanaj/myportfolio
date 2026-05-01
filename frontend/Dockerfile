@@ -14,8 +14,9 @@ FROM node:22-alpine AS builder
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
-# This will build the Next.js app 
-# Note: In Next.js 14/15, for standalone output, we need `output: "standalone"` in next.config.ts
+# This will build the Next.js app
+# DOCKER=true activates `output: "standalone"` in next.config.ts
+ENV DOCKER=true
 RUN npm run build
 
 # 3. Production image, copy all the files and run next
