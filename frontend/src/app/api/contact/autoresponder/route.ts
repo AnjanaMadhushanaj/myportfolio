@@ -16,10 +16,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import { Resend } from "resend";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
-
-const FROM_EMAIL =
-  process.env.RESEND_FROM_EMAIL ?? "Anjana Madhushan <noreply@anjanam.dev>";
+// NOTE: Resend is intentionally NOT instantiated at module level.
+// Doing so would cause `next build` to fail when RESEND_API_KEY is absent
+// (e.g. during a Docker build that doesn't inject runtime env vars).
+// Lazy initialization happens inside the handler, after the env guard.
 
 // ─── Rate Limiter (in-memory token bucket) ────────────────────────────────────
 // 5 requests per IP per 10 minutes.  Resets on server restart.
@@ -164,6 +164,10 @@ export async function POST(req: NextRequest) {
       console.warn("[autoresponder] RESEND_API_KEY not set - skipping auto-reply.");
       return NextResponse.json({ skipped: true }, { status: 200 });
     }
+
+    // Lazy-initialize Resend only when the key is confirmed present
+    const resend    = new Resend(process.env.RESEND_API_KEY);
+    const FROM_EMAIL = process.env.RESEND_FROM_EMAIL ?? "Anjana Madhushan <noreply@anjanam.dev>";
 
     const { error } = await resend.emails.send({
       from:    FROM_EMAIL,
