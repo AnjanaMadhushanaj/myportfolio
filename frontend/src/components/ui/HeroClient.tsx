@@ -4,13 +4,15 @@
  * HeroClient.tsx — Client Interactive Inner Component
  *
  * Receives all data as props from the Hero Server Component.
- * Owns: image error fallback, social icon rendering.
+ * Owns: image error fallback, social icon rendering, contact modal trigger.
  * All markup and content comes from the server-fetched props.
  */
 
+import { useState } from "react";
 import { Github, Linkedin, Facebook, Mail } from "lucide-react";
 import { useCMSStore } from "@/store/useCMSStore";
 import Editable from "@/components/ui/Editable";
+import ContactModal from "@/components/ui/ContactModal";
 import type { HeroData } from "@/types/cms";
 
 const WhatsappIcon = (props: React.SVGProps<SVGSVGElement>) => (
@@ -23,6 +25,7 @@ interface Props {
 }
 
 export default function HeroClient({ data: initialData }: Props) {
+  const [isContactOpen, setIsContactOpen] = useState(false);
   const storeData = useCMSStore((state) => state.hero);
   const data = storeData || initialData;
 
@@ -83,11 +86,13 @@ export default function HeroClient({ data: initialData }: Props) {
 
             {/* Desktop CTA */}
             <div className="hidden md:flex flex-wrap items-center gap-6 pt-6 relative z-20">
-              <Editable path="hero.hireLink" className="inline-block">
-                <a href={data.hireLink} className="px-8 py-3.5 rounded-xl bg-[#c026d3] text-white font-bold transition-all duration-300 hover:scale-105 hover:bg-[#d946ef] shadow-[0_0_20px_rgba(217,70,239,0.3)] hover:shadow-[0_0_30px_rgba(217,70,239,0.6)] active:scale-95 block">
-                  Hire Me
-                </a>
-              </Editable>
+              <button
+                id="hero-hire-me-desktop"
+                onClick={() => setIsContactOpen(true)}
+                className="px-8 py-3.5 rounded-xl bg-[#c026d3] text-white font-bold transition-all duration-300 hover:scale-105 hover:bg-[#d946ef] shadow-[0_0_20px_rgba(217,70,239,0.3)] hover:shadow-[0_0_30px_rgba(217,70,239,0.6)] active:scale-95"
+              >
+                Hire Me
+              </button>
               <Editable path="hero.worksLink" className="inline-block">
                 <a href={data.worksLink} className="px-8 py-3.5 rounded-xl glass border-2 border-white/20 text-white font-bold transition-all duration-300 hover:scale-105 hover:bg-white/10 hover:border-white/50 active:scale-95 shadow-[inset_0_0_20px_rgba(255,255,255,0.05)] hover:shadow-[0_0_20px_rgba(255,255,255,0.2)] block">
                   Works
@@ -130,11 +135,13 @@ export default function HeroClient({ data: initialData }: Props) {
 
           {/* Mobile CTA */}
           <div className="flex md:hidden flex-wrap items-center justify-center gap-4 mt-2 mb-4 w-full relative z-20">
-            <Editable path="hero.hireLink" className="inline-block">
-              <a href={data.hireLink} className="px-6 py-3 rounded-xl bg-[#c026d3] text-white font-bold transition-all duration-300 hover:scale-105 hover:bg-[#d946ef] active:scale-95 text-sm sm:text-base block">
-                Hire Me
-              </a>
-            </Editable>
+            <button
+              id="hero-hire-me-mobile"
+              onClick={() => setIsContactOpen(true)}
+              className="px-6 py-3 rounded-xl bg-[#c026d3] text-white font-bold transition-all duration-300 hover:scale-105 hover:bg-[#d946ef] active:scale-95 text-sm sm:text-base"
+            >
+              Hire Me
+            </button>
             <Editable path="hero.worksLink" className="inline-block">
               <a href={data.worksLink} className="px-6 py-3 rounded-xl glass border-2 border-white/20 text-white font-bold transition-all duration-300 hover:scale-105 hover:bg-white/10 active:scale-95 text-sm sm:text-base shadow-[inset_0_0_20px_rgba(255,255,255,0.05)] block">
                 Works
@@ -160,7 +167,6 @@ export default function HeroClient({ data: initialData }: Props) {
                 rel="noopener noreferrer"
                 className="relative w-10 h-10 md:w-12 md:h-12 rounded-full bg-slate-900/80 backdrop-blur-xl border border-[#d946ef]/20 flex items-center justify-center text-[#d946ef] transition-all duration-300 hover:scale-110 hover:bg-[#d946ef]/20 hover:text-white hover:border-[#d946ef]/60 hover:shadow-[0_0_25px_rgba(217,70,239,0.6)] group block"
               >
-                <div className="absolute inset-0 rounded-full bg-[#d946ef] animate-ping opacity-20 group-hover:hidden" style={{ animationDuration: "3s", animationDelay: `${i * 0.3}s` }} />
                 <social.icon className="w-5 h-5 relative z-10 group-hover:-translate-y-0.5 transition-transform drop-shadow-[0_0_5px_rgba(217,70,239,0.5)] group-hover:drop-shadow-[0_0_10px_rgba(255,255,255,0.8)]" />
               </a>
             </Editable>
@@ -184,12 +190,14 @@ export default function HeroClient({ data: initialData }: Props) {
                 rel="noopener noreferrer"
                 className="relative w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-slate-900/80 backdrop-blur-xl border border-[#d946ef]/20 flex items-center justify-center text-[#d946ef] transition-all duration-300 hover:scale-110 hover:bg-[#d946ef]/20 hover:text-white hover:border-[#d946ef]/60 hover:shadow-[0_0_25px_rgba(217,70,239,0.6)] group block"
               >
-                <social.icon className="w-5 h-5 relative z-10 transition-transform drop-shadow-[0_0_5px_rgba(217,70,239,0.5)]" />
+                <social.icon className="w-5 h-5 relative z-10 group-hover:-translate-y-0.5 transition-transform drop-shadow-[0_0_5px_rgba(217,70,239,0.5)] group-hover:drop-shadow-[0_0_10px_rgba(255,255,255,0.8)]" />
               </a>
             </Editable>
           );
         })}
       </div>
+      {/* Contact Modal */}
+      <ContactModal isOpen={isContactOpen} onClose={() => setIsContactOpen(false)} />
     </>
   );
 }
