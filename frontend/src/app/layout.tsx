@@ -30,6 +30,7 @@ import "./globals.css";
 
 import { AdminOverlayProvider } from "@/context/AuthContext";
 import AdminBar from "@/components/ui/AdminBar";
+import Preloader from "@/components/ui/Preloader";
 
 // ---------------------------------------------------------------------------
 // Fonts
@@ -120,6 +121,7 @@ export default function RootLayout({
          * causing zero layout impact and zero JS cost for them.
          */}
         <AdminOverlayProvider>
+          <Preloader />
           <AdminBar />
           {children}
         </AdminOverlayProvider>
