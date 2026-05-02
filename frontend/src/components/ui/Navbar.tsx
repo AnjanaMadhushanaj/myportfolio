@@ -138,15 +138,10 @@ export default function Navbar() {
             <button
               type="button"
               onClick={() => setIsOpen(prev => !prev)}
-              className="w-10 h-10 flex items-center justify-center rounded-full text-slate-300 hover:text-white hover:bg-white/10 transition-colors duration-200 cursor-pointer"
+              className="w-10 h-10 flex items-center justify-center rounded-full text-slate-300 hover:text-white hover:bg-white/10 transition-colors duration-150 cursor-pointer"
               aria-label={isOpen ? 'Close menu' : 'Open menu'}
             >
-              <AnimatePresence mode="wait" initial={false}>
-                {isOpen
-                  ? <motion.span key="x" initial={{ rotate: -90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: 90, opacity: 0 }} transition={{ duration: 0.15 }}><X size={20} /></motion.span>
-                  : <motion.span key="m" initial={{ rotate: 90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: -90, opacity: 0 }} transition={{ duration: 0.15 }}><Menu size={20} /></motion.span>
-                }
-              </AnimatePresence>
+              {isOpen ? <X size={20} /> : <Menu size={20} />}
             </button>
           </div>
         </div>
@@ -156,10 +151,10 @@ export default function Navbar() {
           {isOpen && (
             <motion.div
               key="mobile-menu"
-              initial={{ opacity: 0, scale: 0.95, y: -4 }}
+              initial={{ opacity: 0, scale: 0.96, y: -4 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95, y: -4 }}
-              transition={{ duration: 0.15, ease: "easeInOut" }}
+              exit={{ opacity: 0, scale: 0.96, y: -4 }}
+              transition={{ duration: 0.1, ease: "easeInOut" }}
               style={{ transformOrigin: 'top right', willChange: 'transform, opacity' }}
               className="md:hidden absolute right-0 top-[calc(100%+8px)] w-52
                 bg-[#0d0820]/95 backdrop-blur-md rounded-2xl
@@ -173,7 +168,7 @@ export default function Navbar() {
               {/* Header label */}
               <div className="px-4 pt-3 pb-2 border-b border-white/8">
                 <span className="text-[10px] font-bold tracking-[0.25em] uppercase bg-gradient-to-r from-cyan-400 to-fuchsia-400 bg-clip-text text-transparent">
-                  Navigation
+                  Menu
                 </span>
               </div>
 
