@@ -10,11 +10,12 @@ export default function PageContentWrapper({
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
+    const handleComplete = () => {
       setIsVisible(true);
-    }, 2500);
+    };
 
-    return () => clearTimeout(timer);
+    window.addEventListener("preloaderComplete", handleComplete);
+    return () => window.removeEventListener("preloaderComplete", handleComplete);
   }, []);
 
   return (
