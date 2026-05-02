@@ -30,21 +30,21 @@ export default function Preloader() {
         isVisible ? "opacity-100" : "opacity-0 pointer-events-none"
       }`}
     >
-      {/* Dynamic Background Glow Effect */}
-      <div className="absolute inset-0 bg-radial-[circle_at_center] from-fuchsia-500/10 via-transparent to-transparent pointer-events-none opacity-60 animate-pulse duration-1000" />
+      {/* Dynamic Background Glow Effect — Only on desktop to save mobile performance */}
+      <div className="hidden md:block absolute inset-0 bg-radial-[circle_at_center] from-fuchsia-500/10 via-transparent to-transparent pointer-events-none opacity-60 animate-pulse duration-1000" />
 
       <div className="flex flex-col items-center justify-center relative">
         {/* Large Outer Rotating Glowing Ring */}
         <div className="absolute inset-[-32px] rounded-full border border-cyan-500/15 border-t-cyan-500 border-b-fuchsia-500 animate-spin [animation-duration:3s] blur-[1px] pointer-events-none" />
-        <div className="absolute inset-[-16px] rounded-full bg-gradient-to-tr from-cyan-500/10 to-fuchsia-500/10 animate-pulse blur-[15px] pointer-events-none" />
+        <div className="hidden md:block absolute inset-[-16px] rounded-full bg-gradient-to-tr from-cyan-500/10 to-fuchsia-500/10 animate-pulse blur-[15px] pointer-events-none" />
 
         {/* Pulsing Large Logo in the Center */}
-        <div className="relative w-56 h-56 md:w-64 md:h-64 animate-pulse transition-all duration-300 flex items-center justify-center">
-          <div className="absolute inset-4 bg-cyan-500/25 via-fuchsia-500/15 to-transparent rounded-full blur-[40px] opacity-80 pointer-events-none" />
+        <div className="relative w-48 h-48 md:w-64 md:h-64 animate-pulse transition-all duration-300 flex items-center justify-center">
+          <div className="hidden md:block absolute inset-4 bg-cyan-500/25 via-fuchsia-500/15 to-transparent rounded-full blur-[40px] opacity-80 pointer-events-none" />
           <img
             src="/logo.png"
             alt="Logo"
-            className="relative z-10 w-full h-full object-contain hover:scale-105 transition-transform duration-300 drop-shadow-[0_0_35px_rgba(34,211,238,0.75)] drop-shadow-[0_0_15px_rgba(217,70,239,0.4)]"
+            className="relative z-10 w-full h-full object-contain hover:scale-105 transition-transform duration-300 md:drop-shadow-[0_0_35px_rgba(34,211,238,0.75)] md:drop-shadow-[0_0_15px_rgba(217,70,239,0.4)] drop-shadow-[0_0_15px_rgba(34,211,238,0.4)]"
           />
         </div>
       </div>

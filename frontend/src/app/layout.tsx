@@ -31,6 +31,7 @@ import "./globals.css";
 import { AdminOverlayProvider } from "@/context/AuthContext";
 import AdminBar from "@/components/ui/AdminBar";
 import Preloader from "@/components/ui/Preloader";
+import PageContentWrapper from "@/components/ui/PageContentWrapper";
 
 // ---------------------------------------------------------------------------
 // Fonts
@@ -123,7 +124,9 @@ export default function RootLayout({
         <AdminOverlayProvider>
           <Preloader />
           <AdminBar />
-          {children}
+          <PageContentWrapper>
+            {children}
+          </PageContentWrapper>
         </AdminOverlayProvider>
       </body>
     </html>
