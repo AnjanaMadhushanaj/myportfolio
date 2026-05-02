@@ -8,13 +8,35 @@ export default function Preloader() {
   const [isRendered, setIsRendered] = useState(true);
 
   useEffect(() => {
-    const fadeTimeout = setTimeout(() => {
-      setIsVisible(false);
-    }, 2500);
+    let fadeTimeout: NodeJS.Timeout;
+    let unmountTimeout: NodeJS.Timeout;
 
-    const unmountTimeout = setTimeout(() => {
-      setIsRendered(false);
-    }, 3200);
+    const handleLoad = () => {
+      // Small minimum time (e.g. 1500ms) to ensure the animation looks good
+      fadeTimeout = setTimeout(() => {
+        setIsVisible(false);
+        window.dispatchEvent(new CustomEvent("preloaderComplete"));
+      }, 1500);
+
+      unmountTimeout = setTimeout(() => {
+        setIsRendered(false);
+      }, 2200);
+    };
+
+    if (document.readyState === "complete") {
+      handleLoad();
+    } else {
+      window.addEventListener("load", handleLoad);
+      // Fallback in case load event is missed or takes too long on slow connections (max 8 seconds)
+      const maxWaitTimeout = setTimeout(() => {
+        handleLoad();
+      }, 8000);
+
+      return () => {
+        window.removeEventListener("load", handleLoad);
+        clearTimeout(maxWaitTimeout);
+      };
+    }
 
     return () => {
       clearTimeout(fadeTimeout);
