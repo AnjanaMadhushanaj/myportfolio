@@ -149,7 +149,7 @@ export default function ServicesClient({ data: initialData }: Props) {
             return (
               <div
                 key={service.id ?? i}
-                className="w-[85vw] md:w-full shrink-0 snap-start snap-always glass-panel p-4 md:p-5 rounded-3xl group hover:-translate-y-2 transition-all duration-300 relative overflow-hidden flex flex-col justify-start min-h-[220px] md:min-h-[240px]"
+                className="w-[85vw] md:w-full shrink-0 snap-start snap-always glass-panel p-4 md:p-5 rounded-3xl group hover:-translate-y-2 transition-all duration-300 relative overflow-hidden flex flex-col justify-start min-h-[260px] md:min-h-[240px]"
               >
                 <div className={`absolute top-0 right-0 w-32 h-32 bg-linear-to-br ${service.color} opacity-20 blur-3xl rounded-full group-hover:opacity-40 transition-opacity`} />
                 
