@@ -83,48 +83,16 @@ export default function Navbar() {
     <nav className="fixed top-0 left-0 right-0 z-[999] pt-4 md:pt-6 pb-2 w-full flex justify-end md:justify-center px-4 md:px-0 pointer-events-none">
       <div ref={menuRef} className="relative pointer-events-auto">
 
-        {/* Ambient glow */}
-        <div
-          className={`absolute inset-0 rounded-full blur-2xl pointer-events-none transition-opacity duration-700
-            bg-gradient-to-r from-cyan-500/20 via-fuchsia-500/15 to-cyan-500/20
-            ${isScrolled ? 'opacity-100' : 'opacity-30'}`}
-        />
-
-        <div className={`relative transition-all duration-500 ${
-          isOpen
-            ? 'bg-[#0d0820]/96 backdrop-blur-2xl rounded-2xl w-[calc(100vw-2rem)] max-w-xs border border-white/10 shadow-[0_8px_40px_rgba(0,0,0,0.7),inset_0_1px_0_rgba(255,255,255,0.06)]'
-            : isScrolled
-              ? 'bg-[#0d0820]/85 backdrop-blur-2xl rounded-full border border-white/15 shadow-[0_8px_40px_rgba(0,0,0,0.6),inset_0_1px_0_rgba(255,255,255,0.06)]'
-              : 'bg-[#0d0820]/50 backdrop-blur-xl rounded-full border border-white/10 shadow-[0_4px_24px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.04)]'
+        {/* ── Desktop pill ── */}
+        <div className={`hidden md:block relative transition-[background-color,box-shadow,border-color] duration-500 rounded-full border ${
+          isScrolled
+            ? 'bg-[#0d0820]/85 backdrop-blur-2xl border-white/15 shadow-[0_8px_40px_rgba(0,0,0,0.6),inset_0_1px_0_rgba(255,255,255,0.06)]'
+            : 'bg-[#0d0820]/50 backdrop-blur-xl border-white/10 shadow-[0_4px_24px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.04)]'
         }`}>
-
           {/* Top shimmer */}
           <div className="absolute inset-x-6 top-0 h-px rounded-full bg-gradient-to-r from-transparent via-cyan-400/50 to-transparent pointer-events-none" />
 
-          {/* ── Mobile: Toggle Button ── */}
-          <div className={`md:hidden flex items-center ${isOpen ? 'justify-between px-4 pt-4 pb-3 border-b border-white/10' : 'justify-end p-1.5'}`}>
-            {isOpen && (
-              <span className="text-[10px] font-bold tracking-[0.25em] uppercase bg-gradient-to-r from-cyan-400 to-fuchsia-400 bg-clip-text text-transparent">
-                Navigation
-              </span>
-            )}
-            <button
-              type="button"
-              onClick={() => setIsOpen(prev => !prev)}
-              className="w-10 h-10 flex items-center justify-center rounded-full text-slate-300 hover:text-white hover:bg-white/10 transition-all cursor-pointer"
-              aria-label={isOpen ? 'Close menu' : 'Open menu'}
-            >
-              <AnimatePresence mode="wait" initial={false}>
-                {isOpen
-                  ? <motion.span key="x" initial={{ rotate: -90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: 90, opacity: 0 }} transition={{ duration: 0.15 }}><X size={20} /></motion.span>
-                  : <motion.span key="m" initial={{ rotate: 90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: -90, opacity: 0 }} transition={{ duration: 0.15 }}><Menu size={20} /></motion.span>
-                }
-              </AnimatePresence>
-            </button>
-          </div>
-
-          {/* ── Desktop Links ── */}
-          <div className="hidden md:flex items-center px-2 py-1.5">
+          <div className="flex items-center px-2 py-1.5">
             {navLinks.map(({ name, id }) => {
               const isActive = activeSection === id;
               return (
@@ -155,46 +123,85 @@ export default function Navbar() {
               );
             })}
           </div>
-
-          {/* ── Mobile Dropdown ── */}
-          <AnimatePresence>
-            {isOpen && (
-              <motion.div
-                key="mobile-menu"
-                initial={{ opacity: 0, height: 0 }}
-                animate={{ opacity: 1, height: 'auto' }}
-                exit={{ opacity: 0, height: 0 }}
-                transition={{ duration: 0.2, ease: 'easeInOut' }}
-                className="md:hidden overflow-hidden"
-              >
-                <div className="flex flex-col p-3 gap-1">
-                  {navLinks.map(({ name, id }, i) => {
-                    const isActive = activeSection === id;
-                    return (
-                      <motion.button
-                        key={id}
-                        initial={{ opacity: 0, x: -10 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: i * 0.04 }}
-                        onClick={() => scrollTo(id)}
-                        className={`flex items-center gap-3 w-full px-4 py-3 rounded-xl text-sm font-medium text-left transition-all duration-200 cursor-pointer ${
-                          isActive
-                            ? 'text-white bg-gradient-to-r from-cyan-500/15 to-fuchsia-500/15 border border-white/10'
-                            : 'text-slate-400 hover:text-white hover:bg-white/5'
-                        }`}
-                      >
-                        {isActive && (
-                          <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 shrink-0 shadow-[0_0_8px_rgba(34,211,238,0.9)]" />
-                        )}
-                        {name}
-                      </motion.button>
-                    );
-                  })}
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
         </div>
+
+        {/* ── Mobile: fixed-size pill button (never changes shape) ── */}
+        <div className={`md:hidden relative transition-[background-color,box-shadow,border-color] duration-500 rounded-full border ${
+          isScrolled || isOpen
+            ? 'bg-[#0d0820]/85 backdrop-blur-md border-white/15 shadow-[0_8px_40px_rgba(0,0,0,0.6),inset_0_1px_0_rgba(255,255,255,0.06)]'
+            : 'bg-[#0d0820]/50 backdrop-blur-md border-white/10 shadow-[0_4px_24px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.04)]'
+        }`}>
+          {/* Top shimmer */}
+          <div className="absolute inset-x-2 top-0 h-px rounded-full bg-gradient-to-r from-transparent via-cyan-400/50 to-transparent pointer-events-none" />
+
+          <div className="p-1.5">
+            <button
+              type="button"
+              onClick={() => setIsOpen(prev => !prev)}
+              className="w-10 h-10 flex items-center justify-center rounded-full text-slate-300 hover:text-white hover:bg-white/10 transition-colors duration-200 cursor-pointer"
+              aria-label={isOpen ? 'Close menu' : 'Open menu'}
+            >
+              <AnimatePresence mode="wait" initial={false}>
+                {isOpen
+                  ? <motion.span key="x" initial={{ rotate: -90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: 90, opacity: 0 }} transition={{ duration: 0.15 }}><X size={20} /></motion.span>
+                  : <motion.span key="m" initial={{ rotate: 90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: -90, opacity: 0 }} transition={{ duration: 0.15 }}><Menu size={20} /></motion.span>
+                }
+              </AnimatePresence>
+            </button>
+          </div>
+        </div>
+
+        {/* ── Mobile Dropdown — absolute so it never resizes the pill ── */}
+        <AnimatePresence>
+          {isOpen && (
+            <motion.div
+              key="mobile-menu"
+              initial={{ opacity: 0, scale: 0.95, y: -4 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: -4 }}
+              transition={{ duration: 0.15, ease: "easeInOut" }}
+              style={{ transformOrigin: 'top right', willChange: 'transform, opacity' }}
+              className="md:hidden absolute right-0 top-[calc(100%+8px)] w-52
+                bg-[#0d0820]/95 backdrop-blur-md rounded-2xl
+                border border-white/10
+                shadow-[0_8px_40px_rgba(0,0,0,0.7),inset_0_1px_0_rgba(255,255,255,0.06)]
+                overflow-hidden"
+            >
+              {/* Dropdown shimmer */}
+              <div className="absolute inset-x-6 top-0 h-px rounded-full bg-gradient-to-r from-transparent via-cyan-400/40 to-transparent pointer-events-none" />
+
+              {/* Header label */}
+              <div className="px-4 pt-3 pb-2 border-b border-white/8">
+                <span className="text-[10px] font-bold tracking-[0.25em] uppercase bg-gradient-to-r from-cyan-400 to-fuchsia-400 bg-clip-text text-transparent">
+                  Navigation
+                </span>
+              </div>
+
+              <div className="flex flex-col p-2 gap-0.5">
+                {navLinks.map(({ name, id }) => {
+                  const isActive = activeSection === id;
+                  return (
+                    <button
+                      key={id}
+                      onClick={() => scrollTo(id)}
+                      className={`flex items-center gap-3 w-full px-4 py-3 rounded-xl text-sm font-medium text-left transition-colors duration-150 cursor-pointer ${
+                        isActive
+                          ? 'text-white bg-gradient-to-r from-cyan-500/15 to-fuchsia-500/15 border border-white/10'
+                          : 'text-slate-400 hover:text-white hover:bg-white/5'
+                      }`}
+                    >
+                      {isActive && (
+                        <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 shrink-0 shadow-[0_0_8px_rgba(34,211,238,0.9)]" />
+                      )}
+                      {name}
+                    </button>
+                  );
+                })}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
       </div>
     </nav>
   );
