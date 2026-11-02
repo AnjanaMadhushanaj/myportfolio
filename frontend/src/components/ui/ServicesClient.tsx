@@ -142,7 +142,7 @@ export default function ServicesClient({ data: initialData }: Props) {
           ref={scrollContainerRef}
           onScroll={handleScroll}
           style={{ gridAutoColumns: 'calc(50% - 8px)' }}
-          className="flex overflow-x-auto md:grid md:grid-rows-2 md:grid-flow-col gap-3 md:gap-4 pb-8 -mx-6 px-6 md:mx-0 md:px-0 snap-x snap-mandatory scroll-pl-6 md:scroll-pl-0 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+          className={`flex overflow-x-auto md:grid ${data.items.length <= 2 ? "md:grid-rows-1" : "md:grid-rows-2"} md:grid-flow-col gap-3 md:gap-4 pb-8 -mx-6 px-6 md:mx-0 md:px-0 snap-x snap-mandatory scroll-pl-6 md:scroll-pl-0 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden`}
         >
           {data.items.map((service, i) => {
             const Icon = ICON_MAP[service.iconName] ?? Globe;
