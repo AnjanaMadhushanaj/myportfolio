@@ -110,9 +110,7 @@ export const DEFAULT_ABOUT: AboutData = {
 export const DEFAULT_SERVICES: ServicesData = {
   items: [
     { id: "web", title: "Web Development", description: "Building responsive and performant web applications using modern frameworks like React and Next.js.", color: "from-cyan-500 to-blue-500", iconName: "Globe" },
-    { id: "design", title: "UI/UX Design", description: "Crafting premium, glassmorphic interfaces that provide an exceptional user experience.", color: "from-fuchsia-500 to-purple-500", iconName: "Palette" },
     { id: "devops", title: "DevOps & CI/CD", description: "Streamlining deployment pipelines and managing cloud infrastructure for robust applications.", color: "from-emerald-400 to-cyan-500", iconName: "Terminal" },
-    { id: "mlops", title: "MLOps Integration", description: "Deploying machine learning models into production environments with scalability and monitoring.", color: "from-orange-400 to-pink-500", iconName: "Database" },
   ],
 };
 
@@ -208,6 +206,9 @@ export const DEFAULT_PROJECTS: ProjectsData = {
 
 export const getHeroData     = () => fetchDoc<HeroData>    ("portfolio/hero",     DEFAULT_HERO);
 export const getAboutData    = () => fetchDoc<AboutData>   ("portfolio/about",    DEFAULT_ABOUT);
-export const getServicesData = () => fetchDoc<ServicesData>("portfolio/services", DEFAULT_SERVICES);
+export const getServicesData = async () => {
+  const data = await fetchDoc<ServicesData>("portfolio/services", DEFAULT_SERVICES);
+  return { ...data, items: data.items.filter(({ id }) => id !== "design" && id !== "mlops") };
+};
 export const getSkillsData   = () => fetchDoc<SkillsData>  ("portfolio/skills",   DEFAULT_SKILLS);
 export const getProjectsData = () => fetchDoc<ProjectsData>("portfolio/projects", DEFAULT_PROJECTS);
